@@ -232,6 +232,8 @@ canvas, #particle-canvas, #heart-canvas {
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   margin-bottom: 12px;
+  padding: 0 4px;
+  box-sizing: border-box;
 }
 
 .astryx-selectable-card, .date-card {
@@ -353,6 +355,8 @@ canvas, #particle-canvas, #heart-canvas {
   display: flex;
   justify-content: center;
   gap: 12px;
+  padding: 0 4px;
+  box-sizing: border-box;
 }
 
 .period-bubble {
@@ -441,6 +445,8 @@ canvas, #particle-canvas, #heart-canvas {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 8px;
+  padding: 0 4px;
+  box-sizing: border-box;
 }
 
 .choice-chip {

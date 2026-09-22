@@ -22,17 +22,34 @@
 
   <main class="locket-app-container">
     
-    <!-- TOP APP BAR -->
-    <header class="locket-nav">
-      <div class="nav-brand">
-        <span class="brand-badge">LOCKET</span>
-        <span class="brand-divider">/</span>
-        <span class="brand-room">Khoảnh khắc</span>
+    <!-- LOCKET NATIVE TOP BAR (Ref: imthq1/LocketClone HomeTopBar) -->
+    <header class="locket-top-bar">
+      <!-- Profile Button -->
+      <button class="locket-circle-icon-btn" aria-label="Profile" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+          <circle cx="12" cy="7" r="4"></circle>
+        </svg>
+      </button>
+
+      <!-- Center Friends Stadium Pill -->
+      <div class="locket-stadium-pill">
+        <svg class="stadium-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span class="stadium-label">Bạn bè</span>
+        <span class="stadium-badge">1</span>
       </div>
-      <div class="nav-status">
-        <span class="status-dot"></span>
-        <span class="status-label">Trực tuyến</span>
-      </div>
+
+      <!-- Chat Button -->
+      <button class="locket-circle-icon-btn" aria-label="Tin nhắn" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+      </button>
     </header>
 
     <!-- MAIN VIEW WRAPPER -->
@@ -41,23 +58,17 @@
       <!-- STATE 1: WIDGET INTERACTION -->
       <section class="locket-view active" id="widget-view">
         
-        <!-- THE LOCKET SQUIRCLE WIDGET -->
+        <!-- LOCKET POST INFO (Ref: imthq1/LocketClone PostInfo) -->
+        <div class="locket-post-info">
+          <div class="author-avatar">H</div>
+          <span class="author-name">Hoàng</span>
+          <span class="info-dot">·</span>
+          <span class="time-ago">Vừa xong</span>
+        </div>
+
+        <!-- 1:1 SQUARE LOCKET POST CARD (Ref: imthq1/LocketClone PostCard) -->
         <div class="locket-widget-frame">
           <div class="widget-inner">
-            
-            <!-- Widget Header Pill -->
-            <div class="widget-meta-bar">
-              <div class="sender-info">
-                <div class="avatar-ring">
-                  <svg class="avatar-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
-                </div>
-                <span class="sender-name">Anh</span>
-              </div>
-              <span class="timestamp-pill">Vừa xong</span>
-            </div>
 
             <!-- Artwork / Moment Container (3D Cafe Table & Fallback) -->
             <div class="widget-artwork-container">
@@ -172,17 +183,19 @@
               </div>
             </div>
 
-            <!-- Glassmorphism Caption Overlay -->
-            <div class="widget-caption-overlay">
-              <h1 class="caption-title">Hôm nào tiện để anh ghé em nhỉ?</h1>
-              <p class="caption-sub">Em xem ngày nào thoải mái nhất nhen</p>
+            <!-- Authentic Locket Floating Caption Pill (Ref: imthq1/LocketClone PostCard) -->
+            <div class="locket-floating-caption">
+              <span class="caption-text">Hôm nào tiện để anh ghé em nhỉ?</span>
             </div>
 
           </div>
         </div>
 
-        <!-- QUICK RESPONSE FORM (LOCKET REACTION PANEL) -->
+        <!-- QUICK RESPONSE FORM (Ref: imthq1/LocketClone FriendPostActions) -->
         <div class="locket-reaction-panel">
+          <div class="panel-subtitle-wrap">
+            <span class="panel-subtitle">Em xem ngày nào thoải mái nhất nhen</span>
+          </div>
           
           <!-- TIER 1: DATE SELECTOR -->
           <div class="form-group">

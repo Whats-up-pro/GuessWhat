@@ -1,57 +1,52 @@
 /* ==========================================================================
    Matcha Locket Widget Stylesheet
-   Designed with @astryxdesign Token System & iOS Widget Specs
-   Zero-Emoji Policy | Clean Typography | Tactile Micro-Interactions
+   Directly mapped to imthq1/LocketClone architecture & Flutter specifications:
+   - Dark OLED Native App Aesthetic (AppColors.background: #0B0F08)
+   - HomeTopBar: Profile Button, Friends Stadium Pill, Chat Button
+   - PostInfo: Author Avatar, Name (15px w700), Time Ago
+   - PostCard: 1:1 AspectRatio with BorderRadius 32px
+   - FloatingCaption: Centered pill (rgba(0,0,0,0.55), borderRadius: 20px)
+   - FriendPostActions: Quick Response & Reaction Sheet
+   Zero-Emoji Policy | Clean Typography | Astryx Matcha Palette
    ========================================================================== */
 
 :root {
-  /* Astryx Core Matcha Palette */
-  --bg-app: #F2F5E8;
-  --bg-surface: #FFFFFF;
-  --bg-surface-elevated: #F8FAF2;
-  --bg-widget: #242E16;
-  --bg-chip: #FFFFFF;
-  --bg-chip-hover: #EDF3E1;
-  --bg-chip-active: #38471D;
+  /* Locket Dark Mode Base (with Organic Matcha Undertone) */
+  --bg-app: #0B0F08;
+  --bg-surface: #141A10;
+  --bg-surface-elevated: #1B2315;
+  --bg-card: rgba(24, 32, 18, 0.78);
+  --bg-glass-input: rgba(255, 255, 255, 0.07);
+  --bg-glass-hover: rgba(255, 255, 255, 0.12);
 
-  /* Matcha Semantic Greens */
-  --matcha-900: #1E2511;
-  --matcha-800: #2B3618;
-  --matcha-700: #38471D;
-  --matcha-600: #4B5E28;
-  --matcha-500: #647D36;
-  --matcha-400: #85A34E;
-  --matcha-300: #A8C279;
-  --matcha-200: #D0E0AF;
-  --matcha-100: #EBF2DC;
-  --matcha-50: #F6FAF0;
+  /* Astryx Matcha Accent Palette */
+  --matcha-brand: #8FA35E;
+  --matcha-glow: rgba(143, 163, 94, 0.35);
+  --matcha-dark: #323F1B;
+  --matcha-deep: #222B13;
+  --matcha-btn-grad-start: #6F873A;
+  --matcha-btn-grad-end: #4B5E26;
+  --matcha-light: #DCE8C8;
+
+  /* Typography Colors (Native Locket Dark) */
+  --text-primary: #FFFFFF;
+  --text-secondary: #9EAB8C;
+  --text-muted: #6C785D;
+  --text-disabled: #46503C;
 
   /* Borders & Dividers */
-  --border-subtle: #DDE6CE;
-  --border-medium: #B8CCA0;
-  --border-strong: #647D36;
-  --border-active: #38471D;
+  --border-subtle: rgba(255, 255, 255, 0.1);
+  --border-medium: rgba(143, 163, 94, 0.3);
+  --border-active: #8FA35E;
 
-  /* Typography Colors */
-  --text-main: #202812;
-  --text-muted: #5E6D44;
-  --text-light: #8E9E75;
-  --text-inverse: #FFFFFF;
-  --text-inverse-subtle: #D8E4C7;
-
-  /* Astryx Elevation Scale */
-  --shadow-widget: 0 16px 36px -10px rgba(36, 46, 22, 0.28), 0 4px 12px rgba(36, 46, 22, 0.08);
-  --shadow-card: 0 12px 28px -6px rgba(36, 46, 22, 0.12), 0 2px 6px rgba(36, 46, 22, 0.04);
-  --shadow-pill: 0 4px 12px -2px rgba(56, 71, 29, 0.14);
-  --shadow-btn: 0 10px 24px -4px rgba(43, 54, 24, 0.38);
-
-  /* Radius Scale */
-  --radius-widget: 32px;
-  --radius-card: 24px;
+  /* Radius Scale (Strict LocketClone Spec) */
+  --radius-postcard: 32px;
+  --radius-panel: 28px;
+  --radius-caption: 20px;
   --radius-pill: 9999px;
   --radius-input: 16px;
 
-  /* Motion Curves (Astryx Spec) */
+  /* Motion */
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --ease-standard: cubic-bezier(0.24, 1, 0.4, 1);
   --duration-fast: 160ms;
@@ -69,19 +64,19 @@
 body {
   font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   background-color: var(--bg-app);
-  color: var(--text-main);
+  color: var(--text-primary);
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(40px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  padding: max(16px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(36px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
   position: relative;
   overflow-x: hidden;
   line-height: 1.5;
 }
 
-/* Ambient Background Light & Blurred Hero */
+/* Ambient Hero Blur Background */
 .hero-ambient-bg {
   position: fixed;
   top: 0;
@@ -91,26 +86,26 @@ body {
   background-image: url('assets/hero_square.png');
   background-size: cover;
   background-position: center top;
-  filter: blur(55px) saturate(1.25);
-  opacity: 0.22;
+  filter: blur(65px) saturate(1.4) brightness(0.6);
+  opacity: 0.35;
   pointer-events: none;
   z-index: 0;
-  transform: scale(1.12);
+  transform: scale(1.15);
 }
 
 .ambient-glow {
   position: fixed;
   border-radius: 50%;
-  filter: blur(90px);
+  filter: blur(100px);
   pointer-events: none;
   z-index: 0;
-  opacity: 0.6;
+  opacity: 0.25;
 }
 
 .glow-top {
   width: 320px;
   height: 320px;
-  background: radial-gradient(circle, #D8E8BF 0%, rgba(216, 232, 191, 0) 70%);
+  background: radial-gradient(circle, #6F873A 0%, rgba(111, 135, 58, 0) 70%);
   top: -80px;
   left: 50%;
   transform: translateX(-50%);
@@ -119,92 +114,106 @@ body {
 .glow-bottom {
   width: 380px;
   height: 380px;
-  background: radial-gradient(circle, #E1ECCC 0%, rgba(225, 236, 204, 0) 70%);
+  background: radial-gradient(circle, #4B5E26 0%, rgba(75, 94, 38, 0) 70%);
   bottom: -100px;
   right: -60px;
 }
 
-/* Main Container (Mobile Frame Centered) */
+/* App Container Frame */
 .locket-app-container {
   width: 100%;
-  max-width: 440px;
+  max-width: 420px;
   margin: 0 auto;
   position: relative;
   z-index: 1;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
-/* App Header Nav */
-.locket-nav {
+/* ==========================================================================
+   1. LOCKET NATIVE TOP BAR (imthq1/LocketClone HomeTopBar)
+   Row with: Profile Icon, Center Friends Stadium Pill, Chat Icon
+   ========================================================================== */
+
+.locket-top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-pill);
+  padding: 4px 2px 2px;
 }
 
-.nav-brand {
+.locket-circle-icon-btn {
+  appearance: none;
+  background: var(--bg-glass-input);
+  border: 1px solid var(--border-subtle);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  cursor: pointer;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all var(--duration-fast);
+}
+
+.locket-circle-icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.locket-circle-icon-btn:hover {
+  background: var(--bg-glass-hover);
+  border-color: var(--border-medium);
+  transform: scale(1.05);
+}
+
+.locket-circle-icon-btn:active {
+  transform: scale(0.95);
+}
+
+/* Center Friends Stadium Pill */
+.locket-stadium-pill {
   display: flex;
   align-items: center;
   gap: 8px;
+  background: var(--bg-glass-input);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 8px 18px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: all var(--duration-fast);
 }
 
-.brand-badge {
+.stadium-icon {
+  width: 18px;
+  height: 18px;
+  stroke: var(--matcha-brand);
+}
+
+.stadium-label {
+  font-family: 'Outfit', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.2px;
+}
+
+.stadium-badge {
   font-family: 'Outfit', sans-serif;
   font-size: 11px;
   font-weight: 800;
-  letter-spacing: 1.2px;
-  color: var(--text-inverse);
-  background: var(--matcha-700);
-  padding: 3px 9px;
+  background: var(--matcha-brand);
+  color: #0B0F08;
+  padding: 2px 7px;
   border-radius: var(--radius-pill);
 }
 
-.brand-divider {
-  color: var(--border-medium);
-  font-size: 12px;
-}
-
-.brand-room {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.nav-status {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding-right: 4px;
-}
-
-.status-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: var(--matcha-500);
-  box-shadow: 0 0 0 3px rgba(100, 125, 54, 0.2);
-  animation: pulse-dot 2.4s infinite;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.15); opacity: 0.8; }
-}
-
-.status-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-/* Main Card Wrapper */
+/* Main View Switcher */
 .locket-card-wrapper {
   position: relative;
   width: 100%;
@@ -213,7 +222,7 @@ body {
 .locket-view {
   display: none;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
 }
 
 .locket-view.active {
@@ -227,16 +236,61 @@ body {
 }
 
 /* ==========================================================================
-   THE LOCKET SQUIRCLE WIDGET
+   2. LOCKET POST INFO (imthq1/LocketClone PostInfo)
+   Author Avatar Circle, Author Name, Time Ago
+   ========================================================================== */
+
+.locket-post-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 4px 4px;
+}
+
+.author-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--matcha-dark);
+  border: 1px solid var(--border-medium);
+  color: var(--matcha-light);
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.author-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.info-dot {
+  color: var(--text-muted);
+  font-size: 13px;
+}
+
+.time-ago {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+/* ==========================================================================
+   3. 1:1 SQUARE LOCKET POST CARD (imthq1/LocketClone PostCard)
+   AspectRatio: 1.0, BorderRadius: 32px, Floating Caption Pill
    ========================================================================== */
 
 .locket-widget-frame {
   width: 100%;
-  background: #1C2313;
-  border-radius: var(--radius-widget);
-  padding: 10px;
-  box-shadow: var(--shadow-widget);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: var(--bg-surface);
+  border-radius: var(--radius-postcard);
+  padding: 0;
+  border: 1.5px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.65), 0 0 20px var(--matcha-glow);
   position: relative;
   overflow: hidden;
 }
@@ -244,70 +298,10 @@ body {
 .widget-inner {
   position: relative;
   width: 100%;
-  border-radius: calc(var(--radius-widget) - 8px);
+  border-radius: var(--radius-postcard);
   overflow: hidden;
-  background: #252F19;
 }
 
-/* Top Meta Bar inside Widget */
-.widget-meta-bar {
-  position: absolute;
-  top: 14px;
-  left: 14px;
-  right: 14px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  z-index: 5;
-}
-
-.sender-info {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: rgba(28, 35, 19, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 4px 10px 4px 6px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-.avatar-ring {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  background: var(--matcha-600);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.avatar-icon {
-  width: 13px;
-  height: 13px;
-  stroke: #FFFFFF;
-}
-
-.sender-name {
-  font-size: 12px;
-  font-weight: 700;
-  color: #FFFFFF;
-}
-
-.timestamp-pill {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text-inverse-subtle);
-  background: rgba(28, 35, 19, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-}
-
-/* Artwork / Visual */
 .widget-artwork-container {
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -315,7 +309,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #242E16;
+  background: #11170D;
   position: relative;
 }
 
@@ -324,11 +318,11 @@ body {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.5s var(--ease-standard);
+  transition: transform 0.6s var(--ease-standard);
 }
 
 .locket-widget-frame:hover .widget-moment-img {
-  transform: scale(1.03);
+  transform: scale(1.025);
 }
 
 .widget-svg-wrap {
@@ -343,49 +337,62 @@ body {
   object-fit: cover;
 }
 
-/* Glassmorphism Caption Overlay */
-.widget-caption-overlay {
+/* Authentic Locket Floating Caption Pill (PostCard bottom: 20, borderRadius: 20) */
+.locket-floating-caption {
   position: absolute;
-  bottom: 0;
+  bottom: 20px;
   left: 0;
   right: 0;
-  padding: 24px 16px 14px;
-  background: linear-gradient(to top, rgba(20, 26, 13, 0.94) 0%, rgba(20, 26, 13, 0.7) 65%, rgba(20, 26, 13, 0) 100%);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
   display: flex;
-  flex-direction: column;
-  gap: 3px;
-  z-index: 4;
+  justify-content: center;
+  padding: 0 16px;
+  z-index: 5;
+  pointer-events: none;
 }
 
-.caption-title {
+.caption-text {
   font-family: 'Outfit', sans-serif;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
-  color: #FFFFFF;
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.58);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  padding: 10px 20px;
+  border-radius: var(--radius-caption);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  text-align: center;
   letter-spacing: -0.2px;
 }
 
-.caption-sub {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-inverse-subtle);
-}
-
 /* ==========================================================================
-   QUICK RESPONSE PANEL (LOCKET ACTION SHEET)
+   4. QUICK RESPONSE & REACTION SHEET (imthq1/LocketClone FriendPostActions)
    ========================================================================== */
 
 .locket-reaction-panel {
-  background: var(--bg-surface);
-  border-radius: var(--radius-card);
+  background: var(--bg-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: var(--radius-panel);
   padding: 20px 18px;
-  box-shadow: var(--shadow-card);
   border: 1px solid var(--border-subtle);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.5);
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 16px;
+}
+
+.panel-subtitle-wrap {
+  text-align: center;
+  padding-bottom: 2px;
+}
+
+.panel-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  letter-spacing: 0.2px;
 }
 
 .form-group {
@@ -402,43 +409,42 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.4px;
+  letter-spacing: 0.6px;
 }
 
 .label-icon {
-  width: 15px;
-  height: 15px;
-  color: var(--matcha-600);
+  width: 14px;
+  height: 14px;
+  color: var(--matcha-brand);
 }
 
 /* TIER 1: DATE PILLS */
 .date-pills-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
 }
 
 .locket-pill-btn {
   appearance: none;
-  background: var(--matcha-50);
+  background: var(--bg-glass-input);
   border: 1.5px solid var(--border-subtle);
-  border-radius: 18px;
-  padding: 14px 12px;
+  border-radius: 20px;
+  padding: 13px 12px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 3px;
   transition: all var(--duration-fast) var(--ease-standard);
-  position: relative;
 }
 
 .locket-pill-btn:hover {
-  background: var(--bg-chip-hover);
+  background: var(--bg-glass-hover);
   border-color: var(--border-medium);
   transform: translateY(-1px);
 }
@@ -457,27 +463,27 @@ body {
 
 .pill-date {
   font-family: 'Outfit', sans-serif;
-  font-size: 20px;
+  font-size: 19px;
   font-weight: 700;
-  color: var(--text-main);
+  color: var(--text-primary);
 }
 
 /* Selected Date Pill */
 .locket-pill-btn.selected {
-  background: var(--matcha-700);
-  border-color: var(--matcha-800);
-  box-shadow: var(--shadow-pill);
+  background: linear-gradient(135deg, var(--matcha-btn-grad-start) 0%, var(--matcha-btn-grad-end) 100%);
+  border-color: var(--matcha-brand);
+  box-shadow: 0 4px 18px var(--matcha-glow);
 }
 
 .locket-pill-btn.selected .pill-weekday {
-  color: var(--matcha-200);
+  color: var(--matcha-light);
 }
 
 .locket-pill-btn.selected .pill-date {
   color: #FFFFFF;
 }
 
-/* CHIPS FLEX LAYOUT */
+/* CHIPS & TAGS */
 .chips-flex {
   display: flex;
   flex-wrap: wrap;
@@ -489,17 +495,16 @@ body {
   grid-template-columns: 1fr 1fr;
 }
 
-/* TAG CHIPS */
 .tag-chip {
   appearance: none;
-  background: var(--bg-surface-elevated);
+  background: var(--bg-glass-input);
   border: 1.5px solid var(--border-subtle);
   border-radius: var(--radius-pill);
   padding: 10px 16px;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 13px;
   font-weight: 600;
-  color: var(--text-main);
+  color: var(--text-secondary);
   cursor: pointer;
   transition: all var(--duration-fast) var(--ease-standard);
   text-align: center;
@@ -507,28 +512,26 @@ body {
 }
 
 .tag-chip:hover {
+  background: var(--bg-glass-hover);
   border-color: var(--border-medium);
-  background: var(--bg-chip-hover);
+  color: var(--text-primary);
 }
 
 .tag-chip:active {
   transform: scale(0.96);
 }
 
-/* Selected Chip */
 .tag-chip.selected {
-  background: var(--matcha-700);
-  border-color: var(--matcha-800);
+  background: var(--matcha-dark);
+  border-color: var(--matcha-brand);
   color: #FFFFFF;
-  box-shadow: 0 4px 10px -2px rgba(43, 54, 24, 0.2);
+  box-shadow: 0 2px 12px var(--matcha-glow);
 }
 
 /* COLLAPSIBLE ADDRESS INPUT */
 .address-input-collapse {
   width: 100%;
   margin-top: 4px;
-  overflow: hidden;
-  transition: all var(--duration-normal) var(--ease-standard);
 }
 
 .address-input-collapse.hidden {
@@ -540,26 +543,26 @@ body {
   padding: 12px 16px;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 13px;
-  border: 1.5px solid var(--border-medium);
+  border: 1.5px solid var(--border-subtle);
   border-radius: var(--radius-input);
-  background: #FFFFFF;
-  color: var(--text-main);
+  background: rgba(0, 0, 0, 0.4);
+  color: var(--text-primary);
   outline: none;
   transition: border-color var(--duration-fast);
 }
 
 .locket-text-input:focus {
-  border-color: var(--matcha-600);
-  box-shadow: 0 0 0 3px rgba(100, 125, 54, 0.15);
+  border-color: var(--matcha-brand);
+  box-shadow: 0 0 0 3px var(--matcha-glow);
 }
 
 /* PRIMARY SUBMIT BUTTON */
 .locket-submit-btn {
   appearance: none;
-  background: linear-gradient(135deg, var(--matcha-600) 0%, var(--matcha-800) 100%);
+  background: linear-gradient(135deg, var(--matcha-btn-grad-start) 0%, var(--matcha-btn-grad-end) 100%);
   color: #FFFFFF;
-  border: none;
-  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 22px;
   padding: 16px 20px;
   font-family: 'Outfit', sans-serif;
   font-size: 15px;
@@ -570,14 +573,14 @@ body {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  margin-top: 6px;
-  box-shadow: var(--shadow-btn);
+  margin-top: 4px;
+  box-shadow: 0 10px 28px -4px var(--matcha-glow);
   transition: all var(--duration-fast) var(--ease-standard);
 }
 
 .locket-submit-btn:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 14px 28px -4px rgba(43, 54, 24, 0.44);
+  box-shadow: 0 14px 32px -4px rgba(143, 163, 94, 0.45);
 }
 
 .locket-submit-btn:active:not(:disabled) {
@@ -585,8 +588,9 @@ body {
 }
 
 .locket-submit-btn:disabled {
-  background: #E3EAD8;
-  color: #9AA887;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: transparent;
+  color: var(--text-muted);
   cursor: not-allowed;
   box-shadow: none;
 }
@@ -603,14 +607,16 @@ body {
 }
 
 /* ==========================================================================
-   DELIVERED / CONFIRMATION STATE
+   5. DELIVERED / CONFIRMATION SCREEN
    ========================================================================== */
 
 .delivered-card {
-  background: var(--bg-surface);
-  border-radius: var(--radius-card);
+  background: var(--bg-card);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: var(--radius-panel);
   padding: 26px 20px;
-  box-shadow: var(--shadow-card);
+  box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.7);
   border: 1px solid var(--border-subtle);
   display: flex;
   flex-direction: column;
@@ -635,8 +641,8 @@ body {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: var(--matcha-100);
-  color: var(--matcha-700);
+  background: var(--matcha-dark);
+  border: 1px solid var(--border-medium);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -646,7 +652,7 @@ body {
 .check-circle svg {
   width: 22px;
   height: 22px;
-  stroke: var(--matcha-700);
+  stroke: var(--matcha-brand);
 }
 
 .delivery-text {
@@ -660,18 +666,18 @@ body {
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.8px;
-  color: var(--matcha-600);
+  color: var(--matcha-brand);
 }
 
 .delivery-time {
   font-size: 14px;
   font-weight: 700;
-  color: var(--text-main);
+  color: var(--text-primary);
 }
 
 /* Summary Sheet */
 .summary-sheet {
-  background: var(--matcha-50);
+  background: rgba(0, 0, 0, 0.35);
   border: 1px solid var(--border-subtle);
   border-radius: 18px;
   padding: 18px 16px;
@@ -684,7 +690,7 @@ body {
   font-family: 'Outfit', sans-serif;
   font-size: 15px;
   font-weight: 700;
-  color: var(--text-main);
+  color: var(--text-primary);
   margin-bottom: 2px;
 }
 
@@ -695,7 +701,7 @@ body {
   gap: 12px;
   font-size: 13px;
   padding-bottom: 10px;
-  border-bottom: 1px dashed var(--border-subtle);
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
 }
 
 .summary-item:last-child {
@@ -704,13 +710,13 @@ body {
 }
 
 .item-label {
-  color: var(--text-muted);
+  color: var(--text-secondary);
   font-weight: 500;
   flex-shrink: 0;
 }
 
 .item-value {
-  color: var(--text-main);
+  color: var(--text-primary);
   font-weight: 700;
   text-align: right;
 }
@@ -728,27 +734,27 @@ body {
   font-family: 'Outfit', sans-serif;
   font-size: 16px;
   font-weight: 700;
-  color: var(--matcha-700);
+  color: var(--matcha-brand);
 }
 
 .reselect-btn {
   appearance: none;
-  background: transparent;
-  border: 1px solid var(--border-medium);
+  background: var(--bg-glass-input);
+  border: 1px solid var(--border-subtle);
   border-radius: var(--radius-pill);
   padding: 8px 18px;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 12px;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--text-secondary);
   cursor: pointer;
   transition: all var(--duration-fast);
 }
 
 .reselect-btn:hover {
-  background: var(--bg-chip-hover);
-  color: var(--text-main);
-  border-color: var(--border-strong);
+  background: var(--bg-glass-hover);
+  color: var(--text-primary);
+  border-color: var(--border-medium);
 }
 
 /* APP FOOTER */
@@ -759,79 +765,56 @@ body {
   gap: 8px;
   font-size: 12px;
   font-weight: 600;
-  color: var(--text-light);
-  padding: 12px 0 20px;
+  color: var(--text-muted);
+  padding: 10px 0 20px;
 }
 
 .dot-sep {
-  color: var(--border-medium);
+  color: var(--text-disabled);
 }
 
 .switch-link {
-  color: var(--matcha-600);
+  color: var(--matcha-brand);
   text-decoration: none;
   transition: color var(--duration-fast);
 }
 
 .switch-link:hover {
-  color: var(--matcha-800);
   text-decoration: underline;
 }
 
 /* ==========================================================================
-   RESPONSIVE ADJUSTMENTS (MOBILE FIRST & SAFE AREAS)
+   6. RESPONSIVE ADJUSTMENTS (MOBILE FIRST & SAFE AREAS)
    ========================================================================== */
 
 /* Very Compact Mobile (iPhone SE, Small Androids <= 375px) */
 @media (max-width: 375px) {
   body {
-    padding-left: 12px;
-    padding-right: 12px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
-  .locket-nav {
-    padding: 6px 10px;
+  .locket-circle-icon-btn {
+    width: 38px;
+    height: 38px;
   }
 
-  .brand-badge {
-    font-size: 10px;
-    padding: 2px 7px;
+  .locket-stadium-pill {
+    padding: 6px 14px;
   }
 
-  .brand-room {
-    font-size: 12px;
+  .stadium-label {
+    font-size: 13px;
   }
 
-  .widget-meta-bar {
-    top: 10px;
-    left: 10px;
-    right: 10px;
-  }
-
-  .sender-info {
-    padding: 3px 8px 3px 5px;
-  }
-
-  .timestamp-pill {
-    font-size: 10px;
-    padding: 3px 8px;
-  }
-
-  .widget-caption-overlay {
-    padding: 20px 14px 12px;
-  }
-
-  .caption-title {
-    font-size: 15px;
-  }
-
-  .caption-sub {
-    font-size: 12px;
+  .caption-text {
+    font-size: 14px;
+    padding: 8px 16px;
   }
 
   .locket-reaction-panel {
-    padding: 16px 14px;
-    gap: 14px;
+    padding: 16px 12px;
+    gap: 12px;
   }
 
   .date-pills-row {
@@ -839,11 +822,7 @@ body {
   }
 
   .locket-pill-btn {
-    padding: 12px 8px;
-  }
-
-  .pill-weekday {
-    font-size: 10px;
+    padding: 10px 8px;
   }
 
   .pill-date {
@@ -851,7 +830,7 @@ body {
   }
 
   .tag-chip {
-    padding: 9px 12px;
+    padding: 8px 12px;
     font-size: 12px;
   }
 
@@ -861,11 +840,11 @@ body {
   }
 }
 
-/* Tablet & Desktop Centering Polish (>= 600px) */
+/* Tablet & Desktop Polish (>= 600px) */
 @media (min-width: 600px) {
   body {
-    padding-top: 40px;
-    padding-bottom: 60px;
+    padding-top: 36px;
+    padding-bottom: 50px;
   }
 
   .locket-widget-frame {
