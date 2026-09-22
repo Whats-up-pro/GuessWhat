@@ -47,6 +47,10 @@
   --radius-pill: 9999px;
   --radius-input: 16px;
 
+  /* Typography System */
+  --font-main: 'Outfit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-script: 'Dancing Script', 'Caveat', 'Satisfy', cursive;
+
   /* Motion */
   --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
   --ease-standard: cubic-bezier(0.24, 1, 0.4, 1);
@@ -63,7 +67,8 @@
 }
 
 body {
-  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: var(--font-main);
+  font-feature-settings: "tnum" 1;
   background-color: var(--bg-app);
   color: var(--text-primary);
   min-height: 100vh;
@@ -75,6 +80,10 @@ body {
   position: relative;
   overflow-x: hidden;
   line-height: 1.5;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
 }
 
 /* Ambient Hero Blur Background */
@@ -261,7 +270,7 @@ body {
   background: var(--matcha-dark);
   border: 1px solid var(--border-medium);
   color: var(--matcha-light);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-main);
   font-size: 10px;
   font-weight: 800;
   letter-spacing: -0.5px;
@@ -382,19 +391,21 @@ body {
 }
 
 .caption-text {
-  font-family: 'Outfit', sans-serif;
-  font-size: 16px;
+  font-family: var(--font-script);
+  font-size: 23px;
   font-weight: 700;
-  color: var(--text-primary);
-  background: rgba(0, 0, 0, 0.58);
+  line-height: 1.25;
+  letter-spacing: 0.5px;
+  color: #FFFFFF;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+  background: rgba(0, 0, 0, 0.62);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  padding: 10px 20px;
+  padding: 10px 22px;
   border-radius: var(--radius-caption);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
   text-align: center;
-  letter-spacing: -0.2px;
 }
 
 /* ==========================================================================
@@ -485,7 +496,7 @@ body {
 }
 
 .pill-weekday {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-main);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.8px;
@@ -493,9 +504,11 @@ body {
 }
 
 .pill-date {
-  font-family: 'Outfit', sans-serif;
-  font-size: 18px;
+  font-family: var(--font-script);
+  font-size: 26px;
   font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: 0.5px;
   color: var(--text-primary);
 }
 
@@ -531,9 +544,10 @@ body {
   border: 1.5px solid var(--border-subtle);
   border-radius: var(--radius-pill);
   padding: 9px 14px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: var(--font-main);
   font-size: 13px;
   font-weight: 600;
+  letter-spacing: 0.2px;
   color: var(--text-secondary);
   cursor: pointer;
   transition: all var(--duration-fast) var(--ease-standard);
@@ -571,8 +585,9 @@ body {
 .locket-text-input {
   width: 100%;
   padding: 12px 16px;
-  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-family: var(--font-main);
   font-size: 13px;
+  font-weight: 500;
   border: 1.5px solid var(--border-subtle);
   border-radius: var(--radius-input);
   background: rgba(0, 0, 0, 0.4);
@@ -755,9 +770,10 @@ body {
 }
 
 .history-pill-text {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-main);
   font-size: 14px;
   font-weight: 700;
+  letter-spacing: 0.2px;
   color: #FFFFFF;
 }
 
@@ -913,12 +929,14 @@ body {
   bottom: 10px;
   left: 10px;
   right: 10px;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(12px);
-  padding: 6px 12px;
+  padding: 7px 12px;
   border-radius: 14px;
-  font-size: 12px;
+  font-family: var(--font-script);
+  font-size: 17px;
   font-weight: 700;
+  letter-spacing: 0.3px;
   color: #FFFFFF;
   text-align: center;
 }
@@ -953,6 +971,7 @@ body {
 }
 
 .bubble-title {
+  font-family: var(--font-main);
   font-weight: 800;
   font-size: 13px;
   margin-bottom: 4px;
@@ -960,14 +979,19 @@ body {
 }
 
 .bubble-meta {
+  font-family: var(--font-script);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 21px;
+  letter-spacing: 0.4px;
+  line-height: 1.25;
   margin-bottom: 4px;
 }
 
 .bubble-detail {
+  font-family: var(--font-main);
   font-size: 13px;
-  opacity: 0.92;
+  font-weight: 500;
+  opacity: 0.95;
 }
 
 .chat-bubble.reply {
@@ -993,6 +1017,7 @@ body {
 }
 
 .fake-placeholder {
+  font-family: var(--font-main);
   font-size: 13px;
   color: var(--text-secondary);
 }
@@ -1004,7 +1029,7 @@ body {
   border: none;
   border-radius: var(--radius-pill);
   padding: 6px 14px;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-main);
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
@@ -1078,13 +1103,16 @@ body {
 }
 
 .sheet-title {
-  font-family: 'Outfit', sans-serif;
-  font-size: 20px;
-  font-weight: 800;
+  font-family: var(--font-script);
+  font-size: 30px;
+  font-weight: 700;
   color: #FFFFFF;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
 }
 
 .sheet-subtitle {
+  font-family: var(--font-main);
   font-size: 13px;
   font-weight: 500;
   color: var(--text-secondary);
@@ -1168,7 +1196,7 @@ body {
 }
 
 .friend-avatar-circle {
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-main);
   font-size: 16px;
   font-weight: 800;
   color: var(--matcha-brand);
@@ -1183,12 +1211,14 @@ body {
 }
 
 .friend-name {
+  font-family: var(--font-main);
   font-size: 15px;
   font-weight: 700;
   color: #FFFFFF;
 }
 
 .friend-status {
+  font-family: var(--font-main);
   font-size: 12px;
   color: var(--text-secondary);
 }
@@ -1200,7 +1230,7 @@ body {
   border: none;
   border-radius: var(--radius-pill);
   padding: 7px 18px;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-main);
   font-size: 13px;
   font-weight: 700;
   cursor: pointer;
@@ -1222,7 +1252,7 @@ body {
   color: var(--text-primary);
   border-radius: var(--radius-pill);
   padding: 12px;
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-main);
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
@@ -1260,7 +1290,7 @@ body {
   background: transparent;
   border: none;
   color: var(--text-secondary);
-  font-family: 'Outfit', sans-serif;
+  font-family: var(--font-main);
   font-size: 14px;
   font-weight: 700;
   display: flex;
@@ -1314,23 +1344,27 @@ body {
   right: 0;
   margin: 0 auto;
   width: max-content;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(14px);
-  padding: 8px 18px;
+  padding: 8px 20px;
   border-radius: var(--radius-caption);
-  font-size: 14px;
+  font-family: var(--font-script);
+  font-size: 20px;
   font-weight: 700;
   color: #FFFFFF;
+  letter-spacing: 0.4px;
 }
 
 .history-date-badge {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-pill);
-  padding: 6px 16px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-secondary);
+  padding: 6px 18px;
+  font-family: var(--font-script);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--matcha-light);
+  letter-spacing: 0.4px;
 }
 
 /* APP FOOTER */
@@ -1384,12 +1418,20 @@ body {
   }
 
   .caption-text {
-    font-size: 14px;
-    padding: 8px 14px;
+    font-size: 19px;
+    padding: 8px 16px;
   }
 
   .pill-date {
-    font-size: 16px;
+    font-size: 22px;
+  }
+
+  .sheet-title {
+    font-size: 25px;
+  }
+
+  .bubble-meta {
+    font-size: 18px;
   }
 
   .tag-chip {
