@@ -130,27 +130,6 @@ canvas, #particle-canvas, #heart-canvas {
   align-items: center;
 }
 
-/* 3D Hero Section */
-.hero-3d {
-  width: 100%;
-  max-width: 600px;
-  height: 350px;
-  margin: 20px auto;
-  border-radius: var(--radius-card);
-  overflow: hidden;
-  box-shadow: 0 8px 32px rgba(41, 37, 65, 0.2);
-}
-
-#canvas-container {
-  width: 100%;
-  height: 100%;
-}
-
-#canvas-container canvas {
-  display: block;
-  border-radius: var(--radius-card);
-}
-
 /* Screen Transitions */
 .view-screen {
   display: none;
