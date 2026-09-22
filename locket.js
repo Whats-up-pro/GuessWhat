@@ -23,11 +23,16 @@
 
   const TIME_SLOTS = {
     fri: [
-      { id: 'fri-night', label: 'Tối muộn (sau 20:30)' }
+      { id: 'fri-night', label: 'Tối muộn (sau 20:30)' },
+      { id: 'custom-time', label: 'Giờ khác...' }
     ],
     sat: [
       { id: 'sat-morning', label: 'Sáng sớm (8:30 - 10:00)' },
-      { id: 'sat-midday', label: 'Trưa / Đầu giờ chiều (11:30 - 13:30)' }
+      { id: 'sat-midday', label: 'Trưa / Đầu giờ chiều (11:30 - 13:30)' },
+      { id: 'custom-time', label: 'Giờ khác...' }
+    ],
+    custom: [
+      { id: 'custom-time', label: 'Tự chọn giờ...' }
     ]
   };
 
@@ -35,11 +40,15 @@
   const state = {
     selectedDateKey: null,
     selectedDateLabel: null,
+    customDate: '',
     selectedTimeId: null,
     selectedTimeLabel: null,
+    customTime: '',
     selectedGift: 'Bưởi ngọt',
+    customGift: '',
     addressType: 'old',
-    customAddress: ''
+    customAddress: '',
+    customNote: ''
   };
 
   // --- Web Audio Pop Synthesizer ---
@@ -80,12 +89,23 @@
   const screenChat = document.getElementById('screen-chat');
 
   const datePills = document.querySelectorAll('.date-pill');
+  const customDateCollapse = document.getElementById('custom-date-collapse');
+  const customDateInput = document.getElementById('custom-date-input');
+
   const timeGroup = document.getElementById('time-group');
   const timeChipsContainer = document.getElementById('time-chips-container');
+  const customTimeCollapse = document.getElementById('custom-time-collapse');
+  const customTimeInput = document.getElementById('custom-time-input');
+
   const giftChips = document.querySelectorAll('#gift-chips-container .tag-chip');
+  const customGiftCollapse = document.getElementById('custom-gift-collapse');
+  const customGiftInput = document.getElementById('custom-gift-input');
+
   const addressChips = document.querySelectorAll('#address-chips-container .tag-chip');
   const addressInputCollapse = document.getElementById('address-input-collapse');
   const customAddressInput = document.getElementById('custom-address-input');
+
+  const customNoteInput = document.getElementById('custom-note-input');
 
   const shutterBtn = document.getElementById('locket-shutter-btn');
   const shutterHint = document.getElementById('shutter-hint');
@@ -107,6 +127,7 @@
   const chatBubbleDatetime = document.getElementById('chat-bubble-datetime');
   const chatBubbleGift = document.getElementById('chat-bubble-gift');
   const chatBubbleAddress = document.getElementById('chat-bubble-address');
+  const chatBubbleNote = document.getElementById('chat-bubble-note');
   const chatTimestamp = document.getElementById('chat-timestamp');
 
   const btnFlash = document.getElementById('btn-flash');
@@ -127,14 +148,33 @@
       state.selectedTimeId = null;
       state.selectedTimeLabel = null;
 
+      if (dateKey === 'custom') {
+        customDateCollapse.classList.remove('hidden');
+        customDateInput.focus();
+        if (state.customDate) {
+          state.selectedDateLabel = `Hôm khác: ${state.customDate}`;
+        }
+      } else {
+        customDateCollapse.classList.add('hidden');
+      }
+
       renderTimeSlots(dateKey);
       updateShutterState();
     });
   });
 
+  customDateInput.addEventListener('input', function () {
+    state.customDate = this.value.trim();
+    if (state.selectedDateKey === 'custom') {
+      state.selectedDateLabel = state.customDate ? `Hôm khác: ${state.customDate}` : 'Hôm khác';
+      updateShutterState();
+    }
+  });
+
   // --- Render Time Slots ---
   function renderTimeSlots(dateKey) {
     timeChipsContainer.innerHTML = '';
+    customTimeCollapse.classList.add('hidden');
     const slots = TIME_SLOTS[dateKey] || [];
 
     slots.forEach(slot => {
@@ -152,6 +192,17 @@
 
         state.selectedTimeId = this.dataset.timeId;
         state.selectedTimeLabel = this.dataset.timeLabel;
+
+        if (slot.id === 'custom-time') {
+          customTimeCollapse.classList.remove('hidden');
+          customTimeInput.focus();
+          if (state.customTime) {
+            state.selectedTimeLabel = `Giờ tự chọn: ${state.customTime}`;
+          }
+        } else {
+          customTimeCollapse.classList.add('hidden');
+        }
+
         updateShutterState();
       });
 
@@ -160,16 +211,25 @@
 
     timeGroup.classList.remove('hidden');
 
-    // Auto-select first slot if only one slot is available (e.g. Friday evening)
-    if (slots.length === 1) {
+    // Auto-select slot if custom or single slot
+    if (dateKey === 'custom' && slots.length === 1) {
       const singleBtn = timeChipsContainer.querySelector('.tag-chip');
       if (singleBtn) {
         singleBtn.classList.add('selected');
         state.selectedTimeId = slots[0].id;
-        state.selectedTimeLabel = slots[0].label;
+        state.selectedTimeLabel = state.customTime ? `Giờ tự chọn: ${state.customTime}` : 'Giờ khác';
+        customTimeCollapse.classList.remove('hidden');
       }
     }
   }
+
+  customTimeInput.addEventListener('input', function () {
+    state.customTime = this.value.trim();
+    if (state.selectedTimeId === 'custom-time') {
+      state.selectedTimeLabel = state.customTime ? `Giờ tự chọn: ${state.customTime}` : 'Giờ khác';
+      updateShutterState();
+    }
+  });
 
   // --- Gift Selection ---
   giftChips.forEach(chip => {
@@ -177,8 +237,26 @@
       playPopSound(520);
       giftChips.forEach(c => c.classList.remove('selected'));
       this.classList.add('selected');
-      state.selectedGift = this.dataset.gift;
+
+      const gift = this.dataset.gift;
+      state.selectedGift = gift;
+
+      if (gift === 'custom') {
+        customGiftCollapse.classList.remove('hidden');
+        customGiftInput.focus();
+        state.selectedGift = state.customGift ? `Món tự chọn: ${state.customGift}` : 'Món khác';
+      } else {
+        customGiftCollapse.classList.add('hidden');
+      }
     });
+  });
+
+  customGiftInput.addEventListener('input', function () {
+    state.customGift = this.value.trim();
+    const customChip = document.querySelector('#gift-chips-container .tag-chip[data-gift="custom"]');
+    if (customChip && customChip.classList.contains('selected')) {
+      state.selectedGift = state.customGift ? `Món tự chọn: ${state.customGift}` : 'Món khác';
+    }
   });
 
   // --- Address Selection ---
@@ -203,6 +281,13 @@
   customAddressInput.addEventListener('input', function () {
     state.customAddress = this.value.trim();
   });
+
+  // --- Custom Note Input ---
+  if (customNoteInput) {
+    customNoteInput.addEventListener('input', function () {
+      state.customNote = this.value.trim();
+    });
+  }
 
   // --- Update Shutter Button State ---
   function updateShutterState() {
@@ -233,6 +318,20 @@
     shutterBtn.disabled = true;
     shutterHint.textContent = 'Đang gửi...';
 
+    const dateDisplay = (state.selectedDateKey === 'custom' && state.customDate)
+      ? `Hôm khác: ${state.customDate}`
+      : (state.selectedDateLabel || 'Hôm khác');
+
+    const timeDisplay = (state.selectedTimeId === 'custom-time' && state.customTime)
+      ? `Giờ tự chọn: ${state.customTime}`
+      : (state.selectedTimeLabel || 'Giờ khác');
+
+    const customGiftChip = document.querySelector('#gift-chips-container .tag-chip[data-gift="custom"]');
+    const isCustomGift = customGiftChip && customGiftChip.classList.contains('selected');
+    const giftDisplay = isCustomGift
+      ? (state.customGift ? `Món tự chọn: ${state.customGift}` : 'Món khác (em dặn sau)')
+      : state.selectedGift;
+
     const addressText = state.addressType === 'new' && state.customAddress
       ? `Địa chỉ mới: ${state.customAddress}`
       : 'Dạ chỗ cũ nha';
@@ -246,13 +345,17 @@
       year: 'numeric'
     });
 
-    const telegramMessage = 
+    let telegramMessage = 
       `*Locket Widget: Đã nhận phản hồi lịch hẹn*\n\n` +
-      `*Ngày:* ${state.selectedDateLabel}\n` +
-      `*Khung giờ:* ${state.selectedTimeLabel}\n` +
-      `*Món mang qua:* ${state.selectedGift}\n` +
-      `*Địa điểm:* ${addressText}\n\n` +
-      `*Gửi lúc:* ${nowFormatted}`;
+      `*Ngày:* ${dateDisplay}\n` +
+      `*Khung giờ:* ${timeDisplay}\n` +
+      `*Món mang qua:* ${giftDisplay}\n` +
+      `*Địa điểm:* ${addressText}\n`;
+
+    if (state.customNote) {
+      telegramMessage += `*Lời nhắn riêng / Tự điền:* ${state.customNote}\n`;
+    }
+    telegramMessage += `\n*Gửi lúc:* ${nowFormatted}`;
 
     try {
       await sendTelegramMessage(telegramMessage);
@@ -261,9 +364,17 @@
     }
 
     // Populate Chat Screen
-    chatBubbleDatetime.textContent = `${state.selectedDateLabel} · ${state.selectedTimeLabel}`;
-    chatBubbleGift.textContent = `Món mang qua: ${state.selectedGift}`;
+    chatBubbleDatetime.textContent = `${dateDisplay} · ${timeDisplay}`;
+    chatBubbleGift.textContent = `Món mang qua: ${giftDisplay}`;
     chatBubbleAddress.textContent = `Địa chỉ: ${addressText}`;
+    if (chatBubbleNote) {
+      if (state.customNote) {
+        chatBubbleNote.textContent = `Lời nhắn riêng: "${state.customNote}"`;
+        chatBubbleNote.classList.remove('hidden');
+      } else {
+        chatBubbleNote.classList.add('hidden');
+      }
+    }
     chatTimestamp.textContent = `Hôm nay lúc ${new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}`;
 
     // Transition to Chat View

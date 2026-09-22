@@ -100,7 +100,7 @@
 
         <!-- TIER 1: DATE CAPSULES -->
         <div class="form-group">
-          <div class="date-pills-row" role="radiogroup" aria-label="Chọn ngày hẹn">
+          <div class="date-pills-row three-cols" role="radiogroup" aria-label="Chọn ngày hẹn">
             <button type="button" class="locket-pill-btn date-pill" data-date="fri" data-label="Thứ 6, 02/10">
               <span class="pill-weekday">THỨ 6</span>
               <span class="pill-date">02/10</span>
@@ -110,6 +110,15 @@
               <span class="pill-weekday">THỨ 7</span>
               <span class="pill-date">03/10</span>
             </button>
+
+            <button type="button" class="locket-pill-btn date-pill" data-date="custom" data-label="Hôm khác">
+              <span class="pill-weekday">HÔM KHÁC</span>
+              <span class="pill-date pill-date-small">Tự chọn</span>
+            </button>
+          </div>
+
+          <div class="custom-input-collapse hidden" id="custom-date-collapse">
+            <input type="text" id="custom-date-input" class="locket-text-input" placeholder="Em tiện ngày nào (hoặc tuần sau...) nhắn anh nhen..." autocomplete="off">
           </div>
         </div>
 
@@ -123,7 +132,11 @@
             <span>Khung giờ tiện nhất</span>
           </label>
           <div class="chips-flex" id="time-chips-container">
-            <!-- Dynamically populated -->
+            <!-- Dynamically populated (including 'Giờ khác...') -->
+          </div>
+
+          <div class="custom-input-collapse hidden" id="custom-time-collapse">
+            <input type="text" id="custom-time-input" class="locket-text-input" placeholder="Nhập giờ em tiện nhất (ví dụ: tầm 20h nha)..." autocomplete="off">
           </div>
         </div>
 
@@ -144,6 +157,11 @@
             <button type="button" class="tag-chip" data-gift="Matcha latte">Matcha latte</button>
             <button type="button" class="tag-chip" data-gift="Bánh ngọt">Bánh ngọt</button>
             <button type="button" class="tag-chip" data-gift="Bất ngờ nhen">Bất ngờ nhen</button>
+            <button type="button" class="tag-chip" data-gift="custom">Món khác nhen...</button>
+          </div>
+
+          <div class="custom-input-collapse hidden" id="custom-gift-collapse">
+            <input type="text" id="custom-gift-input" class="locket-text-input" placeholder="Em thích món gì nhắn anh mua qua nhen..." autocomplete="off">
           </div>
         </div>
 
@@ -161,8 +179,23 @@
             <button type="button" class="tag-chip" data-address-type="new">Em đổi chỗ mới</button>
           </div>
           
-          <div class="address-input-collapse hidden" id="address-input-collapse">
+          <div class="custom-input-collapse hidden" id="address-input-collapse">
             <input type="text" id="custom-address-input" class="locket-text-input" placeholder="Nhập địa chỉ mới giúp anh nhen..." autocomplete="off">
+          </div>
+        </div>
+
+        <!-- TIER 4: DEDICATED CUSTOM NOTE (NẾU MẤY CÁI LIỆT KÊ TRÊN CHƯA ĐÚNG Ý) -->
+        <div class="form-group custom-note-group">
+          <label class="group-label">
+            <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            <span>Lời nhắn / Tự điền nếu muốn khác</span>
+            <span class="optional-badge">Tự điền</span>
+          </label>
+          <div class="custom-note-wrap">
+            <textarea id="custom-note-input" class="locket-textarea" rows="2" placeholder="Nếu mấy cái liệt kê sẵn chưa đúng ý, em cứ tự do nhắn thêm cho anh ở đây nhen (ngày giờ khác, dặn dò riêng...)..."></textarea>
           </div>
         </div>
 
@@ -269,6 +302,7 @@
             <div class="bubble-meta" id="chat-bubble-datetime">Thứ 6, 02/10 · Tối muộn</div>
             <div class="bubble-detail" id="chat-bubble-gift">Món mang qua: Bưởi ngọt</div>
             <div class="bubble-detail" id="chat-bubble-address">Địa chỉ: Dạ chỗ cũ nha</div>
+            <div class="bubble-detail hidden" id="chat-bubble-note"></div>
           </div>
         </div>
 
