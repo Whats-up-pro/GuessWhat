@@ -293,10 +293,12 @@ document.addEventListener('DOMContentLoaded', () => {
         periodOptions.querySelectorAll('.period-bubble').forEach(b => {
           b.classList.remove('selected');
           b.setAttribute('aria-checked', 'false');
+          b.setAttribute('data-selected', 'false');
         });
 
         btn.classList.add('selected');
         btn.setAttribute('aria-checked', 'true');
+        btn.setAttribute('data-selected', 'true');
         selectedPeriodLabel = item.label;
 
         // Both Date & Period are selected -> Enable CTA
@@ -323,10 +325,12 @@ document.addEventListener('DOMContentLoaded', () => {
       dateCards.forEach(c => {
         c.classList.remove('selected');
         c.setAttribute('aria-checked', 'false');
+        c.setAttribute('data-selected', 'false');
       });
 
       card.classList.add('selected');
       card.setAttribute('aria-checked', 'true');
+      card.setAttribute('data-selected', 'true');
 
       selectedDayKey = card.dataset.day;
       selectedDateLabel = card.dataset.label;
