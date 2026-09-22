@@ -4,16 +4,18 @@ const TELEGRAM_CONFIG = {
   chatId: "6177241794"
 };
 
-async function sendTelegramNotification(timeSlot) {
+async function sendTelegramNotification(timeSlot, gift, address) {
   if (!TELEGRAM_CONFIG.botToken || TELEGRAM_CONFIG.botToken === "YOUR_BOT_TOKEN") {
     console.warn("Chưa cấu hình Telegram Bot Token hoặc Chat ID");
     return;
   }
 
-  const text = `🍵 <b>THÔNG BÁO LỊCH HẸN</b> 🍵\n\n` +
-               `📌 <b>Khung giờ em ấy chọn:</b> <code>${timeSlot}</code>\n` +
+  const text = `🍵 <b>THÔNG BÁO LỊCH HẸN MỚI</b> 🍵\n\n` +
+               `📌 <b>Khung giờ:</b> <code>${timeSlot}</code>\n` +
+               `🍈 <b>Món mang qua:</b> ${gift}\n` +
+               `📍 <b>Địa chỉ:</b> ${address}\n` +
                `⏰ <b>Thời điểm chọn:</b> ${new Date().toLocaleTimeString('vi-VN')} (${new Date().toLocaleDateString('vi-VN')})\n\n` +
-               `✨ <i>Đã lưu lịch hẹn rồi nha anh!</i>`;
+               `✨ <i>Đã lưu thông tin đầy đủ rồi nha anh!</i>`;
 
   try {
     await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`, {
@@ -242,14 +244,14 @@ class MatchaParticles {
   }
 }
 
-// Periods configuration per day
+// Periods configuration per day (Khớp với lịch thực tế di chuyển)
 const PERIOD_DATA = {
   fri: [
-    { id: 'afternoon', label: '☀️ Chiều' },
-    { id: 'evening', label: '🌙 Tối' }
+    { id: 'evening', label: '🌙 Tối (sau 20:00)' }
   ],
   sat: [
-    { id: 'morning', label: '🌤️ Sáng' }
+    { id: 'early', label: '🌅 Sáng sớm' },
+    { id: 'morning', label: '🌤️ Tầm 9h - 10h sáng' }
   ]
 };
 
@@ -262,23 +264,61 @@ document.addEventListener('DOMContentLoaded', () => {
   const dateCards = document.querySelectorAll('.date-card');
   const periodSection = document.getElementById('period-section');
   const periodOptions = document.getElementById('period-options');
+  const extraSection = document.getElementById('extra-section');
+  const giftButtons = document.querySelectorAll('#gift-options .choice-chip');
+  const addressButtons = document.querySelectorAll('#address-options .choice-chip');
+  const addressInputWrap = document.getElementById('address-input-wrap');
+  const newAddressInput = document.getElementById('new-address-input');
+
   const confirmBtn = document.getElementById('confirm-btn');
   const ctaText = document.getElementById('cta-text');
 
   const bookingView = document.getElementById('booking-view');
   const successView = document.getElementById('success-view');
   const confirmedTimeDisplay = document.getElementById('confirmed-time-display');
+  const confirmedGiftDisplay = document.getElementById('confirmed-gift-display');
+  const confirmedAddressDisplay = document.getElementById('confirmed-address-display');
   const changeBtn = document.getElementById('change-btn');
 
   let selectedDayKey = null;
   let selectedDateLabel = null;
   let selectedPeriodLabel = null;
+  let selectedGift = "Bưởi ngọt 🍈";
+  let selectedAddressType = "old";
+
+  // Gift chip selection
+  giftButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      audio.playPop();
+      giftButtons.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedGift = btn.dataset.value;
+    });
+  });
+
+  // Address chip selection
+  addressButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      audio.playPop();
+      addressButtons.forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      selectedAddressType = btn.dataset.addressType;
+
+      if (selectedAddressType === 'new') {
+        addressInputWrap.classList.remove('hidden');
+        newAddressInput.focus();
+      } else {
+        addressInputWrap.classList.add('hidden');
+      }
+    });
+  });
 
   // Render period bubbles when a date is selected
   function renderPeriods(dayKey) {
     const options = PERIOD_DATA[dayKey] || [];
     periodOptions.innerHTML = '';
     selectedPeriodLabel = null;
+    extraSection.classList.remove('active');
 
     options.forEach(item => {
       const btn = document.createElement('button');
@@ -301,6 +341,9 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.setAttribute('data-selected', 'true');
         selectedPeriodLabel = item.label;
 
+        // Reveal the extra questions (Gift & Address) smoothly
+        extraSection.classList.add('active');
+
         // Both Date & Period are selected -> Enable CTA
         confirmBtn.removeAttribute('disabled');
         ctaText.textContent = 'Hẹn lúc này nhen ✨';
@@ -309,7 +352,7 @@ document.addEventListener('DOMContentLoaded', () => {
       periodOptions.appendChild(btn);
     });
 
-    // Reveal the section with smooth animation
+    // Reveal the period section with smooth animation
     periodSection.classList.add('active');
 
     // Update CTA button to soft reminder
@@ -344,15 +387,24 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!selectedDateLabel || !selectedPeriodLabel) return;
 
     const finalSchedule = `${selectedDateLabel} · ${selectedPeriodLabel}`;
+    
+    // Resolve address string
+    let finalAddress = "Dạ chỗ cũ nha 🏡";
+    if (selectedAddressType === 'new') {
+      const customAddr = newAddressInput.value.trim();
+      finalAddress = customAddr ? `Chỗ mới: ${customAddr} 📍` : "Chỗ mới (chưa nhập chi tiết) 📍";
+    }
 
     audio.playSuccessSparkle();
     particles.burst(40);
 
-    // Gửi Telegram thông báo
-    sendTelegramNotification(finalSchedule);
+    // Gửi Telegram thông báo đầy đủ 3 thông tin
+    sendTelegramNotification(finalSchedule, selectedGift, finalAddress);
 
     // Hiển thị lịch đã chốt trên màn hình chúc mừng
     confirmedTimeDisplay.textContent = finalSchedule;
+    confirmedGiftDisplay.textContent = selectedGift;
+    confirmedAddressDisplay.textContent = finalAddress;
 
     // Chuyển màn hình
     bookingView.classList.remove('active');

@@ -9,11 +9,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
-  <!-- Cache-busting v=2.2 -->
-  <link rel="stylesheet" href="style.css?v=2.2">
+  <!-- Cache-busting v=2.3 -->
+  <link rel="stylesheet" href="style.css?v=2.3">
 </head>
 <body>
-  <!-- Matcha Floating Leaves & Sparkles Canvas (fixed absolute guarantee) -->
+  <!-- Matcha Floating Leaves & Sparkles Canvas -->
   <canvas id="particle-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
 
   <main class="page-container">
@@ -25,14 +25,9 @@
         <!-- Floating Matcha Cat Mascot -->
         <div class="mascot-container">
           <svg class="cat-mascot" viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Cat Head Shadow -->
             <ellipse cx="80" cy="132" rx="42" ry="7" fill="rgba(62, 72, 29, 0.12)"/>
-            
-            <!-- Left Ear -->
             <path d="M42 62 C34 32, 42 16, 56 30 C64 38, 62 55, 62 62 Z" fill="#C0CBA9"/>
             <path d="M46 56 C40 38, 46 26, 54 36 C58 42, 57 52, 57 56 Z" fill="#8FA35E"/>
-            
-            <!-- Right Ear -->
             <path d="M118 62 C126 32, 118 16, 104 30 C96 38, 98 55, 98 62 Z" fill="#C0CBA9"/>
             <path d="M114 56 C120 38, 114 26, 106 36 C102 42, 103 52, 103 56 Z" fill="#8FA35E"/>
 
@@ -40,28 +35,17 @@
             <path d="M48 24 C44 14, 56 12, 60 20 C64 28, 52 30, 48 24 Z" fill="#707E46"/>
             <path d="M50 23 Q54 18 57 20" stroke="#3E481D" stroke-width="1.2" stroke-linecap="round" fill="none"/>
             
-            <!-- Cat Head & Body Base -->
             <ellipse cx="80" cy="80" rx="48" ry="42" fill="#FDFFF8"/>
-            
-            <!-- Blush Cheeks -->
             <ellipse cx="52" cy="88" rx="8" ry="5" fill="#B7C99D" opacity="0.75"/>
             <ellipse cx="108" cy="88" rx="8" ry="5" fill="#B7C99D" opacity="0.75"/>
-            
-            <!-- Eyes (Gentle happy curved eyes) -->
             <path d="M57 78 Q63 70 69 78" stroke="#3E481D" stroke-width="3.5" stroke-linecap="round" fill="none"/>
             <path d="M91 78 Q97 70 103 78" stroke="#3E481D" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-            
-            <!-- Cute Nose & Mouth -->
             <ellipse cx="80" cy="83" rx="3.5" ry="2.5" fill="#707E46"/>
-            <path d="M74 88 Q80 93 80 87 Q80 93 86 88" stroke="#3E481D" stroke-width="2.6" stroke-linecap="round" fill="none"/>
-            
-            <!-- Whiskers -->
+            <path d="M74 88 Q80 98 86 88" fill="#8FA35E" stroke="#3E481D" stroke-width="2.4" stroke-linecap="round"/>
             <path d="M38 80 L22 78" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
             <path d="M38 86 L20 89" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
             <path d="M122 80 L138 78" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
             <path d="M122 86 L140 89" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
-            
-            <!-- Little Paws resting -->
             <ellipse cx="64" cy="116" rx="10" ry="8" fill="#FDFFF8" stroke="#DCE3CE" stroke-width="1.5"/>
             <ellipse cx="96" cy="116" rx="10" ry="8" fill="#FDFFF8" stroke="#DCE3CE" stroke-width="1.5"/>
           </svg>
@@ -94,6 +78,32 @@
           </div>
         </section>
 
+        <!-- Tier 3: 2 Extra Thoughtful Questions (Gift & Address) -->
+        <section class="extra-section" id="extra-section">
+          <!-- Question 1: Gift -->
+          <div class="extra-block">
+            <p class="extra-prompt">Anh ghé mang gì qua cho em nhen? 🍈</p>
+            <div class="chips-grid" id="gift-options">
+              <button type="button" class="choice-chip selected" data-value="Bưởi ngọt 🍈">🍈 Bưởi ngọt</button>
+              <button type="button" class="choice-chip" data-value="Trà sữa 🧋">🧋 Trà sữa</button>
+              <button type="button" class="choice-chip" data-value="Bánh ngọt 🍰">🍰 Bánh ngọt</button>
+              <button type="button" class="choice-chip" data-value="Anh tự chọn bất ngờ ✨">✨ Bất ngờ nhen</button>
+            </div>
+          </div>
+
+          <!-- Question 2: Address -->
+          <div class="extra-block">
+            <p class="extra-prompt">Vẫn ở chỗ cũ đúng hông nè? 📍</p>
+            <div class="chips-grid two-cols" id="address-options">
+              <button type="button" class="choice-chip selected" data-address-type="old">Dạ chỗ cũ nha 🏡</button>
+              <button type="button" class="choice-chip" data-address-type="new">Em đổi chỗ mới 📍</button>
+            </div>
+            <div class="address-input-wrap hidden" id="address-input-wrap">
+              <input type="text" id="new-address-input" placeholder="Nhập địa chỉ mới giúp anh nhen..." autocomplete="off">
+            </div>
+          </div>
+        </section>
+
         <!-- Primary CTA Button -->
         <button id="confirm-btn" class="cta-button" disabled>
           <span class="cta-text" id="cta-text">Chọn ngày trước nhé 🍃</span>
@@ -113,7 +123,6 @@
             <path d="M118 62 C126 32, 118 16, 104 30 C96 38, 98 55, 98 62 Z" fill="#C0CBA9"/>
             <path d="M114 56 C120 38, 114 26, 106 36 C102 42, 103 52, 103 56 Z" fill="#8FA35E"/>
             
-            <!-- Cute Matcha Leaf on Head -->
             <path d="M48 24 C44 14, 56 12, 60 20 C64 28, 52 30, 48 24 Z" fill="#707E46"/>
             <path d="M50 23 Q54 18 57 20" stroke="#3E481D" stroke-width="1.2" stroke-linecap="round" fill="none"/>
 
@@ -137,8 +146,18 @@
           <h2 class="success-title">Hẹn em hôm đó nhen 🍵✨</h2>
           
           <div class="confirmed-card">
-            <span class="confirmed-label">Khung giờ đã hẹn:</span>
-            <div class="confirmed-time" id="confirmed-time-display">Thứ 6, 02/10 · Tối</div>
+            <div class="confirm-row">
+              <span class="confirmed-label">Khung giờ:</span>
+              <span class="confirmed-time" id="confirmed-time-display">Thứ 6, 02/10 · Tối</span>
+            </div>
+            <div class="confirm-row">
+              <span class="confirmed-label">Món mang qua:</span>
+              <span class="confirmed-val" id="confirmed-gift-display">Bưởi ngọt 🍈</span>
+            </div>
+            <div class="confirm-row">
+              <span class="confirmed-label">Địa chỉ:</span>
+              <span class="confirmed-val" id="confirmed-address-display">Dạ chỗ cũ nha 🏡</span>
+            </div>
           </div>
 
           <p class="success-note">Anh lưu lịch rồi, gần tới hôm đó anh nhắn em trước nhé! ✨</p>
@@ -153,6 +172,6 @@
     </div>
   </main>
 
-  <script src="script.js?v=2.1"></script>
+  <script src="script.js?v=2.3"></script>
 </body>
 </html>

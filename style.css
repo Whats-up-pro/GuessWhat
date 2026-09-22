@@ -398,7 +398,135 @@ canvas, #particle-canvas, #heart-canvas {
 }
 
 /* ==========================================================================
-   5. ASTRYX PRIMARY CTA BUTTON
+   5. TẦNG 3: EXTRA QUESTIONS (Quà mang qua & Địa chỉ nhà)
+   ========================================================================== */
+.extra-section {
+  width: 100%;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  transition: all var(--duration-medium) var(--ease-bounce);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.extra-section.active {
+  max-height: 500px;
+  opacity: 1;
+  pointer-events: auto;
+  margin-top: 4px;
+  margin-bottom: 18px;
+}
+
+.extra-block {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.extra-prompt {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+}
+
+.chips-grid {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.choice-chip {
+  background: var(--color-background-card);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-container);
+  padding: 10px 8px;
+  font-family: var(--font-family-heading);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  cursor: pointer;
+  box-shadow: var(--shadow-low);
+  transition: all var(--duration-fast) var(--ease-bounce);
+  outline: none;
+}
+
+.choice-chip:hover {
+  background: #F7FAF0;
+  border-color: var(--color-matcha-leaf);
+  transform: translateY(-1px);
+}
+
+.choice-chip:active {
+  transform: scale(0.96);
+}
+
+.choice-chip.selected {
+  background: linear-gradient(135deg, #E5EFCF 0%, #CFE2B2 100%);
+  border-color: var(--color-border-active);
+  box-shadow: var(--shadow-selected);
+  color: var(--color-matcha-dark);
+  font-weight: 800;
+  transform: scale(1.02);
+}
+
+.address-input-wrap {
+  width: 100%;
+  margin-top: 8px;
+  animation: fadeInSoft var(--duration-fast) var(--ease-standard) forwards;
+}
+
+.address-input-wrap.hidden {
+  display: none;
+}
+
+.address-input-wrap input {
+  width: 100%;
+  padding: 11px 14px;
+  background: #FFFFFF;
+  border: 1.5px solid var(--color-border-emphasized);
+  border-radius: var(--radius-container);
+  font-family: var(--font-family-body);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  outline: none;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: border-color var(--duration-fast) var(--ease-standard);
+}
+
+.address-input-wrap input:focus {
+  border-color: var(--color-border-active);
+  box-shadow: 0 0 0 3px rgba(84, 102, 46, 0.15);
+}
+
+.confirm-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(214, 226, 198, 0.7);
+}
+
+.confirm-row:last-child {
+  border-bottom: none;
+}
+
+.confirmed-val {
+  font-family: var(--font-family-heading);
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  text-align: right;
+  max-width: 60%;
+}
+
+/* ==========================================================================
+   6. ASTRYX PRIMARY CTA BUTTON
    ========================================================================== */
 .astryx-button, .cta-button {
   width: 100%;
