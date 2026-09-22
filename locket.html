@@ -4,15 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Locket - Hôm nào tiện để anh ghé em nhỉ?</title>
-  <meta name="description" content="Gửi phản hồi lịch hẹn qua widget Locket phong cách Matcha">
+  <meta name="description" content="Locket Widget hẹn lịch gặp phong cách Matcha">
   
   <!-- Google Fonts: Outfit & Plus Jakarta Sans -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
   
-  <!-- Locket Stylesheet -->
-  <link rel="stylesheet" href="locket.css?v=1.0">
+  <link rel="stylesheet" href="locket.css?v=2.0">
 </head>
 <body>
   <!-- Ambient Matcha Background Glow & Hero Blur -->
@@ -21,333 +20,378 @@
   <div class="ambient-glow glow-bottom"></div>
 
   <main class="locket-app-container">
-    
-    <!-- LOCKET NATIVE TOP BAR (Ref: imthq1/LocketClone HomeTopBar) -->
-    <header class="locket-top-bar">
-      <!-- Profile Button -->
-      <button class="locket-circle-icon-btn" aria-label="Profile" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-          <circle cx="12" cy="7" r="4"></circle>
-        </svg>
-      </button>
 
-      <!-- Center Friends Stadium Pill -->
-      <div class="locket-stadium-pill">
-        <svg class="stadium-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-          <circle cx="9" cy="7" r="4"></circle>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-        </svg>
-        <span class="stadium-label">Bạn bè</span>
-        <span class="stadium-badge">1</span>
+    <!-- ====================================================================
+         VIEW 1: CAMERA & SCHEDULING VIEW (MAIN SCREEN)
+         ==================================================================== -->
+    <div class="screen-view active" id="screen-main">
+      
+      <!-- LOCKET NATIVE TOP BAR (Ref: imthq1/LocketClone & AppStore) -->
+      <header class="locket-top-bar">
+        <!-- Profile Button -->
+        <button class="locket-circle-icon-btn" id="btn-open-friends-left" aria-label="Profile" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </button>
+
+        <!-- Center Friends Stadium Pill -->
+        <button class="locket-stadium-pill" id="btn-open-friends" type="button">
+          <svg class="stadium-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          <span class="stadium-label">Bạn bè</span>
+          <span class="stadium-badge">1</span>
+        </button>
+
+        <!-- Chat Shortcut Button -->
+        <button class="locket-circle-icon-btn" id="btn-open-chat-shortcut" aria-label="Tin nhắn" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </button>
+      </header>
+
+      <!-- POST INFO BAR -->
+      <div class="locket-post-info">
+        <div class="author-avatar">H</div>
+        <span class="author-name">Hoàng</span>
+        <span class="info-dot">·</span>
+        <span class="time-ago">Vừa xong</span>
       </div>
 
-      <!-- Chat Button -->
-      <button class="locket-circle-icon-btn" aria-label="Tin nhắn" type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-        </svg>
-      </button>
-    </header>
+      <!-- 1:1 SQUARE LOCKET VIEWFINDER CARD -->
+      <div class="locket-widget-frame">
+        <div class="widget-inner">
+          
+          <!-- Zoom pill on photo -->
+          <div class="zoom-badge">1.5×</div>
 
-    <!-- MAIN VIEW WRAPPER -->
-    <div class="locket-card-wrapper">
-      
-      <!-- STATE 1: WIDGET INTERACTION -->
-      <section class="locket-view active" id="widget-view">
+          <!-- 3D Table Moment Artwork -->
+          <div class="widget-artwork-container">
+            <img src="assets/hero_square.png" alt="Bàn hẹn cafe ấm cúng" class="widget-moment-img" id="widget-main-img" onerror="this.style.display='none'; document.getElementById('widget-svg-fallback').style.display='block';">
+            
+            <div id="widget-svg-fallback" class="widget-svg-wrap" style="display:none; width:100%; height:100%;">
+              <svg class="matcha-art-svg" viewBox="0 0 400 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="400" height="340" fill="#242E16"/>
+                <circle cx="200" cy="170" r="120" fill="#38471D"/>
+                <circle cx="200" cy="170" r="70" fill="#6E8437"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Authentic Floating Caption Pill -->
+          <div class="locket-floating-caption">
+            <span class="caption-text">Hôm nào tiện để anh ghé em nhỉ?</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- LOCKET CAPSULE TAGS SHEET (SCHEDULING FORM) -->
+      <div class="locket-reaction-panel">
         
-        <!-- LOCKET POST INFO (Ref: imthq1/LocketClone PostInfo) -->
-        <div class="locket-post-info">
-          <div class="author-avatar">H</div>
-          <span class="author-name">Hoàng</span>
-          <span class="info-dot">·</span>
-          <span class="time-ago">Vừa xong</span>
+        <div class="panel-subtitle-wrap">
+          <span class="panel-subtitle">Em xem ngày nào thoải mái nhất nhen</span>
         </div>
 
-        <!-- 1:1 SQUARE LOCKET POST CARD (Ref: imthq1/LocketClone PostCard) -->
-        <div class="locket-widget-frame">
-          <div class="widget-inner">
-
-            <!-- Artwork / Moment Container (3D Cafe Table & Fallback) -->
-            <div class="widget-artwork-container">
-              <img src="assets/hero_square.png" alt="Bàn hẹn cafe ấm cúng" class="widget-moment-img" id="widget-main-img" onerror="this.style.display='none'; document.getElementById('widget-svg-fallback').style.display='block';">
-              <div id="widget-svg-fallback" class="widget-svg-wrap" style="display:none; width:100%; height:100%;">
-                <svg class="matcha-art-svg" viewBox="0 0 400 340" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                  <linearGradient id="bg-grad" x1="0" y1="0" x2="0" y2="340" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#2D3A1B"/>
-                    <stop offset="45%" stop-color="#3D4D26"/>
-                    <stop offset="100%" stop-color="#1F2812"/>
-                  </linearGradient>
-                  
-                  <linearGradient id="cup-grad" x1="160" y1="130" x2="240" y2="280" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#363F32"/>
-                    <stop offset="100%" stop-color="#1B2219"/>
-                  </linearGradient>
-
-                  <linearGradient id="matcha-liquid" x1="150" y1="140" x2="250" y2="180" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#55692B"/>
-                    <stop offset="50%" stop-color="#6E8437"/>
-                    <stop offset="100%" stop-color="#445422"/>
-                  </linearGradient>
-
-                  <linearGradient id="foam-grad" x1="170" y1="150" x2="230" y2="175" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#FBFDF6"/>
-                    <stop offset="100%" stop-color="#E2EAD6"/>
-                  </linearGradient>
-
-                  <linearGradient id="rose-grad-1" x1="80" y1="60" x2="140" y2="120" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#FBE5E9"/>
-                    <stop offset="60%" stop-color="#F5C4CB"/>
-                    <stop offset="100%" stop-color="#EAA6B1"/>
-                  </linearGradient>
-
-                  <linearGradient id="rose-grad-2" x1="260" y1="50" x2="320" y2="110" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#FCEEF1"/>
-                    <stop offset="100%" stop-color="#F7C8D0"/>
-                  </linearGradient>
-                  
-                  <radialGradient id="lamp-light" cx="200" cy="50" r="220" gradientUnits="userSpaceOnUse">
-                    <stop offset="0%" stop-color="#FFF6D6" stop-opacity="0.22"/>
-                    <stop offset="60%" stop-color="#FFDD99" stop-opacity="0.08"/>
-                    <stop offset="100%" stop-color="#FFDD99" stop-opacity="0"/>
-                  </radialGradient>
-                </defs>
-
-                <!-- Background Wall with Warm Lamp Glow -->
-                <rect width="400" height="340" rx="20" fill="url(#bg-grad)"/>
-                <circle cx="200" cy="40" r="240" fill="url(#lamp-light)"/>
-
-                <!-- Delicate Floral Bouquet Behind Cup -->
-                <g class="bouquet-group">
-                  <!-- Greenery Stems -->
-                  <path d="M120 180 Q105 120 85 90" stroke="#718652" stroke-width="3" stroke-linecap="round"/>
-                  <path d="M130 185 Q115 100 135 60" stroke="#7E965D" stroke-width="2.5" stroke-linecap="round"/>
-                  <path d="M270 180 Q285 110 305 75" stroke="#718652" stroke-width="3" stroke-linecap="round"/>
-                  <path d="M260 185 Q280 130 270 80" stroke="#7E965D" stroke-width="2.5" stroke-linecap="round"/>
-                  
-                  <!-- Foliage Leaves -->
-                  <path d="M85 110 Q70 100 80 90 Q95 95 85 110 Z" fill="#8FA86A"/>
-                  <path d="M110 135 Q100 120 115 115 Q125 125 110 135 Z" fill="#9CB576"/>
-                  <path d="M295 100 Q310 90 305 80 Q290 85 295 100 Z" fill="#8FA86A"/>
-                  <path d="M280 130 Q295 118 285 110 Q270 120 280 130 Z" fill="#9CB576"/>
-
-                  <!-- Pastel Flowers (Roses & Wildflowers) -->
-                  <!-- Rose Left -->
-                  <circle cx="115" cy="85" r="28" fill="url(#rose-grad-1)"/>
-                  <path d="M102 82 C105 75, 125 72, 128 82 C125 92, 110 95, 102 82 Z" fill="#E89BA7" opacity="0.6"/>
-                  <path d="M108 85 C112 80, 120 80, 122 86 C120 90, 112 92, 108 85 Z" fill="#D67B8B" opacity="0.8"/>
-                  
-                  <!-- Rose Right -->
-                  <circle cx="285" cy="80" r="24" fill="url(#rose-grad-2)"/>
-                  <path d="M275 78 C278 72, 292 70, 295 78 C292 86, 280 88, 275 78 Z" fill="#E89BA7" opacity="0.6"/>
-
-                  <!-- Blue Tweedia Wildflowers -->
-                  <circle cx="150" cy="65" r="6" fill="#C5D9EB"/>
-                  <circle cx="158" cy="60" r="5" fill="#D8E7F5"/>
-                  <circle cx="145" cy="58" r="5" fill="#D8E7F5"/>
-                  <circle cx="152" cy="62" r="2.5" fill="#FFF2BD"/>
-
-                  <circle cx="255" cy="60" r="6" fill="#C5D9EB"/>
-                  <circle cx="262" cy="55" r="5" fill="#D8E7F5"/>
-                  <circle cx="250" cy="54" r="5" fill="#D8E7F5"/>
-                  <circle cx="256" cy="58" r="2.5" fill="#FFF2BD"/>
-                </g>
-
-                <!-- Wooden Table Surface -->
-                <path d="M20 270 Q200 250 380 270 L390 330 L10 330 Z" fill="#252F18"/>
-                <line x1="20" y1="270" x2="380" y2="270" stroke="#3D4B26" stroke-width="2"/>
-
-                <!-- Matcha Ceramic Saucer -->
-                <ellipse cx="200" cy="255" rx="90" ry="24" fill="#262D24" stroke="#485542" stroke-width="1.5"/>
-                <ellipse cx="200" cy="253" rx="72" ry="17" fill="#1C211B"/>
-
-                <!-- Matcha Ceramic Cup Body -->
-                <path d="M142 165 C142 225, 160 250, 200 250 C240 250, 258 225, 258 165 Z" fill="url(#cup-grad)" stroke="#4A5645" stroke-width="1.8"/>
-
-                <!-- Cup Rim & Matcha Surface -->
-                <ellipse cx="200" cy="165" rx="58" ry="22" fill="#1B2219" stroke="#4F5E49" stroke-width="2"/>
-                <ellipse cx="200" cy="165" rx="53" ry="18" fill="url(#matcha-liquid)"/>
-
-                <!-- Matcha Latte Art Swirl (Heart / Rosette Foam) -->
-                <path d="M200 174 C192 166, 178 156, 185 152 C192 148, 198 154, 200 157 C202 154, 208 148, 215 152 C222 156, 208 166, 200 174 Z" fill="url(#foam-grad)"/>
-                <circle cx="200" cy="153" r="2.5" fill="#445422"/>
-                <path d="M200 150 L200 175" stroke="#445422" stroke-width="1.4" stroke-linecap="round"/>
-
-                <!-- Gentle Steam Wisps -->
-                <path d="M192 135 Q186 115 194 95" stroke="#E6EFE0" stroke-width="1.6" stroke-linecap="round" opacity="0.35"/>
-                <path d="M208 132 Q214 112 206 90" stroke="#E6EFE0" stroke-width="1.4" stroke-linecap="round" opacity="0.3"/>
-              </svg>
-              </div>
-            </div>
-
-            <!-- Authentic Locket Floating Caption Pill (Ref: imthq1/LocketClone PostCard) -->
-            <div class="locket-floating-caption">
-              <span class="caption-text">Hôm nào tiện để anh ghé em nhỉ?</span>
-            </div>
-
+        <!-- TIER 1: DATE CAPSULES -->
+        <div class="form-group">
+          <div class="date-pills-row" role="radiogroup" aria-label="Chọn ngày hẹn">
+            <button type="button" class="locket-pill-btn date-pill" data-date="fri" data-label="Thứ 6, 02/10">
+              <span class="pill-weekday">THỨ 6</span>
+              <span class="pill-date">02/10</span>
+            </button>
+            
+            <button type="button" class="locket-pill-btn date-pill" data-date="sat" data-label="Thứ 7, 03/10">
+              <span class="pill-weekday">THỨ 7</span>
+              <span class="pill-date">03/10</span>
+            </button>
           </div>
         </div>
 
-        <!-- QUICK RESPONSE FORM (Ref: imthq1/LocketClone FriendPostActions) -->
-        <div class="locket-reaction-panel">
-          <div class="panel-subtitle-wrap">
-            <span class="panel-subtitle">Em xem ngày nào thoải mái nhất nhen</span>
+        <!-- TIER 2: TIME CAPSULES (Contextual reveal) -->
+        <div class="form-group time-group hidden" id="time-group">
+          <label class="group-label">
+            <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <span>Khung giờ tiện nhất</span>
+          </label>
+          <div class="chips-flex" id="time-chips-container">
+            <!-- Dynamically populated -->
+          </div>
+        </div>
+
+        <!-- TIER 3A: GIFT CAPSULES -->
+        <div class="form-group">
+          <label class="group-label">
+            <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 12 20 22 4 22 4 12"></polyline>
+              <rect x="2" y="7" width="20" height="5"></rect>
+              <line x1="12" y1="22" x2="12" y2="7"></line>
+              <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+              <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+            </svg>
+            <span>Anh ghé mang gì qua cho em nhen?</span>
+          </label>
+          <div class="chips-flex" id="gift-chips-container">
+            <button type="button" class="tag-chip selected" data-gift="Bưởi ngọt">Bưởi ngọt</button>
+            <button type="button" class="tag-chip" data-gift="Matcha latte">Matcha latte</button>
+            <button type="button" class="tag-chip" data-gift="Bánh ngọt">Bánh ngọt</button>
+            <button type="button" class="tag-chip" data-gift="Bất ngờ nhen">Bất ngờ nhen</button>
+          </div>
+        </div>
+
+        <!-- TIER 3B: ADDRESS CAPSULES -->
+        <div class="form-group">
+          <label class="group-label">
+            <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>Vẫn ở chỗ cũ đúng hông nè?</span>
+          </label>
+          <div class="chips-flex two-cols" id="address-chips-container">
+            <button type="button" class="tag-chip selected" data-address-type="old">Dạ chỗ cũ nha</button>
+            <button type="button" class="tag-chip" data-address-type="new">Em đổi chỗ mới</button>
           </div>
           
-          <!-- TIER 1: DATE SELECTOR -->
-          <div class="form-group">
-            <label class="group-label">
-              <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-              <span>Chọn ngày</span>
-            </label>
-
-            <div class="date-pills-row" role="radiogroup" aria-label="Chọn ngày hẹn">
-              <button type="button" class="locket-pill-btn date-pill" data-date="fri" data-label="Thứ 6, 02/10">
-                <span class="pill-weekday">THỨ 6</span>
-                <span class="pill-date">02/10</span>
-              </button>
-              
-              <button type="button" class="locket-pill-btn date-pill" data-date="sat" data-label="Thứ 7, 03/10">
-                <span class="pill-weekday">THỨ 7</span>
-                <span class="pill-date">03/10</span>
-              </button>
-            </div>
+          <div class="address-input-collapse hidden" id="address-input-collapse">
+            <input type="text" id="custom-address-input" class="locket-text-input" placeholder="Nhập địa chỉ mới giúp anh nhen..." autocomplete="off">
           </div>
+        </div>
 
-          <!-- TIER 2: TIME SLOT (Revealed conditionally) -->
-          <div class="form-group time-group hidden" id="time-group">
-            <label class="group-label">
-              <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"></circle>
-                <polyline points="12 6 12 12 16 14"></polyline>
-              </svg>
-              <span>Khung giờ tiện nhất</span>
-            </label>
-            <div class="chips-flex" id="time-chips-container">
-              <!-- Dynamically rendered -->
-            </div>
-          </div>
+      </div>
 
-          <!-- TIER 3A: GIFT SELECTION -->
-          <div class="form-group">
-            <label class="group-label">
-              <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="20 12 20 22 4 22 4 12"></polyline>
-                <rect x="2" y="7" width="20" height="5"></rect>
-                <line x1="12" y1="22" x2="12" y2="7"></line>
-                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
-                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
-              </svg>
-              <span>Anh ghé mang gì qua cho em nhen?</span>
-            </label>
-            <div class="chips-flex" id="gift-chips-container">
-              <button type="button" class="tag-chip selected" data-gift="Bưởi ngọt">Bưởi ngọt</button>
-              <button type="button" class="tag-chip" data-gift="Matcha latte">Matcha latte</button>
-              <button type="button" class="tag-chip" data-gift="Bánh ngọt">Bánh ngọt</button>
-              <button type="button" class="tag-chip" data-gift="Bất ngờ nhen">Bất ngờ nhen</button>
-            </div>
-          </div>
-
-          <!-- TIER 3B: ADDRESS SELECTION -->
-          <div class="form-group">
-            <label class="group-label">
-              <svg class="label-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                <circle cx="12" cy="10" r="3"></circle>
-              </svg>
-              <span>Vẫn ở chỗ cũ đúng hông nè?</span>
-            </label>
-            <div class="chips-flex two-cols" id="address-chips-container">
-              <button type="button" class="tag-chip selected" data-address-type="old">Dạ chỗ cũ nha</button>
-              <button type="button" class="tag-chip" data-address-type="new">Em đổi chỗ mới</button>
-            </div>
-            
-            <!-- Accordion Slide Input -->
-            <div class="address-input-collapse hidden" id="address-input-collapse">
-              <input type="text" id="custom-address-input" class="locket-text-input" placeholder="Nhập địa chỉ mới giúp anh nhen..." autocomplete="off">
-            </div>
-          </div>
-
-          <!-- PRIMARY SUBMIT BUTTON -->
-          <button type="button" class="locket-submit-btn" id="locket-submit-btn" disabled>
-            <span class="btn-text" id="btn-text">Chọn ngày và giờ trước nhen</span>
-            <svg class="btn-send-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+      <!-- CAMERA / SHUTTER CONTROL BAR (Exact match to real Locket screenshot) -->
+      <footer class="locket-camera-controls">
+        
+        <!-- Row 1: Flash, Double-Ring Shutter Send Button, Flip Camera -->
+        <div class="shutter-row">
+          <!-- Flash Icon Button -->
+          <button type="button" class="control-side-btn" id="btn-flash" aria-label="Flash">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
             </svg>
           </button>
 
-        </div>
-      </section>
-
-      <!-- STATE 2: CONFIRMATION / DELIVERED SCREEN -->
-      <section class="locket-view" id="delivered-view">
-        <div class="delivered-card">
-          
-          <!-- Delivery Status Pill -->
-          <div class="delivery-status-header">
-            <div class="check-circle">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-            </div>
-            <div class="delivery-text">
-              <span class="delivery-badge">ĐÃ GỬI PHẢN HỒI</span>
-              <span class="delivery-time">Tin nhắn đã chuyển thẳng đến anh</span>
-            </div>
-          </div>
-
-          <!-- Summary Sheet -->
-          <div class="summary-sheet">
-            <h2 class="summary-title">Lịch hẹn đã chốt</h2>
-
-            <div class="summary-item">
-              <span class="item-label">Thời gian</span>
-              <span class="item-value" id="summary-datetime">-</span>
-            </div>
-
-            <div class="summary-item">
-              <span class="item-label">Món mang qua</span>
-              <span class="item-value" id="summary-gift">-</span>
-            </div>
-
-            <div class="summary-item">
-              <span class="item-label">Địa điểm</span>
-              <span class="item-value" id="summary-address">-</span>
-            </div>
-          </div>
-
-          <!-- Warm Goodbye Note -->
-          <div class="delivered-footer">
-            <p class="warm-note">Hẹn gặp em hôm đó nhé!</p>
-            <button type="button" class="reselect-btn" id="reselect-btn">
-              <span>Thay đổi lịch</span>
+          <!-- THE ICONIC DOUBLE-RING LOCKET SHUTTER / SEND BUTTON -->
+          <div class="shutter-button-wrapper">
+            <button type="button" class="locket-shutter-btn" id="locket-shutter-btn" disabled aria-label="Gửi phản hồi">
+              <div class="shutter-outer-ring">
+                <div class="shutter-inner-circle">
+                  <svg class="shutter-send-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                  </svg>
+                </div>
+              </div>
             </button>
+            <span class="shutter-status-hint" id="shutter-hint">Chọn ngày & giờ trước nhé</span>
           </div>
 
+          <!-- Camera Flip Button -->
+          <button type="button" class="control-side-btn" id="btn-flip" aria-label="Lật camera">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="23 4 23 10 17 10"></polyline>
+              <polyline points="1 20 1 14 7 14"></polyline>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+          </button>
         </div>
-      </section>
+
+        <!-- Row 2: "Lịch sử" Button (Exact match to Red Box screenshot) -->
+        <div class="history-pill-row">
+          <button type="button" class="history-thumbnail-pill" id="btn-open-history">
+            <img src="assets/hero_square.png" alt="Thumb" class="history-thumb-img">
+            <span class="history-pill-text">Lịch sử</span>
+          </button>
+          <div class="history-chevron">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+        </div>
+
+      </footer>
 
     </div>
 
-    <!-- FOOTER SIGNATURE -->
+    <!-- ====================================================================
+         VIEW 2: CHAT / DELIVERED CONVERSATION VIEW (Ref: Screenshot 1)
+         ==================================================================== -->
+    <div class="screen-view" id="screen-chat">
+      
+      <!-- Chat Header -->
+      <header class="chat-header">
+        <button type="button" class="chat-back-btn" id="btn-back-to-main" aria-label="Quay lại">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="chat-author-pill">
+          <div class="chat-author-avatar">H</div>
+          <span class="chat-author-title">Hoàng</span>
+        </div>
+
+        <div class="chat-header-spacer"></div>
+      </header>
+
+      <!-- Chat Stream Body -->
+      <div class="chat-stream-body">
+        
+        <div class="chat-timestamp-label" id="chat-timestamp">Hôm nay</div>
+
+        <!-- Sent Post Message Embed -->
+        <div class="chat-post-embed">
+          <div class="embed-header">
+            <div class="author-avatar small">H</div>
+            <span class="embed-author">Hoàng</span>
+            <span class="embed-time">Vừa xong</span>
+          </div>
+
+          <div class="embed-image-frame">
+            <img src="assets/hero_square.png" alt="Moment" class="embed-img">
+            <div class="embed-caption">Hôm nào tiện để anh ghé em nhỉ?</div>
+          </div>
+        </div>
+
+        <!-- Response Bubble 1 (Her Confirmed Choice) -->
+        <div class="chat-bubble-row incoming">
+          <div class="chat-bubble match-card">
+            <div class="bubble-title">Lịch hẹn em chọn nè:</div>
+            <div class="bubble-meta" id="chat-bubble-datetime">Thứ 6, 02/10 · Tối muộn</div>
+            <div class="bubble-detail" id="chat-bubble-gift">Món mang qua: Bưởi ngọt</div>
+            <div class="bubble-detail" id="chat-bubble-address">Địa chỉ: Dạ chỗ cũ nha</div>
+          </div>
+        </div>
+
+        <!-- Response Bubble 2 (His Warm Response) -->
+        <div class="chat-bubble-row outgoing">
+          <div class="chat-bubble reply">
+            <span>Hẹn gặp em hôm đó nhé! Đã nhận được tin của em rồi.</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Chat Bottom Action Bar -->
+      <footer class="chat-bottom-bar">
+        <div class="chat-input-fake">
+          <span class="fake-placeholder">Đã gửi đến anh thành công</span>
+          <button type="button" class="btn-reschedule" id="btn-reschedule-chat">
+            <span>Chọn lại lịch</span>
+          </button>
+        </div>
+      </footer>
+
+    </div>
+
+    <!-- ====================================================================
+         BOTTOM SHEET MODAL: YOUR FRIENDS (Ref: 2 Friends Screenshots)
+         ==================================================================== -->
+    <div class="sheet-backdrop hidden" id="friends-backdrop">
+      <div class="locket-bottom-sheet" id="friends-sheet">
+        
+        <!-- Drag Handle -->
+        <div class="sheet-drag-handle"></div>
+
+        <div class="sheet-header">
+          <h2 class="sheet-title">Your Friends</h2>
+          <p class="sheet-subtitle">1 out of 20 friends added</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="sheet-search-wrap">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" class="sheet-search-input" placeholder="Add a new friend" readonly>
+        </div>
+
+        <!-- Friends List -->
+        <div class="friends-list">
+          
+          <!-- Friend 1: Hoàng (Active Host) -->
+          <div class="friend-item">
+            <div class="friend-avatar-wrap">
+              <div class="friend-avatar-circle">H</div>
+            </div>
+            <div class="friend-info">
+              <span class="friend-name">Hoàng</span>
+              <span class="friend-status">Đang chờ lịch hẹn của em</span>
+            </div>
+            <button type="button" class="friend-action-btn connected">Đã kết nối</button>
+          </div>
+
+          <!-- Add new friend special action (Ref: Screenshot 2) -->
+          <div class="friend-item action-item">
+            <div class="friend-avatar-wrap sparkle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L15 8L21 9L17 14L18 20L12 17L6 20L7 14L3 9L9 8L12 2Z"></path>
+              </svg>
+            </div>
+            <div class="friend-info">
+              <span class="friend-name">Add a new friend</span>
+            </div>
+            <div class="chevron-right">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sheet Dismiss Button -->
+        <button type="button" class="sheet-close-btn" id="btn-close-friends">Đóng</button>
+
+      </div>
+    </div>
+
+    <!-- ====================================================================
+         MODAL: HISTORY / MEMORIES (Ref: Screenshot 2 History)
+         ==================================================================== -->
+    <div class="sheet-backdrop hidden" id="history-backdrop">
+      <div class="history-full-modal" id="history-modal">
+        
+        <header class="history-top-nav">
+          <button type="button" class="history-back-camera" id="btn-back-camera">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+              <polyline points="18 15 12 9 6 15"></polyline>
+            </svg>
+            <span>Camera</span>
+          </button>
+        </header>
+
+        <div class="history-content-center">
+          <div class="history-card-frame">
+            <img src="assets/hero_square.png" alt="History Memory" class="history-main-img">
+            <div class="history-caption-pill">Bàn hẹn cafe 2 tách</div>
+          </div>
+          <div class="history-date-badge">23 tháng 9, 2026</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- APP FOOTER -->
     <footer class="locket-footer">
-      <span>Matcha Locket Concept</span>
+      <span>Matcha Locket Experience</span>
       <span class="dot-sep">·</span>
-      <a href="index.html" class="switch-link">Xem bản Classic</a>
+      <a href="index.html" class="switch-link">Bản Classic</a>
     </footer>
 
   </main>
 
-  <!-- Locket Application Script -->
-  <script src="locket.js?v=1.0"></script>
+  <script src="locket.js?v=2.0"></script>
 </body>
 </html>

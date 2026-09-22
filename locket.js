@@ -1,8 +1,14 @@
 /**
  * ==========================================================================
- * Matcha Locket Widget Application Logic
- * Interactive scheduling, Web Audio micro-feedback, and Telegram Bot dispatch
- * Zero-Emoji Policy | Clean Typography | Tactile Feedback
+ * Matcha Locket Web App Logic (v2.0 Native Multi-Screen)
+ * Controls:
+ * - Date/Time/Gift/Address state selection
+ * - Double-Ring Shutter Send button validation
+ * - Screen transition: Main Screen -> Chat Screen (with Telegram API dispatch)
+ * - Friends Bottom Sheet modal
+ * - History / Memories Modal
+ * - Web Audio pop synthesis
+ * Zero-Emoji Policy | Clean Typography | Astryx Dark Matcha
  * ==========================================================================
  */
 
@@ -25,7 +31,7 @@
     ]
   };
 
-  // --- State ---
+  // --- App State ---
   const state = {
     selectedDateKey: null,
     selectedDateLabel: null,
@@ -56,7 +62,7 @@
       osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(freq * 1.5, audioCtx.currentTime + duration);
 
-      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.09, audioCtx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
 
       osc.connect(gain);
@@ -70,6 +76,9 @@
   }
 
   // --- DOM Elements ---
+  const screenMain = document.getElementById('screen-main');
+  const screenChat = document.getElementById('screen-chat');
+
   const datePills = document.querySelectorAll('.date-pill');
   const timeGroup = document.getElementById('time-group');
   const timeChipsContainer = document.getElementById('time-chips-container');
@@ -77,17 +86,33 @@
   const addressChips = document.querySelectorAll('#address-chips-container .tag-chip');
   const addressInputCollapse = document.getElementById('address-input-collapse');
   const customAddressInput = document.getElementById('custom-address-input');
-  const submitBtn = document.getElementById('locket-submit-btn');
-  const btnText = document.getElementById('btn-text');
 
-  const widgetView = document.getElementById('widget-view');
-  const deliveredView = document.getElementById('delivered-view');
-  const summaryDatetime = document.getElementById('summary-datetime');
-  const summaryGift = document.getElementById('summary-gift');
-  const summaryAddress = document.getElementById('summary-address');
-  const reselectBtn = document.getElementById('reselect-btn');
+  const shutterBtn = document.getElementById('locket-shutter-btn');
+  const shutterHint = document.getElementById('shutter-hint');
 
-  // --- Handlers: Date Selection ---
+  // Modals & Sheets
+  const friendsBackdrop = document.getElementById('friends-backdrop');
+  const btnOpenFriends = document.getElementById('btn-open-friends');
+  const btnOpenFriendsLeft = document.getElementById('btn-open-friends-left');
+  const btnCloseFriends = document.getElementById('btn-close-friends');
+
+  const historyBackdrop = document.getElementById('history-backdrop');
+  const btnOpenHistory = document.getElementById('btn-open-history');
+  const btnBackCamera = document.getElementById('btn-back-camera');
+
+  const btnOpenChatShortcut = document.getElementById('btn-open-chat-shortcut');
+  const btnBackToMain = document.getElementById('btn-back-to-main');
+  const btnRescheduleChat = document.getElementById('btn-reschedule-chat');
+
+  const chatBubbleDatetime = document.getElementById('chat-bubble-datetime');
+  const chatBubbleGift = document.getElementById('chat-bubble-gift');
+  const chatBubbleAddress = document.getElementById('chat-bubble-address');
+  const chatTimestamp = document.getElementById('chat-timestamp');
+
+  const btnFlash = document.getElementById('btn-flash');
+  const btnFlip = document.getElementById('btn-flip');
+
+  // --- Date Selection ---
   datePills.forEach(pill => {
     pill.addEventListener('click', function () {
       playPopSound(480);
@@ -103,16 +128,16 @@
       state.selectedTimeLabel = null;
 
       renderTimeSlots(dateKey);
-      updateSubmitState();
+      updateShutterState();
     });
   });
 
-  // --- Render Time Slots for Selected Date ---
+  // --- Render Time Slots ---
   function renderTimeSlots(dateKey) {
     timeChipsContainer.innerHTML = '';
     const slots = TIME_SLOTS[dateKey] || [];
 
-    slots.forEach((slot, index) => {
+    slots.forEach(slot => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'tag-chip';
@@ -127,7 +152,7 @@
 
         state.selectedTimeId = this.dataset.timeId;
         state.selectedTimeLabel = this.dataset.timeLabel;
-        updateSubmitState();
+        updateShutterState();
       });
 
       timeChipsContainer.appendChild(btn);
@@ -146,7 +171,7 @@
     }
   }
 
-  // --- Handlers: Gift Selection ---
+  // --- Gift Selection ---
   giftChips.forEach(chip => {
     chip.addEventListener('click', function () {
       playPopSound(520);
@@ -156,7 +181,7 @@
     });
   });
 
-  // --- Handlers: Address Selection ---
+  // --- Address Selection ---
   addressChips.forEach(chip => {
     chip.addEventListener('click', function () {
       playPopSound(500);
@@ -179,31 +204,34 @@
     state.customAddress = this.value.trim();
   });
 
-  // --- Submit State Validation ---
-  function updateSubmitState() {
+  // --- Update Shutter Button State ---
+  function updateShutterState() {
     if (!state.selectedDateKey) {
-      submitBtn.disabled = true;
-      btnText.textContent = 'Chọn ngày trước nhen';
+      shutterBtn.disabled = true;
+      shutterHint.textContent = 'Chọn ngày trước nhé';
+      shutterHint.style.color = 'var(--text-secondary)';
       return;
     }
 
     if (!state.selectedTimeId) {
-      submitBtn.disabled = true;
-      btnText.textContent = 'Chọn khung giờ tiện nhất nhen';
+      shutterBtn.disabled = true;
+      shutterHint.textContent = 'Chọn khung giờ tiện nhất nhen';
+      shutterHint.style.color = 'var(--text-secondary)';
       return;
     }
 
-    submitBtn.disabled = false;
-    btnText.textContent = 'Gửi phản hồi cho anh';
+    shutterBtn.disabled = false;
+    shutterHint.textContent = 'Bấm nút để gửi cho anh';
+    shutterHint.style.color = 'var(--matcha-brand)';
   }
 
-  // --- Submit & Dispatch via Telegram ---
-  submitBtn.addEventListener('click', async function () {
-    if (submitBtn.disabled) return;
+  // --- Shutter Send Action -> Dispatch to Telegram & Switch to Chat ---
+  shutterBtn.addEventListener('click', async function () {
+    if (shutterBtn.disabled) return;
 
-    playPopSound(660, 0.1);
-    submitBtn.disabled = true;
-    btnText.textContent = 'Đang gửi phản hồi...';
+    playPopSound(720, 0.12);
+    shutterBtn.disabled = true;
+    shutterHint.textContent = 'Đang gửi...';
 
     const addressText = state.addressType === 'new' && state.customAddress
       ? `Địa chỉ mới: ${state.customAddress}`
@@ -232,13 +260,15 @@
       console.warn('Locket dispatch fallback:', err);
     }
 
-    // Switch view to Delivered screen
-    summaryDatetime.textContent = `${state.selectedDateLabel} · ${state.selectedTimeLabel}`;
-    summaryGift.textContent = state.selectedGift;
-    summaryAddress.textContent = addressText;
+    // Populate Chat Screen
+    chatBubbleDatetime.textContent = `${state.selectedDateLabel} · ${state.selectedTimeLabel}`;
+    chatBubbleGift.textContent = `Món mang qua: ${state.selectedGift}`;
+    chatBubbleAddress.textContent = `Địa chỉ: ${addressText}`;
+    chatTimestamp.textContent = `Hôm nay lúc ${new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' })}`;
 
-    widgetView.classList.remove('active');
-    deliveredView.classList.add('active');
+    // Transition to Chat View
+    screenMain.classList.remove('active');
+    screenChat.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
@@ -257,14 +287,75 @@
     return response.json();
   }
 
-  // --- Reselect Button ---
-  reselectBtn.addEventListener('click', function () {
-    playPopSound(440);
-    deliveredView.classList.remove('active');
-    widgetView.classList.add('active');
-    submitBtn.disabled = false;
-    btnText.textContent = 'Gửi phản hồi cho anh';
+  // --- Modal: Your Friends Bottom Sheet ---
+  function openFriendsSheet() {
+    playPopSound(500);
+    friendsBackdrop.classList.remove('hidden');
+  }
+
+  function closeFriendsSheet() {
+    playPopSound(420);
+    friendsBackdrop.classList.add('hidden');
+  }
+
+  btnOpenFriends.addEventListener('click', openFriendsSheet);
+  btnOpenFriendsLeft.addEventListener('click', openFriendsSheet);
+  btnCloseFriends.addEventListener('click', closeFriendsSheet);
+  friendsBackdrop.addEventListener('click', function (e) {
+    if (e.target === friendsBackdrop) closeFriendsSheet();
+  });
+
+  // --- Modal: History Full Screen ---
+  function openHistory() {
+    playPopSound(540);
+    historyBackdrop.classList.remove('hidden');
+  }
+
+  function closeHistory() {
+    playPopSound(420);
+    historyBackdrop.classList.add('hidden');
+  }
+
+  btnOpenHistory.addEventListener('click', openHistory);
+  btnBackCamera.addEventListener('click', closeHistory);
+  historyBackdrop.addEventListener('click', function (e) {
+    if (e.target === historyBackdrop) closeHistory();
+  });
+
+  // --- Screen Navigation: Chat View Controls ---
+  btnOpenChatShortcut.addEventListener('click', function () {
+    playPopSound(500);
+    screenMain.classList.remove('active');
+    screenChat.classList.add('active');
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  function returnToMain() {
+    playPopSound(460);
+    screenChat.classList.remove('active');
+    screenMain.classList.add('active');
+    shutterBtn.disabled = false;
+    updateShutterState();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  btnBackToMain.addEventListener('click', returnToMain);
+  btnRescheduleChat.addEventListener('click', returnToMain);
+
+  // --- Fun Micro-Interactions: Flash & Flip ---
+  let flashActive = false;
+  btnFlash.addEventListener('click', function () {
+    playPopSound(600);
+    flashActive = !flashActive;
+    this.style.color = flashActive ? 'var(--matcha-brand)' : 'var(--text-primary)';
+  });
+
+  let flipAngle = 0;
+  btnFlip.addEventListener('click', function () {
+    playPopSound(580);
+    flipAngle += 180;
+    this.querySelector('svg').style.transform = `rotate(${flipAngle}deg)`;
+    this.querySelector('svg').style.transition = 'transform 0.4s var(--ease-spring)';
   });
 
 })();
