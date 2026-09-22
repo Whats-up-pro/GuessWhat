@@ -10,10 +10,10 @@ async function sendTelegramNotification(timeSlot) {
     return;
   }
 
-  const text = `🐾 <b>TING TING! EM ẤY CHỐT LỊCH NÈ</b> 🐾\n\n` +
-               `💌 <b>Lịch đã chọn:</b> <code>${timeSlot}</code>\n` +
+  const text = `🍵 <b>TING TING! EM ẤY CHỐT LỊCH NÈ</b> 🍵\n\n` +
+               `🍃 <b>Lịch đã chọn:</b> <code>${timeSlot}</code>\n` +
                `⏰ <b>Thời điểm bấm:</b> ${new Date().toLocaleTimeString('vi-VN')} (${new Date().toLocaleDateString('vi-VN')})\n\n` +
-               `🐱 <i>Chúc hai bạn có một buổi hẹn thật vui nha! ✨</i>`;
+               `🐱 <i>Chúc hai bạn có một buổi hẹn matcha thật ngọt ngào nha! ✨</i>`;
 
   try {
     await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`, {
@@ -52,8 +52,8 @@ class CuteAudio {
       const gain = this.ctx.createGain();
 
       osc.type = 'sine';
-      osc.frequency.setValueAtTime(450, this.ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(750, this.ctx.currentTime + 0.08);
+      osc.frequency.setValueAtTime(460, this.ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(780, this.ctx.currentTime + 0.08);
 
       gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
@@ -94,16 +94,17 @@ class CuteAudio {
   }
 }
 
-// Dreamy Floating Hearts Particle System
-class FloatingHearts {
+// Astryx Matcha Floating Botanical Particles System (Leaves, Hearts & Sparkles)
+class MatchaParticles {
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.particles = [];
     this.burstParticles = [];
+    this.colors = ['#707E46', '#C0CBA9', '#8FA35E', '#A4B87C', '#DCE3CE', '#3E481D'];
     this.resize();
     window.addEventListener('resize', () => this.resize());
-    this.initPassiveHearts();
+    this.initPassiveParticles();
     this.animate();
   }
 
@@ -112,37 +113,45 @@ class FloatingHearts {
     this.canvas.height = window.innerHeight;
   }
 
-  initPassiveHearts() {
-    for (let i = 0; i < 14; i++) {
+  initPassiveParticles() {
+    const types = ['leaf', 'heart', 'sparkle'];
+    for (let i = 0; i < 16; i++) {
       this.particles.push({
+        type: types[Math.floor(Math.random() * types.length)],
         x: Math.random() * this.canvas.width,
         y: Math.random() * this.canvas.height,
         size: Math.random() * 8 + 6,
-        speedY: Math.random() * 0.4 + 0.2,
-        driftX: (Math.random() - 0.5) * 0.3,
-        opacity: Math.random() * 0.25 + 0.1,
-        color: ['#FFAEC0', '#FFD2DC', '#E8DCFC', '#FFE5D4'][Math.floor(Math.random() * 4)]
+        speedY: Math.random() * 0.35 + 0.15,
+        driftX: (Math.random() - 0.5) * 0.35,
+        rotation: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.02,
+        opacity: Math.random() * 0.28 + 0.12,
+        color: this.colors[Math.floor(Math.random() * this.colors.length)]
       });
     }
   }
 
   burst(count = 35) {
+    const types = ['leaf', 'heart', 'sparkle'];
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
       const speed = Math.random() * 8 + 3;
       this.burstParticles.push({
+        type: types[Math.floor(Math.random() * types.length)],
         x: this.canvas.width / 2,
         y: this.canvas.height / 2,
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed - 2,
-        size: Math.random() * 12 + 10,
+        size: Math.random() * 12 + 8,
+        rotation: Math.random() * Math.PI * 2,
+        rotSpeed: (Math.random() - 0.5) * 0.08,
         opacity: 1,
-        color: ['#FF7B95', '#FFA5B8', '#FFD2DC', '#F0D4FC', '#FFDAC6'][Math.floor(Math.random() * 5)]
+        color: this.colors[Math.floor(Math.random() * this.colors.length)]
       });
     }
   }
 
-  drawHeart(x, y, size, color, opacity) {
+  drawHeart(x, y, size, opacity, color) {
     this.ctx.save();
     this.ctx.globalAlpha = opacity;
     this.ctx.fillStyle = color;
@@ -157,27 +166,72 @@ class FloatingHearts {
     this.ctx.restore();
   }
 
+  drawLeaf(x, y, size, rotation, opacity, color) {
+    this.ctx.save();
+    this.ctx.globalAlpha = opacity;
+    this.ctx.fillStyle = color;
+    this.ctx.translate(x, y);
+    this.ctx.rotate(rotation);
+    this.ctx.beginPath();
+    this.ctx.moveTo(0, -size);
+    this.ctx.bezierCurveTo(size * 0.75, -size * 0.4, size * 0.75, size * 0.4, 0, size);
+    this.ctx.bezierCurveTo(-size * 0.75, size * 0.4, -size * 0.75, -size * 0.4, 0, -size);
+    this.ctx.closePath();
+    this.ctx.fill();
+    this.ctx.restore();
+  }
+
+  drawSparkle(x, y, size, opacity, color) {
+    this.ctx.save();
+    this.ctx.globalAlpha = opacity;
+    this.ctx.fillStyle = color;
+    this.ctx.translate(x, y);
+    this.ctx.beginPath();
+    for (let i = 0; i < 4; i++) {
+      this.ctx.lineTo(Math.cos((i * Math.PI) / 2) * size, Math.sin((i * Math.PI) / 2) * size);
+      this.ctx.lineTo(
+        Math.cos((i * Math.PI) / 2 + Math.PI / 4) * (size * 0.3),
+        Math.sin((i * Math.PI) / 2 + Math.PI / 4) * (size * 0.3)
+      );
+    }
+    this.ctx.closePath();
+    this.ctx.fill();
+    this.ctx.restore();
+  }
+
+  renderParticle(p) {
+    if (p.type === 'leaf') {
+      this.drawLeaf(p.x, p.y, p.size, p.rotation, Math.max(0, p.opacity), p.color);
+    } else if (p.type === 'heart') {
+      this.drawHeart(p.x, p.y, p.size, Math.max(0, p.opacity), p.color);
+    } else {
+      this.drawSparkle(p.x, p.y, p.size, Math.max(0, p.opacity), p.color);
+    }
+  }
+
   animate() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
     this.particles.forEach(p => {
       p.y -= p.speedY;
       p.x += p.driftX;
+      p.rotation += p.rotSpeed;
       if (p.y < -20) {
         p.y = this.canvas.height + 20;
         p.x = Math.random() * this.canvas.width;
       }
-      this.drawHeart(p.x, p.y, p.size, p.color, p.opacity);
+      this.renderParticle(p);
     });
 
     for (let i = this.burstParticles.length - 1; i >= 0; i--) {
       const bp = this.burstParticles[i];
       bp.x += bp.vx;
       bp.y += bp.vy;
-      bp.vy += 0.22;
-      bp.opacity -= 0.016;
+      bp.vy += 0.2;
+      bp.rotation += bp.rotSpeed;
+      bp.opacity -= 0.015;
 
-      this.drawHeart(bp.x, bp.y, bp.size, bp.color, Math.max(0, bp.opacity));
+      this.renderParticle(bp);
 
       if (bp.opacity <= 0) {
         this.burstParticles.splice(i, 1);
@@ -202,7 +256,8 @@ const PERIOD_DATA = {
 // Main App Logic
 document.addEventListener('DOMContentLoaded', () => {
   const audio = new CuteAudio();
-  const hearts = new FloatingHearts(document.getElementById('heart-canvas'));
+  const canvasElement = document.getElementById('particle-canvas') || document.getElementById('heart-canvas');
+  const particles = new MatchaParticles(canvasElement);
 
   const dateCards = document.querySelectorAll('.date-card');
   const periodSection = document.getElementById('period-section');
@@ -246,7 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Both Date & Period are selected -> Enable CTA
         confirmBtn.removeAttribute('disabled');
-        ctaText.textContent = 'Chốt lịch này ✨';
+        ctaText.textContent = 'Chốt lịch này 🍵✨';
       });
 
       periodOptions.appendChild(btn);
@@ -257,7 +312,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update CTA button to soft reminder
     confirmBtn.setAttribute('disabled', 'true');
-    ctaText.textContent = 'Chọn buổi nữa nha 🐾';
+    ctaText.textContent = 'Chọn buổi nữa nha 🍃';
   }
 
   // Handle Date Selection (Tier 1)
@@ -287,7 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const finalSchedule = `${selectedDateLabel} · ${selectedPeriodLabel}`;
 
     audio.playSuccessSparkle();
-    hearts.burst(40);
+    particles.burst(40);
 
     // Gửi Telegram thông báo
     sendTelegramNotification(finalSchedule);
@@ -311,3 +366,4 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 150);
   });
 });
+

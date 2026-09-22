@@ -1,38 +1,62 @@
-:root {
-  /* Soft Kawaii Pastel Palette */
-  --bg-cream: #FAF6F0;
-  --card-bg: #FFFBF9;
-  
-  --color-blush: #FFD2DC;
-  --color-blush-saturated: #FFA5B8;
-  --color-pink-primary: #FF7B95;
-  --color-pink-hover: #F46985;
-  
-  --color-lavender: #EAE5F8;
-  --color-peach: #FFE5D4;
-  --color-peach-saturated: #FFCDB2;
-  
-  --text-title: #433333;
-  --text-subtitle: #857271;
-  --text-option: #4A3A39;
-  --text-muted: #A3908F;
+/* ==========================================================================
+   Astryx Design - Matcha Theme
+   An earthy green theme inspired by matcha tea and natural botanicals.
+   Core palette: #3E481D, #707E46, #C0CBA9, #F0F0E0, #FFFFFF
+   ========================================================================== */
 
+:root {
+  /* Astryx Design Core Matcha Tokens */
+  --color-accent: #3E481D;
+  --color-accent-muted: rgba(62, 72, 29, 0.08);
+  --color-neutral: rgba(62, 72, 29, 0.06);
+  --color-background-surface: #FFFFFF;
+  --color-background-body: #F0F0E0;
+  --color-background-muted: #F0F0E0;
+  --color-background-card: #FFFFFF;
+  --color-background-popover: #FFFFFF;
+  --color-background-inverted: #3E481D;
+  
+  /* Text */
+  --color-text-primary: #3E481D;
+  --color-text-secondary: #707E46;
+  --color-text-disabled: #C0CBA9;
+  --color-text-accent: #3E481D;
+  --color-on-accent: #FFFFFF;
+  --color-on-dark: #FFFFFF;
+  --color-on-light: #3E481D;
+  
+  /* Borders */
+  --color-border: #DCE3CE;
+  --color-border-emphasized: #B7C29E;
+  
+  /* Status & Categorical Greens */
+  --color-success: #4D9900;
+  --color-success-muted: rgba(77, 153, 0, 0.12);
+  --color-sage: #C0CBA9;
+  --color-sage-light: #E8EED9;
+  --color-matcha-dark: #3E481D;
+  --color-matcha-olive: #707E46;
+  --color-matcha-leaf: #8FA35E;
+  --color-matcha-foam: #F6F8EF;
+  
   /* Typography */
-  --font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-family-body: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-family-heading: 'DM Sans', 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
   
   /* Dimensions & Shapes */
   --radius-bubble: 22px;
   --radius-card: 28px;
+  --radius-full: 9999px;
 
-  /* Shadows */
-  --shadow-subtle: 0 10px 25px -10px rgba(184, 150, 145, 0.16);
-  --shadow-bubble: 0 6px 18px -4px rgba(175, 140, 135, 0.12);
-  --shadow-selected: 0 10px 24px -4px rgba(255, 123, 149, 0.32);
-  --shadow-btn: 0 12px 24px -6px rgba(255, 123, 149, 0.42);
+  /* Shadows (Earthy, serene matcha shadows) */
+  --shadow-subtle: 0 10px 25px -10px rgba(62, 72, 29, 0.12);
+  --shadow-bubble: 0 4px 14px -3px rgba(62, 72, 29, 0.08);
+  --shadow-selected: 0 10px 24px -4px rgba(62, 72, 29, 0.22);
+  --shadow-btn: 0 12px 24px -6px rgba(62, 72, 29, 0.32);
   
   /* Transitions */
   --spring-transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
-  --smooth-transition: all 0.2s ease-out;
+  --smooth-transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -43,13 +67,13 @@
 }
 
 body {
-  font-family: var(--font-family);
-  background-color: var(--bg-cream);
+  font-family: var(--font-family-body);
+  background-color: var(--color-background-body);
   background-image: 
-    radial-gradient(circle at 15% 15%, #FDF0F3 0%, transparent 45%),
-    radial-gradient(circle at 85% 85%, #F2EDFB 0%, transparent 45%),
-    radial-gradient(circle at 50% 50%, #FFF7F0 0%, transparent 60%);
-  color: var(--text-title);
+    radial-gradient(circle at 12% 15%, #E4EBD1 0%, transparent 48%),
+    radial-gradient(circle at 88% 85%, #DAE4C4 0%, transparent 48%),
+    radial-gradient(circle at 50% 50%, #FAFBF6 0%, transparent 65%);
+  color: var(--color-text-primary);
   min-height: 100vh;
   min-height: 100dvh;
   display: flex;
@@ -60,8 +84,8 @@ body {
   user-select: none;
 }
 
-/* Floating Hearts Background Canvas */
-#heart-canvas {
+/* Floating Particles (Matcha leaves, tea petals, sparkles) Canvas */
+#particle-canvas {
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -111,7 +135,7 @@ body {
   }
 }
 
-/* 1. Mascot: Thu nhỏ khoảng 18% so với bản cũ */
+/* 1. Mascot Container */
 .mascot-container {
   width: 95px;
   height: 82px;
@@ -144,32 +168,33 @@ body {
   100% { transform: scale(1.03) translateY(-3px); }
 }
 
-/* 2 & 3. Typography: Title giữ to, line-height gọn 1.1; khoảng cách subtitle nhỏ gọn */
+/* 2 & 3. Typography Header */
 .header-section {
   margin-bottom: 16px;
 }
 
 .page-title {
+  font-family: var(--font-family-heading);
   font-size: clamp(30px, 8vw, 36px);
   font-weight: 800;
-  color: var(--text-title);
+  color: var(--color-text-primary);
   line-height: 1.1;
   letter-spacing: -0.4px;
 }
 
-.paw-icon {
+.matcha-badge {
   display: inline-block;
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
-.page-title:hover .paw-icon {
-  transform: rotate(20deg) scale(1.2);
+.page-title:hover .matcha-badge {
+  transform: rotate(18deg) scale(1.2);
 }
 
 .page-subtitle {
   font-size: 16px;
   font-weight: 600;
-  color: var(--text-subtitle);
+  color: var(--color-text-secondary);
   margin-top: 6px;
 }
 
@@ -183,8 +208,8 @@ body {
 }
 
 .date-card {
-  background: var(--card-bg);
-  border: 2px solid rgba(245, 230, 226, 0.8);
+  background: var(--color-background-card);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius-bubble);
   padding: 16px 14px;
   display: flex;
@@ -194,7 +219,7 @@ body {
   gap: 3px;
   cursor: pointer;
   box-shadow: var(--shadow-bubble);
-  font-family: inherit;
+  font-family: var(--font-family-heading);
   transition: var(--spring-transition);
   outline: none;
 }
@@ -203,7 +228,7 @@ body {
   font-size: 13.5px;
   font-weight: 700;
   letter-spacing: 0.8px;
-  color: var(--text-muted);
+  color: var(--color-text-secondary);
   text-transform: uppercase;
   transition: var(--smooth-transition);
 }
@@ -211,15 +236,16 @@ body {
 .date-num {
   font-size: 26px;
   font-weight: 800;
-  color: var(--text-title);
+  color: var(--color-text-primary);
   letter-spacing: -0.3px;
   transition: var(--smooth-transition);
 }
 
 .date-card:hover {
-  background: #FFF5F7;
-  border-color: var(--color-blush);
+  background: #F7F9F0;
+  border-color: var(--color-border-emphasized);
   transform: translateY(-2px);
+  box-shadow: 0 6px 16px -4px rgba(62, 72, 29, 0.14);
 }
 
 .date-card:active {
@@ -227,18 +253,18 @@ body {
 }
 
 .date-card.selected {
-  background: linear-gradient(135deg, #FFE8EE 0%, #FFD6DF 100%);
-  border-color: #FFA5B8;
+  background: linear-gradient(135deg, #E6ECCE 0%, #D4E0B8 100%);
+  border-color: var(--color-matcha-olive);
   box-shadow: var(--shadow-selected);
   transform: scale(1.025);
 }
 
 .date-card.selected .date-day {
-  color: #9B3B52;
+  color: #59672E;
 }
 
 .date-card.selected .date-num {
-  color: #5C202F;
+  color: var(--color-text-primary);
 }
 
 /* TẦNG 2: PHẦN CHỌN BUỔI (ANIMATE REVEAL) */
@@ -265,7 +291,7 @@ body {
 .period-prompt {
   font-size: 15px;
   font-weight: 700;
-  color: var(--text-subtitle);
+  color: var(--color-text-secondary);
   margin-bottom: 10px;
 }
 
@@ -281,8 +307,8 @@ body {
   max-width: 190px;
   min-height: 56px;
   padding: 12px 18px;
-  background: var(--card-bg);
-  border: 2px solid rgba(245, 230, 226, 0.85);
+  background: var(--color-background-card);
+  border: 2px solid var(--color-border);
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -290,17 +316,17 @@ body {
   gap: 8px;
   cursor: pointer;
   box-shadow: var(--shadow-bubble);
-  font-family: inherit;
+  font-family: var(--font-family-heading);
   font-size: 17.5px;
   font-weight: 700;
-  color: var(--text-option);
+  color: var(--color-text-primary);
   transition: var(--spring-transition);
   outline: none;
 }
 
 .period-bubble:hover {
-  background: #FFF5F7;
-  border-color: var(--color-blush);
+  background: #F7F9F0;
+  border-color: var(--color-border-emphasized);
   transform: translateY(-2px);
 }
 
@@ -309,29 +335,29 @@ body {
 }
 
 .period-bubble.selected {
-  background: linear-gradient(135deg, #FFE8EE 0%, #FFD6DF 100%);
-  border-color: #FFA5B8;
+  background: linear-gradient(135deg, #E6ECCE 0%, #D4E0B8 100%);
+  border-color: var(--color-matcha-olive);
   box-shadow: var(--shadow-selected);
-  color: #5C202F;
+  color: var(--color-text-primary);
   font-weight: 800;
   transform: scale(1.025);
 }
 
-/* 4. NÚT CTA: Khởi đầu mờ/disabled, sau khi chọn mới rực rỡ */
+/* 4. NÚT CTA (Astryx Pill Button) */
 .cta-button {
   width: 100%;
   min-height: 60px;
-  border-radius: var(--radius-bubble);
+  border-radius: var(--radius-full);
   padding: 14px 24px;
   cursor: pointer;
-  font-family: inherit;
+  font-family: var(--font-family-heading);
   transition: var(--spring-transition);
   display: flex;
   justify-content: center;
   align-items: center;
   outline: none;
   border: none;
-  background: linear-gradient(135deg, var(--color-pink-primary) 0%, #FF92A9 100%);
+  background: linear-gradient(135deg, #3E481D 0%, #5A692C 100%);
   box-shadow: var(--shadow-btn);
   margin-top: 6px;
 }
@@ -339,14 +365,15 @@ body {
 .cta-text {
   font-size: 18.5px;
   font-weight: 800;
-  color: #FFFFFF;
+  color: var(--color-on-accent);
   letter-spacing: 0.3px;
   transition: var(--smooth-transition);
 }
 
 .cta-button:not(:disabled):hover {
+  background: linear-gradient(135deg, #4A5623 0%, #687A34 100%);
   transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 16px 28px -6px rgba(255, 123, 149, 0.48);
+  box-shadow: 0 16px 28px -6px rgba(62, 72, 29, 0.45);
 }
 
 .cta-button:not(:disabled):active {
@@ -359,15 +386,17 @@ body {
   opacity: 0.55;
   cursor: not-allowed;
   box-shadow: none;
-  background: #E8D9D7;
+  background: #DCE3CE;
 }
 
 .cta-button:disabled .cta-text {
-  color: #8C7876;
+  color: #8C9975;
   font-size: 16.5px;
 }
 
-/* SUCCESS SCREEN STATE */
+/* ==========================================================================
+   SUCCESS SCREEN STATE
+   ========================================================================== */
 .success-content {
   width: 100%;
   display: flex;
@@ -377,17 +406,18 @@ body {
 }
 
 .success-title {
+  font-family: var(--font-family-heading);
   font-size: clamp(28px, 7.5vw, 34px);
   font-weight: 800;
-  color: var(--text-title);
+  color: var(--color-text-primary);
   line-height: 1.25;
   margin-bottom: 20px;
 }
 
 .confirmed-card {
   width: 100%;
-  background: linear-gradient(135deg, #FFF0F4 0%, #F5ECFD 100%);
-  border: 2px solid #FFCCD7;
+  background: linear-gradient(135deg, #FAFBF5 0%, #E8EED9 100%);
+  border: 2px solid var(--color-border-emphasized);
   border-radius: var(--radius-bubble);
   padding: 18px 22px;
   box-shadow: var(--shadow-subtle);
@@ -399,22 +429,23 @@ body {
 
 .confirmed-label {
   font-size: 14px;
-  font-weight: 600;
-  color: #9B7882;
+  font-weight: 700;
+  color: var(--color-text-secondary);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 
 .confirmed-time {
+  font-family: var(--font-family-heading);
   font-size: 22px;
   font-weight: 800;
-  color: #4A1E29;
+  color: var(--color-text-primary);
 }
 
 .success-note {
   font-size: 15px;
   font-weight: 600;
-  color: var(--text-subtitle);
+  color: var(--color-text-secondary);
   margin-bottom: 22px;
   line-height: 1.45;
 }
@@ -422,19 +453,19 @@ body {
 .subtle-link-btn {
   background: transparent;
   border: none;
-  font-family: inherit;
+  font-family: var(--font-family-heading);
   font-size: 14.5px;
   font-weight: 700;
-  color: var(--text-muted);
+  color: var(--color-text-secondary);
   cursor: pointer;
   padding: 8px 16px;
-  border-radius: 999px;
+  border-radius: var(--radius-full);
   transition: var(--smooth-transition);
 }
 
 .subtle-link-btn:hover {
-  color: var(--color-pink-primary);
-  background: rgba(255, 123, 149, 0.08);
+  color: var(--color-text-primary);
+  background: rgba(62, 72, 29, 0.08);
 }
 
 .subtle-link-btn:active {
@@ -456,3 +487,4 @@ body {
     font-size: 17px;
   }
 }
+

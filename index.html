@@ -3,17 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Khi nào anh qua được nè? 🐾</title>
+  <title>Khi nào anh qua được nè? 🍵</title>
   <meta name="description" content="Pick giúp anh một ngày tiện để anh ghé nhà nhé!">
-  <!-- Google Fonts: Quicksand -->
+  <!-- Google Fonts: DM Sans (Astryx Theme) & Quicksand (Rounded friendly accents) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..800;1,9..40,400..800&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- Soft Floating Hearts Canvas -->
-  <canvas id="heart-canvas"></canvas>
+  <!-- Matcha Floating Leaves & Sparkles Canvas -->
+  <canvas id="particle-canvas"></canvas>
 
   <main class="page-container">
     <div class="card-wrap">
@@ -21,34 +21,55 @@
       <!-- STATE 1: SELECTION FORM -->
       <div class="view-screen active" id="booking-view">
         
-        <!-- Floating Kawaii Cat Mascot (Scaled down ~18%) -->
+        <!-- Floating Matcha Cat Mascot -->
         <div class="mascot-container">
           <svg class="cat-mascot" viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="80" cy="132" rx="42" ry="7" fill="rgba(230, 200, 195, 0.45)"/>
-            <path d="M42 62 C34 32, 42 16, 56 30 C64 38, 62 55, 62 62 Z" fill="#FFB7C5"/>
-            <path d="M46 56 C40 38, 46 26, 54 36 C58 42, 57 52, 57 56 Z" fill="#FF8FA3"/>
-            <path d="M118 62 C126 32, 118 16, 104 30 C96 38, 98 55, 98 62 Z" fill="#FFB7C5"/>
-            <path d="M114 56 C120 38, 114 26, 106 36 C102 42, 103 52, 103 56 Z" fill="#FF8FA3"/>
-            <ellipse cx="80" cy="80" rx="48" ry="42" fill="#FFF8F6"/>
-            <ellipse cx="52" cy="88" rx="8" ry="5" fill="#FFAEC0" opacity="0.65"/>
-            <ellipse cx="108" cy="88" rx="8" ry="5" fill="#FFAEC0" opacity="0.65"/>
-            <path d="M57 78 Q63 70 69 78" stroke="#5E4E4D" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-            <path d="M91 78 Q97 70 103 78" stroke="#5E4E4D" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-            <ellipse cx="80" cy="83" rx="3.5" ry="2.5" fill="#FF8FA3"/>
-            <path d="M74 88 Q80 93 80 87 Q80 93 86 88" stroke="#5E4E4D" stroke-width="2.6" stroke-linecap="round" fill="none"/>
-            <path d="M38 80 L22 78" stroke="#D1B8B4" stroke-width="2" stroke-linecap="round"/>
-            <path d="M38 86 L20 89" stroke="#D1B8B4" stroke-width="2" stroke-linecap="round"/>
-            <path d="M122 80 L138 78" stroke="#D1B8B4" stroke-width="2" stroke-linecap="round"/>
-            <path d="M122 86 L140 89" stroke="#D1B8B4" stroke-width="2" stroke-linecap="round"/>
-            <ellipse cx="64" cy="116" rx="10" ry="8" fill="#FFFDFD" stroke="#F0DCD8" stroke-width="1.5"/>
-            <ellipse cx="96" cy="116" rx="10" ry="8" fill="#FFFDFD" stroke="#F0DCD8" stroke-width="1.5"/>
+            <!-- Cat Head Shadow -->
+            <ellipse cx="80" cy="132" rx="42" ry="7" fill="rgba(62, 72, 29, 0.12)"/>
+            
+            <!-- Left Ear -->
+            <path d="M42 62 C34 32, 42 16, 56 30 C64 38, 62 55, 62 62 Z" fill="#C0CBA9"/>
+            <path d="M46 56 C40 38, 46 26, 54 36 C58 42, 57 52, 57 56 Z" fill="#8FA35E"/>
+            
+            <!-- Right Ear -->
+            <path d="M118 62 C126 32, 118 16, 104 30 C96 38, 98 55, 98 62 Z" fill="#C0CBA9"/>
+            <path d="M114 56 C120 38, 114 26, 106 36 C102 42, 103 52, 103 56 Z" fill="#8FA35E"/>
+
+            <!-- Cute Matcha Leaf on Head -->
+            <path d="M48 24 C44 14, 56 12, 60 20 C64 28, 52 30, 48 24 Z" fill="#707E46"/>
+            <path d="M50 23 Q54 18 57 20" stroke="#3E481D" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+            
+            <!-- Cat Head & Body Base -->
+            <ellipse cx="80" cy="80" rx="48" ry="42" fill="#FDFFF8"/>
+            
+            <!-- Blush Cheeks -->
+            <ellipse cx="52" cy="88" rx="8" ry="5" fill="#B7C99D" opacity="0.7"/>
+            <ellipse cx="108" cy="88" rx="8" ry="5" fill="#B7C99D" opacity="0.7"/>
+            
+            <!-- Eyes (Gentle happy curved eyes) -->
+            <path d="M57 78 Q63 70 69 78" stroke="#3E481D" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            <path d="M91 78 Q97 70 103 78" stroke="#3E481D" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+            
+            <!-- Cute Nose & Mouth -->
+            <ellipse cx="80" cy="83" rx="3.5" ry="2.5" fill="#707E46"/>
+            <path d="M74 88 Q80 93 80 87 Q80 93 86 88" stroke="#3E481D" stroke-width="2.6" stroke-linecap="round" fill="none"/>
+            
+            <!-- Whiskers -->
+            <path d="M38 80 L22 78" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
+            <path d="M38 86 L20 89" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
+            <path d="M122 80 L138 78" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
+            <path d="M122 86 L140 89" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
+            
+            <!-- Little Paws resting -->
+            <ellipse cx="64" cy="116" rx="10" ry="8" fill="#FDFFF8" stroke="#DCE3CE" stroke-width="1.5"/>
+            <ellipse cx="96" cy="116" rx="10" ry="8" fill="#FDFFF8" stroke="#DCE3CE" stroke-width="1.5"/>
           </svg>
         </div>
 
         <!-- Typography -->
         <header class="header-section">
-          <h1 class="page-title">Khi nào anh qua được nè? <span class="paw-icon">🐾</span></h1>
-          <p class="page-subtitle">Pick ngày tiện cho em nhé</p>
+          <h1 class="page-title">Khi nào anh qua được nè? <span class="matcha-badge">🍵</span></h1>
+          <p class="page-subtitle">Pick ngày tiện cho em nhé 🍃</p>
         </header>
 
         <!-- Tier 1: 2 Horizontal Date Cards -->
@@ -66,7 +87,7 @@
 
         <!-- Tier 2: Period Reveal Section (Horizontal Bubbles) -->
         <section class="period-section" id="period-section" aria-live="polite">
-          <p class="period-prompt">Em tiện lúc nào? 🐾</p>
+          <p class="period-prompt">Em tiện lúc nào? 🍵</p>
           <div class="period-options" id="period-options">
             <!-- Dynamically injected period buttons -->
           </div>
@@ -74,7 +95,7 @@
 
         <!-- Primary CTA Button -->
         <button id="confirm-btn" class="cta-button" disabled>
-          <span class="cta-text" id="cta-text">Chọn một ngày trước nha 🐾</span>
+          <span class="cta-text" id="cta-text">Chọn một ngày trước nha 🍃</span>
         </button>
 
       </div>
@@ -85,36 +106,44 @@
         <!-- Winking/Celebrating Mascot -->
         <div class="mascot-container celebration">
           <svg class="cat-mascot" viewBox="0 0 160 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <ellipse cx="80" cy="132" rx="42" ry="7" fill="rgba(230, 200, 195, 0.45)"/>
-            <path d="M42 62 C34 32, 42 16, 56 30 C64 38, 62 55, 62 62 Z" fill="#FFB7C5"/>
-            <path d="M46 56 C40 38, 46 26, 54 36 C58 42, 57 52, 57 56 Z" fill="#FF8FA3"/>
-            <path d="M118 62 C126 32, 118 16, 104 30 C96 38, 98 55, 98 62 Z" fill="#FFB7C5"/>
-            <path d="M114 56 C120 38, 114 26, 106 36 C102 42, 103 52, 103 56 Z" fill="#FF8FA3"/>
-            <ellipse cx="80" cy="80" rx="48" ry="42" fill="#FFF8F6"/>
-            <ellipse cx="52" cy="88" rx="8" ry="5" fill="#FFAEC0" opacity="0.8"/>
-            <ellipse cx="108" cy="88" rx="8" ry="5" fill="#FFAEC0" opacity="0.8"/>
-            <path d="M56 78 Q63 68 70 78" stroke="#5E4E4D" stroke-width="3.8" stroke-linecap="round" fill="none"/>
-            <path d="M90 78 Q97 68 104 78" stroke="#5E4E4D" stroke-width="3.8" stroke-linecap="round" fill="none"/>
-            <ellipse cx="80" cy="83" rx="3.5" ry="2.5" fill="#FF8FA3"/>
-            <path d="M74 88 Q80 98 86 88" fill="#FF8FA3" stroke="#5E4E4D" stroke-width="2.4" stroke-linecap="round"/>
-            <path d="M38 80 L22 78" stroke="#D1B8B4" stroke-width="2" stroke-linecap="round"/>
-            <path d="M38 86 L20 89" stroke="#D1B8B4" stroke-width="2" stroke-linecap="round"/>
-            <path d="M122 80 L138 78" stroke="#D1B8B4" stroke-width="2" stroke-linecap="round"/>
-            <path d="M122 86 L140 89" stroke="#D1B8B4" stroke-width="2" stroke-linecap="round"/>
-            <ellipse cx="52" cy="100" rx="10" ry="9" fill="#FFFDFD" stroke="#F0DCD8" stroke-width="1.5"/>
-            <ellipse cx="108" cy="100" rx="10" ry="9" fill="#FFFDFD" stroke="#F0DCD8" stroke-width="1.5"/>
+            <ellipse cx="80" cy="132" rx="42" ry="7" fill="rgba(62, 72, 29, 0.12)"/>
+            <path d="M42 62 C34 32, 42 16, 56 30 C64 38, 62 55, 62 62 Z" fill="#C0CBA9"/>
+            <path d="M46 56 C40 38, 46 26, 54 36 C58 42, 57 52, 57 56 Z" fill="#8FA35E"/>
+            <path d="M118 62 C126 32, 118 16, 104 30 C96 38, 98 55, 98 62 Z" fill="#C0CBA9"/>
+            <path d="M114 56 C120 38, 114 26, 106 36 C102 42, 103 52, 103 56 Z" fill="#8FA35E"/>
+            
+            <!-- Cute Matcha Leaf on Head -->
+            <path d="M48 24 C44 14, 56 12, 60 20 C64 28, 52 30, 48 24 Z" fill="#707E46"/>
+            <path d="M50 23 Q54 18 57 20" stroke="#3E481D" stroke-width="1.2" stroke-linecap="round" fill="none"/>
+
+            <ellipse cx="80" cy="80" rx="48" ry="42" fill="#FDFFF8"/>
+            <ellipse cx="52" cy="88" rx="8" ry="5" fill="#B7C99D" opacity="0.85"/>
+            <ellipse cx="108" cy="88" rx="8" ry="5" fill="#B7C99D" opacity="0.85"/>
+            <!-- Big happy open curved eyes with sparkle -->
+            <path d="M56 78 Q63 68 70 78" stroke="#3E481D" stroke-width="3.8" stroke-linecap="round" fill="none"/>
+            <path d="M90 78 Q97 68 104 78" stroke="#3E481D" stroke-width="3.8" stroke-linecap="round" fill="none"/>
+            <ellipse cx="80" cy="83" rx="3.5" ry="2.5" fill="#707E46"/>
+            <!-- Open mouth happy -->
+            <path d="M74 88 Q80 98 86 88" fill="#8FA35E" stroke="#3E481D" stroke-width="2.4" stroke-linecap="round"/>
+            <path d="M38 80 L22 78" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
+            <path d="M38 86 L20 89" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
+            <path d="M122 80 L138 78" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
+            <path d="M122 86 L140 89" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
+            <!-- Raising Paws -->
+            <ellipse cx="52" cy="100" rx="10" ry="9" fill="#FDFFF8" stroke="#DCE3CE" stroke-width="1.5"/>
+            <ellipse cx="108" cy="100" rx="10" ry="9" fill="#FDFFF8" stroke="#DCE3CE" stroke-width="1.5"/>
           </svg>
         </div>
 
         <div class="success-content">
-          <h2 class="success-title">Yay, hẹn gặp em hôm đó 🐱💗</h2>
+          <h2 class="success-title">Yay, hẹn gặp em hôm đó 🍵✨</h2>
           
           <div class="confirmed-card">
             <span class="confirmed-label">Thời gian đã chốt:</span>
             <div class="confirmed-time" id="confirmed-time-display">Thứ 6, 02/10 · Tối</div>
           </div>
 
-          <p class="success-note">Anh note lại lịch rồi nhen, tới hôm đó anh qua liền! ✨</p>
+          <p class="success-note">Anh note lại lịch rồi nhen, hôm đó làm ly matcha rồi qua liền! 🍃</p>
 
           <button id="change-btn" class="subtle-link-btn">
             Chọn lại khung giờ khác
