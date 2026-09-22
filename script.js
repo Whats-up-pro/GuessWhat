@@ -1,7 +1,7 @@
 // Cấu hình Telegram nhận thông báo
 const TELEGRAM_CONFIG = {
-  botToken: "YOUR_BOT_TOKEN", // Token bot Telegram của bạn
-  chatId: "YOUR_CHAT_ID"      // Chat ID của bạn
+  botToken: "YOUR_BOT_TOKEN", // Thay token bot Telegram của bạn vào đây
+  chatId: "YOUR_CHAT_ID"      // Thay chat ID của bạn vào đây
 };
 
 async function sendTelegramNotification(timeSlot) {
@@ -11,7 +11,7 @@ async function sendTelegramNotification(timeSlot) {
   }
 
   const text = `🐾 <b>TING TING! EM ẤY CHỐT LỊCH NÈ</b> 🐾\n\n` +
-               `💌 <b>Khung giờ chọn:</b> <code>${timeSlot}</code>\n` +
+               `💌 <b>Lịch đã chọn:</b> <code>${timeSlot}</code>\n` +
                `⏰ <b>Thời điểm bấm:</b> ${new Date().toLocaleTimeString('vi-VN')} (${new Date().toLocaleDateString('vi-VN')})\n\n` +
                `🐱 <i>Chúc hai bạn có một buổi hẹn thật vui nha! ✨</i>`;
 
@@ -30,7 +30,7 @@ async function sendTelegramNotification(timeSlot) {
   }
 }
 
-// Soft Cute Pop Audio Synthesizer (Zero asset dependencies)
+// Soft Cute Pop Audio Synthesizer
 class CuteAudio {
   constructor() {
     this.ctx = null;
@@ -52,7 +52,6 @@ class CuteAudio {
       const gain = this.ctx.createGain();
 
       osc.type = 'sine';
-      // Gentle bubble pop pitch bend
       osc.frequency.setValueAtTime(450, this.ctx.currentTime);
       osc.frequency.exponentialRampToValueAtTime(750, this.ctx.currentTime + 0.08);
 
@@ -64,9 +63,7 @@ class CuteAudio {
 
       osc.start();
       osc.stop(this.ctx.currentTime + 0.12);
-    } catch (e) {
-      // Audio not supported or autoplay blocked
-    }
+    } catch (e) {}
   }
 
   playSuccessSparkle() {
@@ -74,7 +71,7 @@ class CuteAudio {
       this.init();
       if (this.ctx.state === 'suspended') this.ctx.resume();
 
-      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+      const notes = [523.25, 659.25, 783.99, 1046.50];
       notes.forEach((freq, idx) => {
         setTimeout(() => {
           const osc = this.ctx.createOscillator();
@@ -129,7 +126,7 @@ class FloatingHearts {
     }
   }
 
-  burst(count = 30) {
+  burst(count = 35) {
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
       const speed = Math.random() * 8 + 3;
@@ -163,7 +160,6 @@ class FloatingHearts {
   animate() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    // Passive slow floating
     this.particles.forEach(p => {
       p.y -= p.speedY;
       p.x += p.driftX;
@@ -174,12 +170,11 @@ class FloatingHearts {
       this.drawHeart(p.x, p.y, p.size, p.color, p.opacity);
     });
 
-    // Celebration burst
     for (let i = this.burstParticles.length - 1; i >= 0; i--) {
       const bp = this.burstParticles[i];
       bp.x += bp.vx;
       bp.y += bp.vy;
-      bp.vy += 0.22; // gravity
+      bp.vy += 0.22;
       bp.opacity -= 0.016;
 
       this.drawHeart(bp.x, bp.y, bp.size, bp.color, Math.max(0, bp.opacity));
@@ -193,65 +188,121 @@ class FloatingHearts {
   }
 }
 
-// App Logic
+// Periods configuration per day
+const PERIOD_DATA = {
+  fri: [
+    { id: 'afternoon', label: '☀️ Chiều' },
+    { id: 'evening', label: '🌙 Tối' }
+  ],
+  sat: [
+    { id: 'morning', label: '🌤️ Sáng' }
+  ]
+};
+
+// Main App Logic
 document.addEventListener('DOMContentLoaded', () => {
   const audio = new CuteAudio();
   const hearts = new FloatingHearts(document.getElementById('heart-canvas'));
 
-  const bubbles = document.querySelectorAll('.slot-bubble');
+  const dateCards = document.querySelectorAll('.date-card');
+  const periodSection = document.getElementById('period-section');
+  const periodOptions = document.getElementById('period-options');
   const confirmBtn = document.getElementById('confirm-btn');
+  const ctaText = document.getElementById('cta-text');
+
   const bookingView = document.getElementById('booking-view');
   const successView = document.getElementById('success-view');
   const confirmedTimeDisplay = document.getElementById('confirmed-time-display');
   const changeBtn = document.getElementById('change-btn');
 
-  let selectedTime = null;
+  let selectedDayKey = null;
+  let selectedDateLabel = null;
+  let selectedPeriodLabel = null;
 
-  // Handle slot bubble click
-  bubbles.forEach(bubble => {
-    bubble.addEventListener('click', () => {
-      audio.playPop();
+  // Render period bubbles when a date is selected
+  function renderPeriods(dayKey) {
+    const options = PERIOD_DATA[dayKey] || [];
+    periodOptions.innerHTML = '';
+    selectedPeriodLabel = null;
 
-      bubbles.forEach(b => {
-        b.classList.remove('selected');
-        b.setAttribute('aria-checked', 'false');
+    options.forEach(item => {
+      const btn = document.createElement('button');
+      btn.className = 'period-bubble';
+      btn.type = 'button';
+      btn.setAttribute('role', 'radio');
+      btn.setAttribute('aria-checked', 'false');
+      btn.textContent = item.label;
+
+      btn.addEventListener('click', () => {
+        audio.playPop();
+        periodOptions.querySelectorAll('.period-bubble').forEach(b => {
+          b.classList.remove('selected');
+          b.setAttribute('aria-checked', 'false');
+        });
+
+        btn.classList.add('selected');
+        btn.setAttribute('aria-checked', 'true');
+        selectedPeriodLabel = item.label;
+
+        // Both Date & Period are selected -> Enable CTA
+        confirmBtn.removeAttribute('disabled');
+        ctaText.textContent = 'Chốt lịch này ✨';
       });
 
-      bubble.classList.add('selected');
-      bubble.setAttribute('aria-checked', 'true');
-      selectedTime = bubble.dataset.time;
+      periodOptions.appendChild(btn);
+    });
 
-      // Enable submit button
-      confirmBtn.removeAttribute('disabled');
+    // Reveal the section with smooth animation
+    periodSection.classList.add('active');
+
+    // Update CTA button to soft reminder
+    confirmBtn.setAttribute('disabled', 'true');
+    ctaText.textContent = 'Chọn buổi nữa nha 🐾';
+  }
+
+  // Handle Date Selection (Tier 1)
+  dateCards.forEach(card => {
+    card.addEventListener('click', () => {
+      audio.playPop();
+
+      dateCards.forEach(c => {
+        c.classList.remove('selected');
+        c.setAttribute('aria-checked', 'false');
+      });
+
+      card.classList.add('selected');
+      card.setAttribute('aria-checked', 'true');
+
+      selectedDayKey = card.dataset.day;
+      selectedDateLabel = card.dataset.label;
+
+      renderPeriods(selectedDayKey);
     });
   });
 
-  // Handle confirmation
+  // Handle Confirmation
   confirmBtn.addEventListener('click', () => {
-    if (!selectedTime) return;
+    if (!selectedDateLabel || !selectedPeriodLabel) return;
+
+    const finalSchedule = `${selectedDateLabel} · ${selectedPeriodLabel}`;
 
     audio.playSuccessSparkle();
-    hearts.burst(35);
+    hearts.burst(40);
 
-    // Gửi thông báo về Telegram
-    sendTelegramNotification(selectedTime);
+    // Gửi Telegram thông báo
+    sendTelegramNotification(finalSchedule);
 
-    // Update time display
-    confirmedTimeDisplay.textContent = selectedTime;
+    // Hiển thị lịch đã chốt trên màn hình chúc mừng
+    confirmedTimeDisplay.textContent = finalSchedule;
 
-    // Transition view
+    // Chuyển màn hình
     bookingView.classList.remove('active');
     setTimeout(() => {
       successView.classList.add('active');
     }, 150);
-
-    // Save selection in session storage
-    try {
-      localStorage.setItem('picked_visiting_time', selectedTime);
-    } catch (e) {}
   });
 
-  // Allow re-picking
+  // Re-pick button
   changeBtn.addEventListener('click', () => {
     audio.playPop();
     successView.classList.remove('active');
