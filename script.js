@@ -1,7 +1,7 @@
 // Cấu hình Telegram nhận thông báo
 const TELEGRAM_CONFIG = {
-  botToken: "YOUR_BOT_TOKEN", // Thay token bot Telegram của bạn vào đây
-  chatId: "YOUR_CHAT_ID"      // Thay chat ID của bạn vào đây
+  botToken: "8055369195:AAGzh1Hmu7WLEtaW5QE8hp5zaaAJrqv8lPA",
+  chatId: "6177241794"
 };
 
 async function sendTelegramNotification(timeSlot) {
