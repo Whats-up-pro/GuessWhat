@@ -1,0 +1,801 @@
+/* ==========================================================================
+   Matcha Locket Widget Stylesheet
+   Designed with @astryxdesign Token System & iOS Widget Specs
+   Zero-Emoji Policy | Clean Typography | Tactile Micro-Interactions
+   ========================================================================== */
+
+:root {
+  /* Astryx Core Matcha Palette */
+  --bg-app: #F2F5E8;
+  --bg-surface: #FFFFFF;
+  --bg-surface-elevated: #F8FAF2;
+  --bg-widget: #242E16;
+  --bg-chip: #FFFFFF;
+  --bg-chip-hover: #EDF3E1;
+  --bg-chip-active: #38471D;
+
+  /* Matcha Semantic Greens */
+  --matcha-900: #1E2511;
+  --matcha-800: #2B3618;
+  --matcha-700: #38471D;
+  --matcha-600: #4B5E28;
+  --matcha-500: #647D36;
+  --matcha-400: #85A34E;
+  --matcha-300: #A8C279;
+  --matcha-200: #D0E0AF;
+  --matcha-100: #EBF2DC;
+  --matcha-50: #F6FAF0;
+
+  /* Borders & Dividers */
+  --border-subtle: #DDE6CE;
+  --border-medium: #B8CCA0;
+  --border-strong: #647D36;
+  --border-active: #38471D;
+
+  /* Typography Colors */
+  --text-main: #202812;
+  --text-muted: #5E6D44;
+  --text-light: #8E9E75;
+  --text-inverse: #FFFFFF;
+  --text-inverse-subtle: #D8E4C7;
+
+  /* Astryx Elevation Scale */
+  --shadow-widget: 0 16px 36px -10px rgba(36, 46, 22, 0.28), 0 4px 12px rgba(36, 46, 22, 0.08);
+  --shadow-card: 0 12px 28px -6px rgba(36, 46, 22, 0.12), 0 2px 6px rgba(36, 46, 22, 0.04);
+  --shadow-pill: 0 4px 12px -2px rgba(56, 71, 29, 0.14);
+  --shadow-btn: 0 10px 24px -4px rgba(43, 54, 24, 0.38);
+
+  /* Radius Scale */
+  --radius-widget: 32px;
+  --radius-card: 24px;
+  --radius-pill: 9999px;
+  --radius-input: 16px;
+
+  /* Motion Curves (Astryx Spec) */
+  --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --ease-standard: cubic-bezier(0.24, 1, 0.4, 1);
+  --duration-fast: 160ms;
+  --duration-normal: 280ms;
+}
+
+/* Base Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--bg-app);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 20px 16px 40px;
+  position: relative;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* Ambient Background Light & Blurred Hero */
+.hero-ambient-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('assets/hero_square.png');
+  background-size: cover;
+  background-position: center top;
+  filter: blur(55px) saturate(1.25);
+  opacity: 0.22;
+  pointer-events: none;
+  z-index: 0;
+  transform: scale(1.12);
+}
+
+.ambient-glow {
+  position: fixed;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
+.glow-top {
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(circle, #D8E8BF 0%, rgba(216, 232, 191, 0) 70%);
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.glow-bottom {
+  width: 380px;
+  height: 380px;
+  background: radial-gradient(circle, #E1ECCC 0%, rgba(225, 236, 204, 0) 70%);
+  bottom: -100px;
+  right: -60px;
+}
+
+/* Main Container (Mobile Frame Centered) */
+.locket-app-container {
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* App Header Nav */
+.locket-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brand-badge {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.2px;
+  color: var(--text-inverse);
+  background: var(--matcha-700);
+  padding: 3px 9px;
+  border-radius: var(--radius-pill);
+}
+
+.brand-divider {
+  color: var(--border-medium);
+  font-size: 12px;
+}
+
+.brand-room {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.nav-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding-right: 4px;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--matcha-500);
+  box-shadow: 0 0 0 3px rgba(100, 125, 54, 0.2);
+  animation: pulse-dot 2.4s infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.8; }
+}
+
+.status-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+/* Main Card Wrapper */
+.locket-card-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.locket-view {
+  display: none;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.locket-view.active {
+  display: flex;
+  animation: view-fade-in var(--duration-normal) var(--ease-standard);
+}
+
+@keyframes view-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ==========================================================================
+   THE LOCKET SQUIRCLE WIDGET
+   ========================================================================== */
+
+.locket-widget-frame {
+  width: 100%;
+  background: #1C2313;
+  border-radius: var(--radius-widget);
+  padding: 10px;
+  box-shadow: var(--shadow-widget);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.widget-inner {
+  position: relative;
+  width: 100%;
+  border-radius: calc(var(--radius-widget) - 8px);
+  overflow: hidden;
+  background: #252F19;
+}
+
+/* Top Meta Bar inside Widget */
+.widget-meta-bar {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  right: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 5;
+}
+
+.sender-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(28, 35, 19, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 4px 10px 4px 6px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.avatar-ring {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--matcha-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-icon {
+  width: 13px;
+  height: 13px;
+  stroke: #FFFFFF;
+}
+
+.sender-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.timestamp-pill {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-inverse-subtle);
+  background: rgba(28, 35, 19, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+/* Artwork / Visual */
+.widget-artwork-container {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #242E16;
+  position: relative;
+}
+
+.widget-moment-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s var(--ease-standard);
+}
+
+.locket-widget-frame:hover .widget-moment-img {
+  transform: scale(1.03);
+}
+
+.widget-svg-wrap {
+  width: 100%;
+  height: 100%;
+}
+
+.matcha-art-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+/* Glassmorphism Caption Overlay */
+.widget-caption-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24px 16px 14px;
+  background: linear-gradient(to top, rgba(20, 26, 13, 0.94) 0%, rgba(20, 26, 13, 0.7) 65%, rgba(20, 26, 13, 0) 100%);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  z-index: 4;
+}
+
+.caption-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 17px;
+  font-weight: 700;
+  color: #FFFFFF;
+  letter-spacing: -0.2px;
+}
+
+.caption-sub {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-inverse-subtle);
+}
+
+/* ==========================================================================
+   QUICK RESPONSE PANEL (LOCKET ACTION SHEET)
+   ========================================================================== */
+
+.locket-reaction-panel {
+  background: var(--bg-surface);
+  border-radius: var(--radius-card);
+  padding: 20px 18px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form-group.hidden {
+  display: none;
+}
+
+.group-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.label-icon {
+  width: 15px;
+  height: 15px;
+  color: var(--matcha-600);
+}
+
+/* TIER 1: DATE PILLS */
+.date-pills-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.locket-pill-btn {
+  appearance: none;
+  background: var(--matcha-50);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 14px 12px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  transition: all var(--duration-fast) var(--ease-standard);
+  position: relative;
+}
+
+.locket-pill-btn:hover {
+  background: var(--bg-chip-hover);
+  border-color: var(--border-medium);
+  transform: translateY(-1px);
+}
+
+.locket-pill-btn:active {
+  transform: scale(0.97);
+}
+
+.pill-weekday {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+}
+
+.pill-date {
+  font-family: 'Outfit', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* Selected Date Pill */
+.locket-pill-btn.selected {
+  background: var(--matcha-700);
+  border-color: var(--matcha-800);
+  box-shadow: var(--shadow-pill);
+}
+
+.locket-pill-btn.selected .pill-weekday {
+  color: var(--matcha-200);
+}
+
+.locket-pill-btn.selected .pill-date {
+  color: #FFFFFF;
+}
+
+/* CHIPS FLEX LAYOUT */
+.chips-flex {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chips-flex.two-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* TAG CHIPS */
+.tag-chip {
+  appearance: none;
+  background: var(--bg-surface-elevated);
+  border: 1.5px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 10px 16px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  transition: all var(--duration-fast) var(--ease-standard);
+  text-align: center;
+  flex: 1 1 auto;
+}
+
+.tag-chip:hover {
+  border-color: var(--border-medium);
+  background: var(--bg-chip-hover);
+}
+
+.tag-chip:active {
+  transform: scale(0.96);
+}
+
+/* Selected Chip */
+.tag-chip.selected {
+  background: var(--matcha-700);
+  border-color: var(--matcha-800);
+  color: #FFFFFF;
+  box-shadow: 0 4px 10px -2px rgba(43, 54, 24, 0.2);
+}
+
+/* COLLAPSIBLE ADDRESS INPUT */
+.address-input-collapse {
+  width: 100%;
+  margin-top: 4px;
+  overflow: hidden;
+  transition: all var(--duration-normal) var(--ease-standard);
+}
+
+.address-input-collapse.hidden {
+  display: none;
+}
+
+.locket-text-input {
+  width: 100%;
+  padding: 12px 16px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 13px;
+  border: 1.5px solid var(--border-medium);
+  border-radius: var(--radius-input);
+  background: #FFFFFF;
+  color: var(--text-main);
+  outline: none;
+  transition: border-color var(--duration-fast);
+}
+
+.locket-text-input:focus {
+  border-color: var(--matcha-600);
+  box-shadow: 0 0 0 3px rgba(100, 125, 54, 0.15);
+}
+
+/* PRIMARY SUBMIT BUTTON */
+.locket-submit-btn {
+  appearance: none;
+  background: linear-gradient(135deg, var(--matcha-600) 0%, var(--matcha-800) 100%);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 20px;
+  padding: 16px 20px;
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 6px;
+  box-shadow: var(--shadow-btn);
+  transition: all var(--duration-fast) var(--ease-standard);
+}
+
+.locket-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 28px -4px rgba(43, 54, 24, 0.44);
+}
+
+.locket-submit-btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.locket-submit-btn:disabled {
+  background: #E3EAD8;
+  color: #9AA887;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-send-icon {
+  width: 18px;
+  height: 18px;
+  stroke: currentColor;
+  transition: transform var(--duration-fast);
+}
+
+.locket-submit-btn:hover:not(:disabled) .btn-send-icon {
+  transform: translateX(2px) translateY(-1px);
+}
+
+/* ==========================================================================
+   DELIVERED / CONFIRMATION STATE
+   ========================================================================== */
+
+.delivered-card {
+  background: var(--bg-surface);
+  border-radius: var(--radius-card);
+  padding: 26px 20px;
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  animation: pop-up var(--duration-normal) var(--ease-spring);
+}
+
+@keyframes pop-up {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.delivery-status-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.check-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--matcha-100);
+  color: var(--matcha-700);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.check-circle svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--matcha-700);
+}
+
+.delivery-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.delivery-badge {
+  font-family: 'Outfit', sans-serif;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  color: var(--matcha-600);
+}
+
+.delivery-time {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+/* Summary Sheet */
+.summary-sheet {
+  background: var(--matcha-50);
+  border: 1px solid var(--border-subtle);
+  border-radius: 18px;
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-title {
+  font-family: 'Outfit', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 2px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 13px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed var(--border-subtle);
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.item-label {
+  color: var(--text-muted);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.item-value {
+  color: var(--text-main);
+  font-weight: 700;
+  text-align: right;
+}
+
+/* Delivered Footer */
+.delivered-footer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.warm-note {
+  font-family: 'Outfit', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--matcha-700);
+}
+
+.reselect-btn {
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-pill);
+  padding: 8px 18px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.reselect-btn:hover {
+  background: var(--bg-chip-hover);
+  color: var(--text-main);
+  border-color: var(--border-strong);
+}
+
+/* APP FOOTER */
+.locket-footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-light);
+  padding: 12px 0 20px;
+}
+
+.dot-sep {
+  color: var(--border-medium);
+}
+
+.switch-link {
+  color: var(--matcha-600);
+  text-decoration: none;
+  transition: color var(--duration-fast);
+}
+
+.switch-link:hover {
+  color: var(--matcha-800);
+  text-decoration: underline;
+}
+
+/* ==========================================================================
+   RESPONSIVE ADJUSTMENTS
+   ========================================================================== */
+
+@media (max-width: 360px) {
+  body {
+    padding: 12px 10px 30px;
+  }
+
+  .caption-title {
+    font-size: 15px;
+  }
+
+  .pill-date {
+    font-size: 18px;
+  }
+
+  .tag-chip {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
