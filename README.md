@@ -1,6 +1,6 @@
-# Khi nào tớ qua được nè? 🐾
+# Khi nào anh qua được nè? 🐾
 
-Trang web hẹn lịch tối giản, ấm áp và siêu dễ thương gửi bạn bè.
+Trang web hẹn lịch tối giản, ấm áp và siêu dễ thương gửi người ấy.
 
 🔗 **Link Trực Tiếp:** [https://whats-up-pro.github.io/GuessWhat/](https://whats-up-pro.github.io/GuessWhat/)
 
