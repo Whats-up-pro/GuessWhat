@@ -1,59 +1,35 @@
 /* ==========================================================================
-   Astryx Design - Matcha Theme
-   An earthy green theme inspired by matcha tea and natural botanicals.
-   Core palette: #3E481D, #707E46, #C0CBA9, #F0F0E0, #FFFFFF
+   Matcha Kawaii Theme - Clean & Perfectly Centered
+   Palette: Matcha Cream (#FAFBF6, #F2F5E8), Leaf Green (#6E8341), Deep Olive (#303B19)
    ========================================================================== */
 
 :root {
-  /* Astryx Design Core Matcha Tokens */
-  --color-accent: #3E481D;
-  --color-accent-muted: rgba(62, 72, 29, 0.08);
-  --color-neutral: rgba(62, 72, 29, 0.06);
-  --color-background-surface: #FFFFFF;
-  --color-background-body: #F0F0E0;
-  --color-background-muted: #F0F0E0;
-  --color-background-card: #FFFFFF;
-  --color-background-popover: #FFFFFF;
-  --color-background-inverted: #3E481D;
+  /* Matcha Pastel Tokens */
+  --bg-matcha-body: #F4F6EC;
+  --bg-matcha-card: #FFFFFF;
+  --bg-matcha-subtle: #EDF2DF;
   
-  /* Text */
-  --color-text-primary: #3E481D;
-  --color-text-secondary: #707E46;
-  --color-text-disabled: #C0CBA9;
-  --color-text-accent: #3E481D;
-  --color-on-accent: #FFFFFF;
-  --color-on-dark: #FFFFFF;
-  --color-on-light: #3E481D;
-  
-  /* Borders */
-  --color-border: #DCE3CE;
-  --color-border-emphasized: #B7C29E;
-  
-  /* Status & Categorical Greens */
-  --color-success: #4D9900;
-  --color-success-muted: rgba(77, 153, 0, 0.12);
-  --color-sage: #C0CBA9;
-  --color-sage-light: #E8EED9;
-  --color-matcha-dark: #3E481D;
-  --color-matcha-olive: #707E46;
-  --color-matcha-leaf: #8FA35E;
-  --color-matcha-foam: #F6F8EF;
-  
-  /* Typography */
-  --font-family-body: 'DM Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-family-heading: 'DM Sans', 'Quicksand', -apple-system, BlinkMacSystemFont, sans-serif;
-  
-  /* Dimensions & Shapes */
-  --radius-bubble: 22px;
-  --radius-card: 28px;
-  --radius-full: 9999px;
+  --matcha-border: #D6E2C6;
+  --matcha-border-active: #6E8341;
+  --matcha-leaf: #8FA35E;
+  --matcha-dark: #303B19;
+  --matcha-olive: #54662E;
+  --matcha-muted: #728253;
+  --matcha-disabled: #A5B38F;
 
-  /* Shadows (Earthy, serene matcha shadows) */
-  --shadow-subtle: 0 10px 25px -10px rgba(62, 72, 29, 0.12);
-  --shadow-bubble: 0 4px 14px -3px rgba(62, 72, 29, 0.08);
-  --shadow-selected: 0 10px 24px -4px rgba(62, 72, 29, 0.22);
-  --shadow-btn: 0 12px 24px -6px rgba(62, 72, 29, 0.32);
+  /* Typography */
+  --font-family: 'Quicksand', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   
+  /* Dimensions & Radius */
+  --radius-bubble: 22px;
+  --radius-cta: 24px;
+  
+  /* Shadows */
+  --shadow-subtle: 0 10px 25px -10px rgba(48, 59, 25, 0.12);
+  --shadow-bubble: 0 6px 18px -4px rgba(48, 59, 25, 0.08);
+  --shadow-selected: 0 10px 24px -4px rgba(74, 90, 36, 0.24);
+  --shadow-btn: 0 12px 24px -6px rgba(58, 73, 29, 0.38);
+
   /* Transitions */
   --spring-transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
   --smooth-transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -66,48 +42,62 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-body {
-  font-family: var(--font-family-body);
-  background-color: var(--color-background-body);
-  background-image: 
-    radial-gradient(circle at 12% 15%, #E4EBD1 0%, transparent 48%),
-    radial-gradient(circle at 88% 85%, #DAE4C4 0%, transparent 48%),
-    radial-gradient(circle at 50% 50%, #FAFBF6 0%, transparent 65%);
-  color: var(--color-text-primary);
+html, body {
+  width: 100%;
   min-height: 100vh;
   min-height: 100dvh;
+}
+
+body {
+  font-family: var(--font-family);
+  background-color: var(--bg-matcha-body);
+  background-image: 
+    radial-gradient(circle at 12% 15%, #E5EDD2 0%, transparent 45%),
+    radial-gradient(circle at 88% 85%, #DBE6C3 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, #FAFBF6 0%, transparent 60%);
+  color: var(--matcha-dark);
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  text-align: center;
   overflow-x: hidden;
   position: relative;
   user-select: none;
+  margin: 0;
+  padding: 0;
 }
 
-/* Floating Particles (Matcha leaves, tea petals, sparkles) Canvas */
-#particle-canvas {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
+/* Floating Particles Canvas - Fixed to screen, out of flex flow */
+canvas, #particle-canvas, #heart-canvas {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  pointer-events: none !important;
+  z-index: 0 !important;
 }
 
-/* Main Centered Container */
+/* Main Container - Horizontally & Vertically Centered */
 .page-container {
   width: 100%;
-  max-width: 440px;
+  max-width: 430px;
   padding: 16px 20px;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
+  justify-content: center;
   position: relative;
   z-index: 2;
-  margin: auto;
+  margin: 0 auto;
 }
 
 .card-wrap {
   width: 100%;
-  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Screen Transitions */
@@ -135,7 +125,7 @@ body {
   }
 }
 
-/* 1. Mascot Container */
+/* 1. Mascot Container (Floating Matcha Cat) */
 .mascot-container {
   width: 95px;
   height: 82px;
@@ -168,16 +158,18 @@ body {
   100% { transform: scale(1.03) translateY(-3px); }
 }
 
-/* 2 & 3. Typography Header */
+/* 2. Header & Title */
 .header-section {
   margin-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .page-title {
-  font-family: var(--font-family-heading);
   font-size: clamp(30px, 8vw, 36px);
   font-weight: 800;
-  color: var(--color-text-primary);
+  color: var(--matcha-dark);
   line-height: 1.1;
   letter-spacing: -0.4px;
 }
@@ -194,11 +186,11 @@ body {
 .page-subtitle {
   font-size: 16px;
   font-weight: 600;
-  color: var(--color-text-secondary);
+  color: var(--matcha-muted);
   margin-top: 6px;
 }
 
-/* TẦNG 1: 2 THẺ NGÀY NẰM NGANG */
+/* 3. TẦNG 1: 2 THẺ NGÀY NẰM NGANG - MATCHA KAWAII */
 .dates-grid {
   width: 100%;
   display: grid;
@@ -208,27 +200,27 @@ body {
 }
 
 .date-card {
-  background: var(--color-background-card);
-  border: 2px solid var(--color-border);
+  background: var(--bg-matcha-card);
+  border: 2px solid var(--matcha-border);
   border-radius: var(--radius-bubble);
   padding: 16px 14px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
+  gap: 2px;
   cursor: pointer;
   box-shadow: var(--shadow-bubble);
-  font-family: var(--font-family-heading);
+  font-family: var(--font-family);
   transition: var(--spring-transition);
   outline: none;
 }
 
 .date-day {
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.8px;
-  color: var(--color-text-secondary);
+  color: var(--matcha-muted);
   text-transform: uppercase;
   transition: var(--smooth-transition);
 }
@@ -236,38 +228,39 @@ body {
 .date-num {
   font-size: 26px;
   font-weight: 800;
-  color: var(--color-text-primary);
+  color: var(--matcha-dark);
   letter-spacing: -0.3px;
   transition: var(--smooth-transition);
 }
 
 .date-card:hover {
-  background: #F7F9F0;
-  border-color: var(--color-border-emphasized);
+  background: #F5F8ED;
+  border-color: var(--matcha-leaf);
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px -4px rgba(62, 72, 29, 0.14);
+  box-shadow: 0 8px 18px -4px rgba(84, 102, 46, 0.16);
 }
 
 .date-card:active {
   transform: scale(0.95);
 }
 
+/* Khi ngày được chọn: Xanh matcha mịn màng, nổi bật, siêu kawaii */
 .date-card.selected {
-  background: linear-gradient(135deg, #E6ECCE 0%, #D4E0B8 100%);
-  border-color: var(--color-matcha-olive);
+  background: linear-gradient(135deg, #E5EFCF 0%, #CFE2B2 100%);
+  border-color: var(--matcha-border-active);
   box-shadow: var(--shadow-selected);
-  transform: scale(1.025);
+  transform: scale(1.03);
 }
 
 .date-card.selected .date-day {
-  color: #59672E;
+  color: var(--matcha-olive);
 }
 
 .date-card.selected .date-num {
-  color: var(--color-text-primary);
+  color: #1F280A;
 }
 
-/* TẦNG 2: PHẦN CHỌN BUỔI (ANIMATE REVEAL) */
+/* 4. TẦNG 2: PHẦN CHỌN BUỔI (ANIMATE REVEAL) */
 .period-section {
   width: 100%;
   max-height: 0;
@@ -284,14 +277,14 @@ body {
   max-height: 160px;
   opacity: 1;
   pointer-events: auto;
-  margin-top: 8px;
-  margin-bottom: 22px;
+  margin-top: 6px;
+  margin-bottom: 20px;
 }
 
 .period-prompt {
   font-size: 15px;
   font-weight: 700;
-  color: var(--color-text-secondary);
+  color: var(--matcha-muted);
   margin-bottom: 10px;
 }
 
@@ -307,8 +300,8 @@ body {
   max-width: 190px;
   min-height: 56px;
   padding: 12px 18px;
-  background: var(--color-background-card);
-  border: 2px solid var(--color-border);
+  background: var(--bg-matcha-card);
+  border: 2px solid var(--matcha-border);
   border-radius: 20px;
   display: flex;
   align-items: center;
@@ -316,17 +309,17 @@ body {
   gap: 8px;
   cursor: pointer;
   box-shadow: var(--shadow-bubble);
-  font-family: var(--font-family-heading);
+  font-family: var(--font-family);
   font-size: 17.5px;
   font-weight: 700;
-  color: var(--color-text-primary);
+  color: var(--matcha-dark);
   transition: var(--spring-transition);
   outline: none;
 }
 
 .period-bubble:hover {
-  background: #F7F9F0;
-  border-color: var(--color-border-emphasized);
+  background: #F5F8ED;
+  border-color: var(--matcha-leaf);
   transform: translateY(-2px);
 }
 
@@ -335,29 +328,29 @@ body {
 }
 
 .period-bubble.selected {
-  background: linear-gradient(135deg, #E6ECCE 0%, #D4E0B8 100%);
-  border-color: var(--color-matcha-olive);
+  background: linear-gradient(135deg, #E5EFCF 0%, #CFE2B2 100%);
+  border-color: var(--matcha-border-active);
   box-shadow: var(--shadow-selected);
-  color: var(--color-text-primary);
+  color: #1F280A;
   font-weight: 800;
-  transform: scale(1.025);
+  transform: scale(1.03);
 }
 
-/* 4. NÚT CTA (Astryx Pill Button) */
+/* 5. NÚT CHỐT LỊCH (CTA Button) */
 .cta-button {
   width: 100%;
   min-height: 60px;
-  border-radius: var(--radius-full);
+  border-radius: var(--radius-cta);
   padding: 14px 24px;
   cursor: pointer;
-  font-family: var(--font-family-heading);
+  font-family: var(--font-family);
   transition: var(--spring-transition);
   display: flex;
   justify-content: center;
   align-items: center;
   outline: none;
   border: none;
-  background: linear-gradient(135deg, #3E481D 0%, #5A692C 100%);
+  background: linear-gradient(135deg, #445421 0%, #627833 100%);
   box-shadow: var(--shadow-btn);
   margin-top: 6px;
 }
@@ -365,15 +358,15 @@ body {
 .cta-text {
   font-size: 18.5px;
   font-weight: 800;
-  color: var(--color-on-accent);
+  color: #FFFFFF;
   letter-spacing: 0.3px;
   transition: var(--smooth-transition);
 }
 
 .cta-button:not(:disabled):hover {
-  background: linear-gradient(135deg, #4A5623 0%, #687A34 100%);
+  background: linear-gradient(135deg, #4F6227 0%, #70893A 100%);
   transform: translateY(-2px) scale(1.01);
-  box-shadow: 0 16px 28px -6px rgba(62, 72, 29, 0.45);
+  box-shadow: 0 16px 28px -6px rgba(48, 59, 25, 0.45);
 }
 
 .cta-button:not(:disabled):active {
@@ -383,7 +376,7 @@ body {
 
 /* Trạng thái chưa chọn xong */
 .cta-button:disabled {
-  opacity: 0.55;
+  opacity: 0.65;
   cursor: not-allowed;
   box-shadow: none;
   background: #DCE3CE;
@@ -394,9 +387,7 @@ body {
   font-size: 16.5px;
 }
 
-/* ==========================================================================
-   SUCCESS SCREEN STATE
-   ========================================================================== */
+/* SUCCESS SCREEN STATE */
 .success-content {
   width: 100%;
   display: flex;
@@ -406,10 +397,9 @@ body {
 }
 
 .success-title {
-  font-family: var(--font-family-heading);
   font-size: clamp(28px, 7.5vw, 34px);
   font-weight: 800;
-  color: var(--color-text-primary);
+  color: var(--matcha-dark);
   line-height: 1.25;
   margin-bottom: 20px;
 }
@@ -417,7 +407,7 @@ body {
 .confirmed-card {
   width: 100%;
   background: linear-gradient(135deg, #FAFBF5 0%, #E8EED9 100%);
-  border: 2px solid var(--color-border-emphasized);
+  border: 2px solid var(--matcha-border);
   border-radius: var(--radius-bubble);
   padding: 18px 22px;
   box-shadow: var(--shadow-subtle);
@@ -430,22 +420,21 @@ body {
 .confirmed-label {
   font-size: 14px;
   font-weight: 700;
-  color: var(--color-text-secondary);
+  color: var(--matcha-muted);
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
 
 .confirmed-time {
-  font-family: var(--font-family-heading);
   font-size: 22px;
   font-weight: 800;
-  color: var(--color-text-primary);
+  color: var(--matcha-dark);
 }
 
 .success-note {
   font-size: 15px;
   font-weight: 600;
-  color: var(--color-text-secondary);
+  color: var(--matcha-muted);
   margin-bottom: 22px;
   line-height: 1.45;
 }
@@ -453,18 +442,18 @@ body {
 .subtle-link-btn {
   background: transparent;
   border: none;
-  font-family: var(--font-family-heading);
+  font-family: var(--font-family);
   font-size: 14.5px;
   font-weight: 700;
-  color: var(--color-text-secondary);
+  color: var(--matcha-muted);
   cursor: pointer;
   padding: 8px 16px;
-  border-radius: var(--radius-full);
+  border-radius: 999px;
   transition: var(--smooth-transition);
 }
 
 .subtle-link-btn:hover {
-  color: var(--color-text-primary);
+  color: var(--matcha-dark);
   background: rgba(62, 72, 29, 0.08);
 }
 
@@ -487,4 +476,3 @@ body {
     font-size: 17px;
   }
 }
-

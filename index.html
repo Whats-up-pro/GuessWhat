@@ -5,15 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Khi nào anh qua được nè? 🍵</title>
   <meta name="description" content="Pick giúp anh một ngày tiện để anh ghé nhà nhé!">
-  <!-- Google Fonts: DM Sans (Astryx Theme) & Quicksand (Rounded friendly accents) -->
+  <!-- Google Fonts: Quicksand (Rounded kawaii friendly) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..800;1,9..40,400..800&family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Cache-busting v=2.0 -->
+  <link rel="stylesheet" href="style.css?v=2.0">
 </head>
 <body>
-  <!-- Matcha Floating Leaves & Sparkles Canvas -->
-  <canvas id="particle-canvas"></canvas>
+  <!-- Matcha Floating Leaves & Sparkles Canvas (fixed absolute guarantee) -->
+  <canvas id="particle-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;"></canvas>
 
   <main class="page-container">
     <div class="card-wrap">
@@ -43,8 +44,8 @@
             <ellipse cx="80" cy="80" rx="48" ry="42" fill="#FDFFF8"/>
             
             <!-- Blush Cheeks -->
-            <ellipse cx="52" cy="88" rx="8" ry="5" fill="#B7C99D" opacity="0.7"/>
-            <ellipse cx="108" cy="88" rx="8" ry="5" fill="#B7C99D" opacity="0.7"/>
+            <ellipse cx="52" cy="88" rx="8" ry="5" fill="#B7C99D" opacity="0.75"/>
+            <ellipse cx="108" cy="88" rx="8" ry="5" fill="#B7C99D" opacity="0.75"/>
             
             <!-- Eyes (Gentle happy curved eyes) -->
             <path d="M57 78 Q63 70 69 78" stroke="#3E481D" stroke-width="3.5" stroke-linecap="round" fill="none"/>
@@ -72,7 +73,7 @@
           <p class="page-subtitle">Pick ngày tiện cho em nhé 🍃</p>
         </header>
 
-        <!-- Tier 1: 2 Horizontal Date Cards -->
+        <!-- Tier 1: 2 Horizontal Matcha Date Cards -->
         <section class="dates-grid" role="radiogroup" aria-label="Chọn ngày">
           <button class="date-card" role="radio" aria-checked="false" data-day="fri" data-label="Thứ 6, 02/10">
             <span class="date-day">THỨ 6</span>
@@ -119,17 +120,14 @@
             <ellipse cx="80" cy="80" rx="48" ry="42" fill="#FDFFF8"/>
             <ellipse cx="52" cy="88" rx="8" ry="5" fill="#B7C99D" opacity="0.85"/>
             <ellipse cx="108" cy="88" rx="8" ry="5" fill="#B7C99D" opacity="0.85"/>
-            <!-- Big happy open curved eyes with sparkle -->
             <path d="M56 78 Q63 68 70 78" stroke="#3E481D" stroke-width="3.8" stroke-linecap="round" fill="none"/>
             <path d="M90 78 Q97 68 104 78" stroke="#3E481D" stroke-width="3.8" stroke-linecap="round" fill="none"/>
             <ellipse cx="80" cy="83" rx="3.5" ry="2.5" fill="#707E46"/>
-            <!-- Open mouth happy -->
             <path d="M74 88 Q80 98 86 88" fill="#8FA35E" stroke="#3E481D" stroke-width="2.4" stroke-linecap="round"/>
             <path d="M38 80 L22 78" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
             <path d="M38 86 L20 89" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
             <path d="M122 80 L138 78" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
             <path d="M122 86 L140 89" stroke="#AAB896" stroke-width="2" stroke-linecap="round"/>
-            <!-- Raising Paws -->
             <ellipse cx="52" cy="100" rx="10" ry="9" fill="#FDFFF8" stroke="#DCE3CE" stroke-width="1.5"/>
             <ellipse cx="108" cy="100" rx="10" ry="9" fill="#FDFFF8" stroke="#DCE3CE" stroke-width="1.5"/>
           </svg>
@@ -155,6 +153,6 @@
     </div>
   </main>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=2.0"></script>
 </body>
 </html>
