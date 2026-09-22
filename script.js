@@ -1,3 +1,35 @@
+// Cấu hình Telegram nhận thông báo
+const TELEGRAM_CONFIG = {
+  botToken: "YOUR_BOT_TOKEN", // Token bot Telegram của bạn
+  chatId: "YOUR_CHAT_ID"      // Chat ID của bạn
+};
+
+async function sendTelegramNotification(timeSlot) {
+  if (!TELEGRAM_CONFIG.botToken || TELEGRAM_CONFIG.botToken === "YOUR_BOT_TOKEN") {
+    console.warn("Chưa cấu hình Telegram Bot Token hoặc Chat ID");
+    return;
+  }
+
+  const text = `🐾 <b>TING TING! EM ẤY CHỐT LỊCH NÈ</b> 🐾\n\n` +
+               `💌 <b>Khung giờ chọn:</b> <code>${timeSlot}</code>\n` +
+               `⏰ <b>Thời điểm bấm:</b> ${new Date().toLocaleTimeString('vi-VN')} (${new Date().toLocaleDateString('vi-VN')})\n\n` +
+               `🐱 <i>Chúc hai bạn có một buổi hẹn thật vui nha! ✨</i>`;
+
+  try {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CONFIG.chatId,
+        text: text,
+        parse_mode: "HTML"
+      })
+    });
+  } catch (err) {
+    console.error("Lỗi gửi thông báo Telegram:", err);
+  }
+}
+
 // Soft Cute Pop Audio Synthesizer (Zero asset dependencies)
 class CuteAudio {
   constructor() {
@@ -200,6 +232,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     audio.playSuccessSparkle();
     hearts.burst(35);
+
+    // Gửi thông báo về Telegram
+    sendTelegramNotification(selectedTime);
 
     // Update time display
     confirmedTimeDisplay.textContent = selectedTime;
