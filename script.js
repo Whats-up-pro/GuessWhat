@@ -10,10 +10,10 @@ async function sendTelegramNotification(timeSlot) {
     return;
   }
 
-  const text = `🍵 <b>TING TING! EM ẤY CHỐT LỊCH NÈ</b> 🍵\n\n` +
-               `🍃 <b>Lịch đã chọn:</b> <code>${timeSlot}</code>\n` +
-               `⏰ <b>Thời điểm bấm:</b> ${new Date().toLocaleTimeString('vi-VN')} (${new Date().toLocaleDateString('vi-VN')})\n\n` +
-               `🐱 <i>Chúc hai bạn có một buổi hẹn matcha thật ngọt ngào nha! ✨</i>`;
+  const text = `🍵 <b>THÔNG BÁO LỊCH HẸN</b> 🍵\n\n` +
+               `📌 <b>Khung giờ em ấy chọn:</b> <code>${timeSlot}</code>\n` +
+               `⏰ <b>Thời điểm chọn:</b> ${new Date().toLocaleTimeString('vi-VN')} (${new Date().toLocaleDateString('vi-VN')})\n\n` +
+               `✨ <i>Đã lưu lịch hẹn rồi nha anh!</i>`;
 
   try {
     await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`, {
@@ -303,7 +303,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Both Date & Period are selected -> Enable CTA
         confirmBtn.removeAttribute('disabled');
-        ctaText.textContent = 'Chốt lịch này 🍵✨';
+        ctaText.textContent = 'Hẹn lúc này nhen ✨';
       });
 
       periodOptions.appendChild(btn);
@@ -314,7 +314,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Update CTA button to soft reminder
     confirmBtn.setAttribute('disabled', 'true');
-    ctaText.textContent = 'Chọn buổi nữa nha 🍃';
+    ctaText.textContent = 'Chọn thêm buổi nữa nhen 🍃';
   }
 
   // Handle Date Selection (Tier 1)
