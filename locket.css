@@ -71,10 +71,11 @@ body {
   background-color: var(--bg-app);
   color: var(--text-main);
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  padding: 20px 16px 40px;
+  padding: max(20px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(40px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
   position: relative;
   overflow-x: hidden;
   line-height: 1.5;
@@ -778,24 +779,100 @@ body {
 }
 
 /* ==========================================================================
-   RESPONSIVE ADJUSTMENTS
+   RESPONSIVE ADJUSTMENTS (MOBILE FIRST & SAFE AREAS)
    ========================================================================== */
 
-@media (max-width: 360px) {
+/* Very Compact Mobile (iPhone SE, Small Androids <= 375px) */
+@media (max-width: 375px) {
   body {
-    padding: 12px 10px 30px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+
+  .locket-nav {
+    padding: 6px 10px;
+  }
+
+  .brand-badge {
+    font-size: 10px;
+    padding: 2px 7px;
+  }
+
+  .brand-room {
+    font-size: 12px;
+  }
+
+  .widget-meta-bar {
+    top: 10px;
+    left: 10px;
+    right: 10px;
+  }
+
+  .sender-info {
+    padding: 3px 8px 3px 5px;
+  }
+
+  .timestamp-pill {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  .widget-caption-overlay {
+    padding: 20px 14px 12px;
   }
 
   .caption-title {
     font-size: 15px;
   }
 
+  .caption-sub {
+    font-size: 12px;
+  }
+
+  .locket-reaction-panel {
+    padding: 16px 14px;
+    gap: 14px;
+  }
+
+  .date-pills-row {
+    gap: 8px;
+  }
+
+  .locket-pill-btn {
+    padding: 12px 8px;
+  }
+
+  .pill-weekday {
+    font-size: 10px;
+  }
+
   .pill-date {
-    font-size: 18px;
+    font-size: 17px;
   }
 
   .tag-chip {
-    padding: 8px 12px;
+    padding: 9px 12px;
     font-size: 12px;
+  }
+
+  .locket-submit-btn {
+    padding: 14px 16px;
+    font-size: 14px;
+  }
+}
+
+/* Tablet & Desktop Centering Polish (>= 600px) */
+@media (min-width: 600px) {
+  body {
+    padding-top: 40px;
+    padding-bottom: 60px;
+  }
+
+  .locket-widget-frame {
+    transition: transform var(--duration-normal) var(--ease-standard);
+  }
+
+  .locket-widget-frame:hover {
+    transform: translateY(-2px);
   }
 }
