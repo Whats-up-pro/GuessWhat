@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="GuessWhat - Trò chơi đoán vui tương tác cực cuốn với nhiều chế độ hấp dẫn!">
+  <title>Guess What? | Interactive Web Game</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="background-decorations">
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <div class="glow-orb orb-3"></div>
+  </div>
+
+  <canvas id="confetti-canvas"></canvas>
+
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-badge">⚡ Live on GitHub Pages</div>
+      <h1 class="brand-title">Guess<span class="gradient-text">What?</span></h1>
+      <p class="brand-subtitle">Trò chơi phán đoán tương tác đỉnh cao & siêu cuốn</p>
+    </div>
+
+    <div class="header-stats">
+      <div class="stat-pill">
+        <span class="stat-icon">🔥</span>
+        <div class="stat-info">
+          <span class="stat-label">Chuỗi thắng</span>
+          <span class="stat-value" id="streak-count">0</span>
+        </div>
+      </div>
+      <div class="stat-pill">
+        <span class="stat-icon">⭐</span>
+        <div class="stat-info">
+          <span class="stat-label">Điểm số</span>
+          <span class="stat-value" id="score-count">0</span>
+        </div>
+      </div>
+      <button id="sound-toggle" class="btn-icon" title="Bật/Tắt âm thanh" aria-label="Toggle Sound">
+        <span id="sound-icon">🔊</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="app-main">
+    <!-- Mode Switcher -->
+    <nav class="mode-tabs" role="tablist">
+      <button class="mode-tab active" data-mode="number" id="tab-number">
+        <span class="tab-emoji">🔢</span> Đoán Số Bí Ẩn
+      </button>
+      <button class="mode-tab" data-mode="emoji" id="tab-emoji">
+        <span class="tab-emoji">🧩</span> Giải Mã Emoji
+      </button>
+      <button class="mode-tab" data-mode="trivia" id="tab-trivia">
+        <span class="tab-emoji">💡</span> Đố Vui Hack Não
+      </button>
+    </nav>
+
+    <!-- Game Card: Mode 1 - Secret Number -->
+    <section class="game-card mode-content active" id="mode-number">
+      <div class="card-header">
+        <div class="difficulty-group">
+          <span class="badge-label">Độ khó:</span>
+          <button class="diff-btn active" data-range="50">1 - 50</button>
+          <button class="diff-btn" data-range="100">1 - 100</button>
+          <button class="diff-btn" data-range="500">1 - 500</button>
+        </div>
+        <div class="lives-indicator">
+          <span>Lượt còn: </span>
+          <div class="hearts" id="number-lives">❤️❤️❤️❤️❤️</div>
+        </div>
+      </div>
+
+      <div class="mystery-display">
+        <div class="mystery-box" id="mystery-box">?</div>
+        <p class="mystery-hint" id="number-hint">Hãy đoán một số trong khoảng được chọn!</p>
+      </div>
+
+      <div class="input-form">
+        <div class="input-wrapper">
+          <input type="number" id="number-input" placeholder="Nhập số của bạn..." autocomplete="off">
+          <button id="number-submit" class="btn-primary">Đoán ngay 🎯</button>
+        </div>
+        <p class="history-label">Lịch sử lượt đoán:</p>
+        <div class="guess-history" id="guess-history">
+          <span class="history-empty">Chưa có lượt đoán nào</span>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button id="number-restart" class="btn-outline">Chơi ván mới 🔄</button>
+      </div>
+    </section>
+
+    <!-- Game Card: Mode 2 - Emoji Riddle -->
+    <section class="game-card mode-content" id="mode-emoji">
+      <div class="card-badge">🧩 Nhìn Emoji bắt chữ</div>
+      
+      <div class="emoji-display-box">
+        <div class="emoji-clue" id="emoji-clue">☕ + 💻 + 🌙</div>
+        <div class="category-tag" id="emoji-category">Chủ đề: Nghề nghiệp / Thói quen</div>
+      </div>
+
+      <div class="clue-hint-box" id="emoji-hint-box">
+        <span class="hint-text" id="emoji-hint">Gợi ý: Người biến caffeine thành dòng code.</span>
+      </div>
+
+      <div class="input-form">
+        <div class="input-wrapper">
+          <input type="text" id="emoji-input" placeholder="Nhập đáp án tiếng Việt không dấu hoặc có dấu..." autocomplete="off">
+          <button id="emoji-submit" class="btn-primary">Kiểm tra 🚀</button>
+        </div>
+        <div class="feedback-msg" id="emoji-feedback"></div>
+      </div>
+
+      <div class="card-actions">
+        <button id="emoji-skip" class="btn-outline">Bỏ qua câu này ⏩</button>
+        <button id="emoji-next" class="btn-primary hidden">Câu tiếp theo ➡️</button>
+      </div>
+    </section>
+
+    <!-- Game Card: Mode 3 - Fun Trivia -->
+    <section class="game-card mode-content" id="mode-trivia">
+      <div class="card-badge">💡 Guess What? Sự Thật Thú Vị</div>
+
+      <div class="trivia-question-box">
+        <p class="trivia-question" id="trivia-question">Đang tải câu hỏi...</p>
+      </div>
+
+      <div class="trivia-options-grid" id="trivia-options">
+        <!-- Options rendered dynamically -->
+      </div>
+
+      <div class="trivia-explanation hidden" id="trivia-explanation">
+        <div class="fact-title">🔍 Bạn có biết?</div>
+        <p class="fact-desc" id="fact-text"></p>
+      </div>
+
+      <div class="card-actions">
+        <button id="trivia-next" class="btn-primary hidden">Câu kế tiếp 🎯</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="app-footer">
+    <p>
+      Phát triển & Triển khai độc lập trên <a href="https://github.com/Whats-up-pro/GuessWhat" target="_blank" rel="noopener">GitHub Pages</a>
+    </p>
+    <p class="sub-links">
+      <a href="https://whats-up-pro.github.io" target="_blank">🏠 Về Trang Chủ (whats-up-pro.github.io)</a>
+    </p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
