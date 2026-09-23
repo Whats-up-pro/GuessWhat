@@ -12,7 +12,7 @@ export const CARD_CONFIG = {
   musicUrl: '',
   images: [
     'temp_images/photo_10_matcha_flowers.jpg',
-    'temp_images/photo_5_lavender_garden.jpg',
+    'temp_images/photo_1_mountain_sea.png',
     'temp_images/photo_2_beach_sunset.png',
   ],
 };
