@@ -19,6 +19,15 @@ test('normalizes omitted message fields', () => {
   assert.ok(config.secretMessage.length > 0);
 });
 
+test('keeps fallback wishes in the anh-em voice', () => {
+  const config = normalizeCardConfig();
+
+  assert.doesNotMatch(config.wish, /bạn/i);
+  assert.doesNotMatch(config.secretMessage, /bạn/i);
+  assert.match(config.wish, /em/i);
+  assert.match(config.secretMessage, /em/i);
+});
+
 test('keeps the sender name for the letter signature', () => {
   const config = normalizeCardConfig({ sender: '  GQuoc  ' });
 

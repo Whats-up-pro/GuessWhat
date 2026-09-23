@@ -19,13 +19,13 @@ export const CARD_CONFIG = {
 };
 
 const CONFIG_DEFAULTS = Object.freeze({
-  recipient: 'Someone Special',
-  sender: 'Someone who adores you',
-  nickname: 'my favorite human',
-  birthday: 'Your special day',
-  ageLine: 'thêm một tuổi mới thật xinh',
-  wish: 'Chúc bạn luôn gặp những điều dịu dàng và rực rỡ nhất.',
-  secretMessage: 'Bạn xứng đáng với thật nhiều niềm vui và yêu thương.',
+  recipient: 'Em',
+  sender: 'Anh',
+  nickname: 'cô bé của anh',
+  birthday: 'Ngày của em',
+  ageLine: 'thêm một tuổi mới thật xinh, em nhé',
+  wish: 'Anh chúc em luôn gặp những điều dịu dàng và rực rỡ nhất.',
+  secretMessage: 'Em xứng đáng với thật nhiều niềm vui và yêu thương.',
   musicTitle: 'Golden little moments',
   musicUrl: '',
   images: [],
@@ -171,14 +171,14 @@ function createImageFallback(label) {
   fallback.className = 'polaroid-fallback';
   fallback.setAttribute('role', 'img');
   fallback.setAttribute('aria-label', label);
-  fallback.textContent = 'A soft little memory ✦';
+  fallback.textContent = 'Một kỷ niệm thật dịu dàng ✦';
   return fallback;
 }
 
 function renderPolaroids(container, images) {
   if (!container) return;
 
-  const captions = ['tiny joys', 'soft adventures', 'golden hours'];
+  const captions = ['niềm vui bé xíu', 'chuyến đi dịu dàng', 'những giờ vàng ấm áp'];
   const fragment = document.createDocumentFragment();
 
   images.slice(0, 3).forEach((source, index) => {
@@ -201,7 +201,7 @@ function renderPolaroids(container, images) {
 
     const caption = document.createElement('span');
     caption.className = 'polaroid-caption';
-    caption.textContent = captions[index] || 'sweet memory';
+    caption.textContent = captions[index] || 'kỷ niệm thật ngọt ngào';
     frame.append(caption);
     fragment.append(frame);
   });
@@ -545,7 +545,7 @@ function initializeBirthdayCard() {
   let lastDialogTrigger = null;
   let tiltFrame = 0;
 
-  document.title = `Happy Birthday, ${config.recipient}!`;
+  document.title = `Chúc mừng sinh nhật em, ${config.recipient}!`;
   setText('recipient-name', config.recipient);
   setText('birthday-date', config.birthday);
   setText('birthday-meta', config.ageLine || config.nickname);
@@ -582,7 +582,7 @@ function initializeBirthdayCard() {
   soundToggle?.addEventListener('click', () => {
     soundEnabled = soundToggle.getAttribute('aria-pressed') === 'true';
     soundToggle.setAttribute('aria-pressed', String(!soundEnabled));
-    soundToggle.setAttribute('aria-label', soundEnabled ? 'Mute sounds' : 'Enable sounds');
+    soundToggle.setAttribute('aria-label', soundEnabled ? 'Tắt âm thanh' : 'Bật âm thanh');
     if (soundEnabled) playCelebrationSound('pop');
   });
 
@@ -619,7 +619,7 @@ function initializeBirthdayCard() {
   vinylToggle?.addEventListener('click', () => {
     const isPlaying = vinylToggle.getAttribute('aria-pressed') !== 'true';
     vinylToggle.setAttribute('aria-pressed', String(isPlaying));
-    vinylToggle.setAttribute('aria-label', isPlaying ? 'Pause birthday soundtrack animation' : 'Play birthday soundtrack');
+    vinylToggle.setAttribute('aria-label', isPlaying ? 'Tạm dừng giai điệu sinh nhật' : 'Phát giai điệu sinh nhật');
     if (isPlaying) startBirthdayMelody();
     else stopBirthdayMelody();
   });
@@ -628,7 +628,7 @@ function initializeBirthdayCard() {
     if (document.hidden && vinylToggle?.getAttribute('aria-pressed') === 'true') {
       stopBirthdayMelody();
       vinylToggle.setAttribute('aria-pressed', 'false');
-      vinylToggle.setAttribute('aria-label', 'Play birthday soundtrack');
+      vinylToggle.setAttribute('aria-label', 'Phát giai điệu sinh nhật');
     }
   });
 
