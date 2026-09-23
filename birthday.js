@@ -55,6 +55,30 @@ export function normalizeCardConfig(config = {}) {
   };
 }
 
+export function sanitizeMusicUrl(value) {
+  if (typeof value !== 'string' || !value.trim()) return '';
+
+  try {
+    const url = new URL(value.trim());
+    return url.protocol === 'https:' || url.protocol === 'http:' ? url.href : '';
+  } catch {
+    return '';
+  }
+}
+
+export function calculateTilt(clientX, clientY, rect, maximum = 4.5) {
+  if (!rect || rect.width <= 0 || rect.height <= 0) return { x: 0, y: 0 };
+
+  const clamp = (value) => Math.max(-maximum, Math.min(maximum, value));
+  const horizontal = ((clientX - rect.left) / rect.width - 0.5) * 2;
+  const vertical = (0.5 - (clientY - rect.top) / rect.height) * 2;
+
+  return {
+    x: clamp(vertical * maximum),
+    y: clamp(horizontal * maximum),
+  };
+}
+
 export function nextTypewriterFrame(message, position) {
   const characters = Array.from(String(message));
   const safePosition = Math.max(0, Number.isFinite(position) ? position : 0);
@@ -230,6 +254,7 @@ function makeBackdropParticle(width, height, random = Math.random) {
     sway: random() * Math.PI * 2,
     alpha: 0.22 + random() * 0.45,
     color: ['#f29aae', '#ffd88d', '#b5ead7', '#d9c9ec'][Math.floor(random() * 4)],
+    trail: 22 + random() * 28,
   };
 }
 
@@ -305,6 +330,30 @@ function createCanvasController(canvas) {
     context.restore();
   };
 
+  const drawShootingStar = (particle) => {
+    context.save();
+    context.globalAlpha = particle.alpha;
+    const gradient = context.createLinearGradient(
+      particle.x - particle.trail,
+      particle.y - particle.trail * 0.45,
+      particle.x,
+      particle.y,
+    );
+    gradient.addColorStop(0, 'rgba(255,255,255,0)');
+    gradient.addColorStop(1, particle.color);
+    context.strokeStyle = gradient;
+    context.lineWidth = Math.max(1, particle.size * 0.42);
+    context.beginPath();
+    context.moveTo(particle.x - particle.trail, particle.y - particle.trail * 0.45);
+    context.lineTo(particle.x, particle.y);
+    context.stroke();
+    context.fillStyle = particle.color;
+    context.beginPath();
+    context.arc(particle.x, particle.y, particle.size * 0.55, 0, Math.PI * 2);
+    context.fill();
+    context.restore();
+  };
+
   const drawConfetti = (piece) => {
     context.save();
     context.globalAlpha = Math.max(0, piece.life);
@@ -329,11 +378,16 @@ function createCanvasController(canvas) {
 
     state.backdrop.forEach((particle) => {
       particle.y -= particle.speed * delta;
+      if (particle.kind === 'star') {
+        particle.x += particle.speed * 2.2 * delta;
+        particle.y += particle.speed * 1.1 * delta;
+      }
       if (particle.y < -particle.size * 2) {
         particle.y = state.height + particle.size * 2;
         particle.x = Math.random() * state.width;
       }
       if (particle.kind === 'balloon') drawBalloon(particle, time);
+      else if (particle.kind === 'star') drawShootingStar(particle);
       else drawSparkle(particle, time);
     });
 
@@ -403,6 +457,15 @@ function initializeBirthdayCard() {
   const wishText = document.getElementById('wish-text');
   const cakeButton = document.getElementById('cake-button');
   const soundToggle = document.getElementById('sound-toggle');
+  const surpriseButton = document.getElementById('surprise-button');
+  const dialog = document.getElementById('envelope-dialog');
+  const closeSurprise = document.getElementById('close-surprise');
+  const envelope = document.getElementById('envelope');
+  const vinylToggle = document.getElementById('vinyl-toggle');
+  const musicLink = document.getElementById('music-link');
+  const card = document.getElementById('birthday-card');
+  let lastDialogTrigger = null;
+  let tiltFrame = 0;
 
   document.title = `Happy Birthday, ${config.recipient}!`;
   setText('recipient-name', config.recipient);
@@ -411,6 +474,15 @@ function initializeBirthdayCard() {
   setText('music-title', config.musicTitle);
   setText('secret-message', config.secretMessage);
   renderPolaroids(polaroidStack, config.images);
+
+  const safeMusicUrl = sanitizeMusicUrl(config.musicUrl);
+  if (safeMusicUrl) {
+    musicLink.href = safeMusicUrl;
+    musicLink.hidden = false;
+  } else {
+    musicLink.removeAttribute('href');
+    musicLink.hidden = true;
+  }
 
   const togglePolaroids = () => {
     const expanded = !polaroidStack.classList.contains('is-expanded');
@@ -433,6 +505,63 @@ function initializeBirthdayCard() {
     soundToggle.setAttribute('aria-label', soundEnabled ? 'Mute sounds' : 'Enable sounds');
     if (soundEnabled) playCelebrationSound('pop');
   });
+
+  surpriseButton?.addEventListener('click', () => {
+    lastDialogTrigger = surpriseButton;
+    const bounds = surpriseButton.getBoundingClientRect();
+    dialog.showModal();
+    window.requestAnimationFrame(() => envelope.focus());
+    launchConfetti(95, {
+      x: bounds.left + bounds.width / 2,
+      y: bounds.top + bounds.height / 2,
+    });
+    playCelebrationSound('pop');
+  });
+
+  closeSurprise?.addEventListener('click', () => dialog.close());
+
+  dialog?.addEventListener('close', () => {
+    envelope.classList.remove('is-open');
+    envelope.setAttribute('aria-expanded', 'false');
+    lastDialogTrigger?.focus();
+  });
+
+  envelope?.addEventListener('click', () => {
+    const isOpen = !envelope.classList.contains('is-open');
+    envelope.classList.toggle('is-open', isOpen);
+    envelope.setAttribute('aria-expanded', String(isOpen));
+    if (isOpen) {
+      launchConfetti(65, { x: window.innerWidth / 2, y: window.innerHeight * 0.38 });
+      playCelebrationSound('wish');
+    }
+  });
+
+  vinylToggle?.addEventListener('click', () => {
+    const isPlaying = vinylToggle.getAttribute('aria-pressed') !== 'true';
+    vinylToggle.setAttribute('aria-pressed', String(isPlaying));
+    vinylToggle.setAttribute('aria-label', isPlaying ? 'Pause birthday soundtrack animation' : 'Play birthday soundtrack');
+    if (isPlaying) playCelebrationSound('wish');
+  });
+
+  if (card && window.matchMedia('(hover: hover) and (pointer: fine)').matches && !prefersReducedMotion()) {
+    card.addEventListener('pointermove', (event) => {
+      const rect = card.getBoundingClientRect();
+      const tilt = calculateTilt(event.clientX, event.clientY, rect);
+      window.cancelAnimationFrame(tiltFrame);
+      tiltFrame = window.requestAnimationFrame(() => {
+        card.style.setProperty('--tilt-x', `${tilt.x}deg`);
+        card.style.setProperty('--tilt-y', `${tilt.y}deg`);
+      });
+    }, { passive: true });
+
+    card.addEventListener('pointerleave', () => {
+      window.cancelAnimationFrame(tiltFrame);
+      tiltFrame = window.requestAnimationFrame(() => {
+        card.style.setProperty('--tilt-x', '0deg');
+        card.style.setProperty('--tilt-y', '0deg');
+      });
+    }, { passive: true });
+  }
 
   startBackdrop(document.getElementById('celebration-canvas'));
 }
