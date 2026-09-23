@@ -1,13 +1,14 @@
 // Personalize the entire card here.
 export const CARD_CONFIG = {
-  recipient: 'Someone Special',
-  nickname: 'my favorite human',
-  birthday: 'Your special day',
-  ageLine: 'thêm một tuổi mới thật xinh',
+  recipient: 'Quỳnh Như',
+  sender: 'GQuoc',
+  nickname: 'cô bé của anh',
+  birthday: 'Ngày của em',
+  ageLine: 'thêm một tuổi mới, vẫn thật xinh như em',
   wish:
-    'Chúc bạn một tuổi mới dịu dàng như nắng sớm, rực rỡ như những điều bạn mơ và luôn được bao quanh bởi thật nhiều yêu thương.',
+    'Chúc mừng sinh nhật em. Mong tuổi mới sẽ mang đến cho em thật nhiều bình yên, tiếng cười và những điều khiến trái tim em rung động.',
   secretMessage:
-    'Cảm ơn vì đã xuất hiện và làm cho thế giới quanh bạn trở nên ấm áp hơn. Mong mọi điều tử tế nhất sẽ tìm được đường đến với bạn.',
+    'Anh mong những ngày mới sẽ dịu dàng với em, để mỗi sáng thức dậy em đều có một lý do thật đẹp để mỉm cười. Cảm ơn em vì đã làm những khoảnh khắc bình thường cũng trở nên đáng nhớ hơn. Tuổi mới này, mong em luôn được yêu thương, được nâng niu và gặp thật nhiều điều xứng đáng với trái tim của em.',
   musicTitle: 'Golden little moments',
   musicUrl: '',
   images: [
@@ -19,6 +20,7 @@ export const CARD_CONFIG = {
 
 const CONFIG_DEFAULTS = Object.freeze({
   recipient: 'Someone Special',
+  sender: 'Someone who adores you',
   nickname: 'my favorite human',
   birthday: 'Your special day',
   ageLine: 'thêm một tuổi mới thật xinh',
@@ -44,6 +46,7 @@ export function normalizeCardConfig(config = {}) {
   return {
     ...normalized,
     recipient: String(normalized.recipient || CONFIG_DEFAULTS.recipient).trim(),
+    sender: String(normalized.sender || CONFIG_DEFAULTS.sender).trim(),
     nickname: String(normalized.nickname || CONFIG_DEFAULTS.nickname).trim(),
     birthday: String(normalized.birthday || CONFIG_DEFAULTS.birthday).trim(),
     ageLine: String(normalized.ageLine || CONFIG_DEFAULTS.ageLine).trim(),
@@ -548,6 +551,8 @@ function initializeBirthdayCard() {
   setText('birthday-meta', config.ageLine || config.nickname);
   setText('music-title', config.musicTitle);
   setText('secret-message', config.secretMessage);
+  setText('letter-greeting', `${config.recipient} à,`);
+  setText('sender-signature', `Thương em, ${config.sender} ♡`);
   renderPolaroids(polaroidStack, config.images);
 
   const safeMusicUrl = sanitizeMusicUrl(config.musicUrl);

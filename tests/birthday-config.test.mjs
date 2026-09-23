@@ -19,6 +19,12 @@ test('normalizes omitted message fields', () => {
   assert.ok(config.secretMessage.length > 0);
 });
 
+test('keeps the sender name for the letter signature', () => {
+  const config = normalizeCardConfig({ sender: '  GQuoc  ' });
+
+  assert.equal(config.sender, 'GQuoc');
+});
+
 test('retains usable image sources and gives a fallback item', () => {
   assert.deepEqual(
     safeImageList(['', null, 'temp_images/photo_10_matcha_flowers.jpg']),
