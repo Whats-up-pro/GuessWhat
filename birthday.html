@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#fff3d6">
+  <meta name="description" content="Một tấm thiệp sinh nhật tương tác dành cho người thật đặc biệt.">
+  <title>A little birthday magic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Madimi+One&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="birthday.css">
+</head>
+<body>
+  <canvas id="celebration-canvas" aria-hidden="true"></canvas>
+
+  <header class="page-tools" aria-label="Birthday card controls">
+    <p class="tiny-note">Made with warm wishes</p>
+    <button class="icon-button" id="sound-toggle" type="button" aria-label="Mute sounds" aria-pressed="false">
+      <span class="sound-on" aria-hidden="true">♪</span>
+      <span class="sound-off" aria-hidden="true">×</span>
+    </button>
+  </header>
+
+  <main class="birthday-page" aria-labelledby="birthday-title">
+    <article class="birthday-card" id="birthday-card">
+      <section class="memory-lane" aria-label="Birthday memories">
+        <div class="sticker-wrap" aria-hidden="true">
+          <span class="retro-sticker">Make a wish!</span>
+          <span class="sticker-spark">✦</span>
+        </div>
+
+        <button class="polaroid-stack" id="polaroid-stack" type="button" aria-label="Fan out the memory photos" aria-expanded="false"></button>
+
+        <div class="cake-zone">
+          <p class="cake-hint">Chạm vào nến để thổi nhé</p>
+          <button class="cake-button" id="cake-button" type="button" aria-pressed="false">
+            <span class="sr-only">Thổi tắt nến sinh nhật</span>
+            <span class="cake" aria-hidden="true">
+              <span class="candle"><span class="flame"></span><span class="smoke"></span></span>
+              <span class="cake-top"><i></i><i></i><i></i><i></i><i></i></span>
+              <span class="cake-base"><span class="cake-dots">●　●　●</span></span>
+              <span class="cake-plate"></span>
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <section class="message-lane" aria-label="Birthday message">
+        <div class="message-topline">
+          <span class="date-chip" id="birthday-date">Your special day</span>
+          <span class="mini-stars" aria-hidden="true">✦ ✧ ✦</span>
+        </div>
+
+        <header class="birthday-heading">
+          <p class="birthday-kicker">A very happy birthday to</p>
+          <h1 id="birthday-title"><span id="recipient-name">Someone Special</span><span class="title-burst" aria-hidden="true">!</span></h1>
+          <p class="birthday-meta" id="birthday-meta">thêm một tuổi mới thật xinh</p>
+        </header>
+
+        <section class="wish-box" aria-label="Birthday wish">
+          <span class="quote-mark" aria-hidden="true">“</span>
+          <p id="wish-text" aria-live="polite"></p>
+          <button class="replay-button" id="replay-wish" type="button">
+            <span aria-hidden="true">↻</span> Phát lại lời chúc
+          </button>
+        </section>
+
+        <div class="party-actions">
+          <button class="surprise-button" id="surprise-button" type="button">
+            <span>Tap to open surprise</span>
+            <span aria-hidden="true">🎁</span>
+          </button>
+
+          <section class="vinyl-player" aria-label="Birthday soundtrack">
+            <button class="vinyl-button" id="vinyl-toggle" type="button" aria-label="Play birthday soundtrack" aria-pressed="false">
+              <span class="vinyl" aria-hidden="true"><span class="vinyl-label">HB</span></span>
+              <span class="track-info">
+                <small>Birthday soundtrack</small>
+                <strong id="music-title">Golden little moments</strong>
+              </span>
+              <span class="equalizer" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            </button>
+            <a class="music-link" id="music-link" href="#" target="_blank" rel="noopener noreferrer">Mở bài hát ↗</a>
+          </section>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <dialog class="surprise-dialog" id="envelope-dialog" aria-labelledby="secret-title">
+    <div class="dialog-shell">
+      <button class="dialog-close" id="close-surprise" type="button" aria-label="Close surprise">×</button>
+      <p class="dialog-kicker">A tiny secret for you</p>
+      <h2 id="secret-title">Có thư gửi bạn nè!</h2>
+      <button class="envelope" id="envelope" type="button" aria-expanded="false">
+        <span class="envelope-back" aria-hidden="true"></span>
+        <span class="letter">
+          <strong>Dear you,</strong>
+          <span id="secret-message"></span>
+          <em>With all the warm wishes ♡</em>
+        </span>
+        <span class="envelope-front" aria-hidden="true"></span>
+        <span class="envelope-flap" aria-hidden="true"></span>
+        <span class="wax-seal" aria-hidden="true">♡</span>
+      </button>
+      <p class="envelope-hint">Chạm vào phong bì để mở thư</p>
+    </div>
+  </dialog>
+
+  <noscript>Thiệp cần JavaScript để mở các điều bất ngờ.</noscript>
+  <script type="module" src="birthday.js"></script>
+</body>
+</html>
