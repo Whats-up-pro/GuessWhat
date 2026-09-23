@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import {
   calculateTilt,
+  getMelodyStep,
   makeConfettiPiece,
   nextTypewriterFrame,
   normalizeCardConfig,
@@ -53,4 +54,13 @@ test('calculates bounded card tilt around the card center', () => {
   assert.deepEqual(calculateTilt(300, 150, rect), { x: 0, y: 0 });
   assert.deepEqual(calculateTilt(500, 50, rect), { x: 4.5, y: 4.5 });
   assert.deepEqual(calculateTilt(100, 250, rect), { x: -4.5, y: -4.5 });
+});
+
+test('birthday melody cycles through playable notes', () => {
+  const first = getMelodyStep(0);
+  const looped = getMelodyStep(25);
+
+  assert.deepEqual(looped, first);
+  assert.ok(first.frequency > 0);
+  assert.ok(first.duration >= 180);
 });

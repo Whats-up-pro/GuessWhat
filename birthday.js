@@ -79,6 +79,39 @@ export function calculateTilt(clientX, clientY, rect, maximum = 4.5) {
   };
 }
 
+const BIRTHDAY_MELODY = Object.freeze([
+  { frequency: 261.63, duration: 260 },
+  { frequency: 261.63, duration: 140 },
+  { frequency: 293.66, duration: 430 },
+  { frequency: 261.63, duration: 430 },
+  { frequency: 349.23, duration: 430 },
+  { frequency: 329.63, duration: 760 },
+  { frequency: 261.63, duration: 260 },
+  { frequency: 261.63, duration: 140 },
+  { frequency: 293.66, duration: 430 },
+  { frequency: 261.63, duration: 430 },
+  { frequency: 392.0, duration: 430 },
+  { frequency: 349.23, duration: 760 },
+  { frequency: 261.63, duration: 260 },
+  { frequency: 261.63, duration: 140 },
+  { frequency: 523.25, duration: 430 },
+  { frequency: 440.0, duration: 430 },
+  { frequency: 349.23, duration: 430 },
+  { frequency: 329.63, duration: 430 },
+  { frequency: 293.66, duration: 760 },
+  { frequency: 466.16, duration: 260 },
+  { frequency: 466.16, duration: 140 },
+  { frequency: 440.0, duration: 430 },
+  { frequency: 349.23, duration: 430 },
+  { frequency: 392.0, duration: 430 },
+  { frequency: 349.23, duration: 900 },
+]);
+
+export function getMelodyStep(index) {
+  const safeIndex = Number.isFinite(index) ? Math.max(0, Math.floor(index)) : 0;
+  return { ...BIRTHDAY_MELODY[safeIndex % BIRTHDAY_MELODY.length] };
+}
+
 export function nextTypewriterFrame(message, position) {
   const characters = Array.from(String(message));
   const safePosition = Math.max(0, Number.isFinite(position) ? position : 0);
@@ -116,6 +149,9 @@ let typewriterTimer = 0;
 let canvasController = null;
 let soundEnabled = true;
 let audioContext = null;
+let melodyTimer = 0;
+let melodyIndex = 0;
+let melodyPlaying = false;
 
 function prefersReducedMotion() {
   return typeof window !== 'undefined'
@@ -238,6 +274,45 @@ function playCelebrationSound(kind = 'pop') {
     oscillator.start(start);
     oscillator.stop(start + 0.26);
   });
+}
+
+function playMelodyNote(step) {
+  const context = ensureAudioContext();
+  if (!context || !soundEnabled) return;
+
+  const now = context.currentTime;
+  const oscillator = context.createOscillator();
+  const gain = context.createGain();
+  oscillator.type = 'triangle';
+  oscillator.frequency.setValueAtTime(step.frequency, now);
+  gain.gain.setValueAtTime(0.0001, now);
+  gain.gain.exponentialRampToValueAtTime(0.075, now + 0.025);
+  gain.gain.setValueAtTime(0.075, now + Math.max(0.04, step.duration / 1000 - 0.09));
+  gain.gain.exponentialRampToValueAtTime(0.0001, now + step.duration / 1000);
+  oscillator.connect(gain);
+  gain.connect(context.destination);
+  oscillator.start(now);
+  oscillator.stop(now + step.duration / 1000 + 0.02);
+}
+
+function scheduleMelodyStep() {
+  if (!melodyPlaying) return;
+  const step = getMelodyStep(melodyIndex);
+  playMelodyNote(step);
+  melodyIndex += 1;
+  melodyTimer = window.setTimeout(scheduleMelodyStep, step.duration + 45);
+}
+
+function startBirthdayMelody() {
+  window.clearTimeout(melodyTimer);
+  melodyPlaying = true;
+  melodyIndex = 0;
+  scheduleMelodyStep();
+}
+
+function stopBirthdayMelody() {
+  melodyPlaying = false;
+  window.clearTimeout(melodyTimer);
 }
 
 function makeBackdropParticle(width, height, random = Math.random) {
@@ -540,7 +615,16 @@ function initializeBirthdayCard() {
     const isPlaying = vinylToggle.getAttribute('aria-pressed') !== 'true';
     vinylToggle.setAttribute('aria-pressed', String(isPlaying));
     vinylToggle.setAttribute('aria-label', isPlaying ? 'Pause birthday soundtrack animation' : 'Play birthday soundtrack');
-    if (isPlaying) playCelebrationSound('wish');
+    if (isPlaying) startBirthdayMelody();
+    else stopBirthdayMelody();
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && vinylToggle?.getAttribute('aria-pressed') === 'true') {
+      stopBirthdayMelody();
+      vinylToggle.setAttribute('aria-pressed', 'false');
+      vinylToggle.setAttribute('aria-label', 'Play birthday soundtrack');
+    }
   });
 
   if (card && window.matchMedia('(hover: hover) and (pointer: fine)').matches && !prefersReducedMotion()) {
