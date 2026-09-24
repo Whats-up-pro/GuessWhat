@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import {
   calculateTilt,
+  getEnvelopeUiState,
   getMelodyStep,
   makeConfettiPiece,
   nextTypewriterFrame,
@@ -32,6 +33,19 @@ test('keeps the sender name for the letter signature', () => {
   const config = normalizeCardConfig({ sender: '  GQuoc  ' });
 
   assert.equal(config.sender, 'GQuoc');
+});
+
+test('describes the envelope action for both closed and open states', () => {
+  assert.deepEqual(getEnvelopeUiState(false), {
+    expanded: 'false',
+    hint: 'Chạm vào phong bì để mở thư',
+    label: 'Mở lá thư bí mật',
+  });
+  assert.deepEqual(getEnvelopeUiState(true), {
+    expanded: 'true',
+    hint: 'Chạm vào lá thư để gấp lại',
+    label: 'Gấp lá thư lại',
+  });
 });
 
 test('retains usable image sources and gives a fallback item', () => {

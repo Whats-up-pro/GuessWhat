@@ -6,9 +6,6 @@
   <meta name="theme-color" content="#fff3d6">
   <meta name="description" content="Một tấm thiệp sinh nhật tương tác anh dành cho em.">
   <title>Điều ngọt ngào anh dành cho em</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;600;700&family=Madimi+One&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="birthday.css">
 </head>
 <body>
@@ -93,7 +90,7 @@
       <button class="dialog-close" id="close-surprise" type="button" aria-label="Đóng thư">×</button>
       <p class="dialog-kicker">Một điều bí mật từ anh</p>
       <h2 id="secret-title">Có thư anh gửi em nè!</h2>
-      <button class="envelope" id="envelope" type="button" aria-expanded="false">
+      <button class="envelope" id="envelope" type="button" aria-expanded="false" aria-label="Mở lá thư bí mật">
         <span class="envelope-back" aria-hidden="true"></span>
         <span class="letter">
           <strong id="letter-greeting">Quỳnh Như à,</strong>
@@ -104,7 +101,7 @@
         <span class="envelope-flap" aria-hidden="true"></span>
         <span class="wax-seal" aria-hidden="true">♡</span>
       </button>
-      <p class="envelope-hint">Chạm vào phong bì để mở thư</p>
+      <p class="envelope-hint" id="envelope-hint">Chạm vào phong bì để mở thư</p>
     </div>
   </dialog>
 

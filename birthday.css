@@ -20,9 +20,9 @@
   --radius-card: 34px;
   --radius-panel: 24px;
   --radius-control: 16px;
-  --font-display: 'Madimi One', 'Trebuchet MS', sans-serif;
-  --font-body: 'Outfit', 'Trebuchet MS', sans-serif;
-  --font-hand: 'Caveat', 'Segoe Print', cursive;
+  --font-display: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-hand: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 
 * {
@@ -617,6 +617,7 @@ a:focus-visible {
   font-family: var(--font-hand);
   font-size: clamp(1.35rem, 2.5vw, 1.75rem);
   font-weight: 600;
+  font-style: italic;
 }
 
 .wish-box {
@@ -651,6 +652,7 @@ a:focus-visible {
   font-family: var(--font-hand);
   font-size: clamp(1.18rem, 2.2vw, 1.48rem);
   font-weight: 600;
+  font-style: italic;
   line-height: 1.28;
 }
 
@@ -941,14 +943,25 @@ a:focus-visible {
 .envelope {
   position: relative;
   z-index: 2;
-  width: min(400px, 88vw);
-  height: 285px;
+  width: min(400px, calc(100vw - 60px));
+  height: 330px;
   margin-top: 14px;
   padding: 0;
   border: 0;
   cursor: pointer;
   background: transparent;
   perspective: 1000px;
+}
+
+.envelope:focus-visible {
+  outline: none;
+}
+
+.envelope:focus-visible .wax-seal {
+  box-shadow:
+    0 4px 0 rgb(93 43 57 / 40%),
+    0 0 0 4px #fffaf0,
+    0 0 0 7px var(--color-berry);
 }
 
 .envelope-back,
@@ -1006,44 +1019,57 @@ a:focus-visible {
 
 .letter {
   position: absolute;
-  right: 28px;
-  bottom: 24px;
-  left: 28px;
+  right: clamp(14px, 4vw, 24px);
+  bottom: 18px;
+  left: clamp(14px, 4vw, 24px);
   z-index: 3;
   display: flex;
-  height: 226px;
-  padding: 25px 27px 20px;
+  height: 305px;
+  padding: 22px clamp(16px, 4vw, 24px) 18px;
   align-items: flex-start;
   flex-direction: column;
   border: 1px solid rgb(111 78 68 / 18%);
   border-radius: 7px;
   color: var(--color-cocoa);
   text-align: left;
+  visibility: hidden;
+  overflow: hidden;
   background:
     repeating-linear-gradient(0deg, transparent 0 27px, rgb(122 101 91 / 8%) 28px 29px),
     #fffaf0;
   box-shadow: 0 6px 24px rgb(76 49 55 / 18%);
-  transition: transform .85s cubic-bezier(.2, .8, .2, 1);
+  opacity: 0;
+  transform: translateY(82px) scale(.97);
+  transform-origin: 50% 100%;
+  transition:
+    transform .85s cubic-bezier(.2, .8, .2, 1),
+    opacity .18s ease,
+    visibility 0s .8s,
+    z-index 0s .28s;
 }
 
 .letter strong {
   font-family: var(--font-hand);
-  font-size: 1.35rem;
+  font-size: 1.18rem;
+  font-style: italic;
+  line-height: 1.25;
 }
 
 .letter span {
-  margin-top: 7px;
-  font-family: var(--font-hand);
-  font-size: clamp(1.05rem, 3.2vw, 1.28rem);
-  font-weight: 600;
-  line-height: 1.2;
+  margin-top: 9px;
+  font-family: var(--font-body);
+  font-size: clamp(.88rem, 2.3vw, .98rem);
+  font-weight: 500;
+  line-height: 1.48;
 }
 
 .letter em {
   margin: auto 0 0 auto;
   color: var(--color-berry);
   font-family: var(--font-hand);
-  font-size: 1.05rem;
+  font-size: .94rem;
+  font-weight: 650;
+  line-height: 1.35;
 }
 
 .envelope.is-open .envelope-flap {
@@ -1053,7 +1079,22 @@ a:focus-visible {
 }
 
 .envelope.is-open .letter {
-  transform: translateY(-94px);
+  z-index: 6;
+  visibility: visible;
+  overflow-y: auto;
+  opacity: 1;
+  transform: translateY(-12px) scale(1);
+  transition:
+    transform .85s cubic-bezier(.2, .8, .2, 1),
+    opacity .24s ease .2s,
+    visibility 0s .2s,
+    z-index 0s .34s;
+}
+
+.envelope.is-open:focus-visible .letter {
+  box-shadow:
+    0 0 0 3px var(--color-berry),
+    0 8px 28px rgb(76 49 55 / 20%);
 }
 
 .envelope.is-open .wax-seal {
@@ -1190,8 +1231,7 @@ noscript {
   }
 
   .envelope {
-    width: min(400px, 86vw);
-    transform: scale(.9);
+    width: min(400px, calc(100vw - 54px));
   }
 }
 
@@ -1233,7 +1273,15 @@ noscript {
 
   .envelope {
     margin-top: -2px;
-    transform: scale(.82);
+  }
+
+  .letter {
+    padding: 19px 16px 16px;
+  }
+
+  .letter span {
+    font-size: .84rem;
+    line-height: 1.43;
   }
 
   .envelope-hint {

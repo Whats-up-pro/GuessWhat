@@ -58,6 +58,20 @@ export function normalizeCardConfig(config = {}) {
   };
 }
 
+export function getEnvelopeUiState(isOpen) {
+  return isOpen
+    ? {
+        expanded: 'true',
+        hint: 'Chạm vào lá thư để gấp lại',
+        label: 'Gấp lá thư lại',
+      }
+    : {
+        expanded: 'false',
+        hint: 'Chạm vào phong bì để mở thư',
+        label: 'Mở lá thư bí mật',
+      };
+}
+
 export function sanitizeMusicUrl(value) {
   if (typeof value !== 'string' || !value.trim()) return '';
 
@@ -539,6 +553,7 @@ function initializeBirthdayCard() {
   const dialog = document.getElementById('envelope-dialog');
   const closeSurprise = document.getElementById('close-surprise');
   const envelope = document.getElementById('envelope');
+  const envelopeHint = document.getElementById('envelope-hint');
   const vinylToggle = document.getElementById('vinyl-toggle');
   const musicLink = document.getElementById('music-link');
   const card = document.getElementById('birthday-card');
@@ -601,15 +616,21 @@ function initializeBirthdayCard() {
   closeSurprise?.addEventListener('click', () => dialog.close());
 
   dialog?.addEventListener('close', () => {
+    const state = getEnvelopeUiState(false);
     envelope.classList.remove('is-open');
-    envelope.setAttribute('aria-expanded', 'false');
+    envelope.setAttribute('aria-expanded', state.expanded);
+    envelope.setAttribute('aria-label', state.label);
+    setText('envelope-hint', state.hint);
     lastDialogTrigger?.focus();
   });
 
   envelope?.addEventListener('click', () => {
     const isOpen = !envelope.classList.contains('is-open');
+    const state = getEnvelopeUiState(isOpen);
     envelope.classList.toggle('is-open', isOpen);
-    envelope.setAttribute('aria-expanded', String(isOpen));
+    envelope.setAttribute('aria-expanded', state.expanded);
+    envelope.setAttribute('aria-label', state.label);
+    if (envelopeHint) envelopeHint.textContent = state.hint;
     if (isOpen) {
       launchConfetti(65, { x: window.innerWidth / 2, y: window.innerHeight * 0.38 });
       playCelebrationSound('wish');
