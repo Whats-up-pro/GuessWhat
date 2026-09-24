@@ -1,37 +1,24 @@
-// Cấu hình Telegram nhận thông báo
-const TELEGRAM_CONFIG = {
-  botToken: "8055369195:AAGzh1Hmu7WLEtaW5QE8hp5zaaAJrqv8lPA",
-  chatId: "6177241794"
-};
+// Set this to the public URL printed by `npx wrangler deploy`.
+const TELEGRAM_WORKER_URL = 'https://guesswhat-telegram-api.guesswhat-tg-2026-09-24.workers.dev';
 
 async function sendTelegramNotification(timeSlot, gift, address) {
-  if (!TELEGRAM_CONFIG.botToken || TELEGRAM_CONFIG.botToken === "YOUR_BOT_TOKEN") {
-    console.warn("Chưa cấu hình Telegram Bot Token hoặc Chat ID");
+  if (!TELEGRAM_WORKER_URL) {
+    console.warn('Chưa cấu hình URL Telegram Worker');
     return;
   }
 
-  const text = `🍵 <b>THÔNG BÁO LỊCH HẸN MỚI</b> 🍵\n\n` +
-               `📌 <b>Khung giờ:</b> <code>${timeSlot}</code>\n` +
-               `🍈 <b>Món mang qua:</b> ${gift}\n` +
-               `📍 <b>Địa chỉ:</b> ${address}\n` +
-               `⏰ <b>Thời điểm chọn:</b> ${new Date().toLocaleTimeString('vi-VN')} (${new Date().toLocaleDateString('vi-VN')})\n\n` +
-               `✨ <i>Đã lưu thông tin đầy đủ rồi nha anh!</i>`;
-
   try {
-    await fetch(`https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CONFIG.chatId,
-        text: text,
-        parse_mode: "HTML"
-      })
+    const response = await fetch(TELEGRAM_WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ timeSlot, gift, address }),
     });
+
+    if (!response.ok) throw new Error(`Worker trả về HTTP ${response.status}`);
   } catch (err) {
-    console.error("Lỗi gửi thông báo Telegram:", err);
+    console.error('Không gửi được thông báo Telegram:', err);
   }
 }
-
 // Soft Cute Pop Audio Synthesizer
 class CuteAudio {
   constructor() {
@@ -422,4 +409,3 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 150);
   });
 });
-

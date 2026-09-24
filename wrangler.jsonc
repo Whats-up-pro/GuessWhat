@@ -1,0 +1,23 @@
+{
+  "$schema": "https://unpkg.com/wrangler@4/config-schema.json",
+  "name": "guesswhat-telegram-api",
+  "main": "worker/telegram.js",
+  "compatibility_date": "2026-09-24",
+  "workers_dev": true,
+  "vars": {
+    "ALLOWED_ORIGIN": "https://whats-up-pro.github.io"
+  },
+  "secrets": {
+    "required": ["TELEGRAM_BOT_TOKEN", "TELEGRAM_CHAT_ID"]
+  },
+  "ratelimits": [
+    {
+      "name": "TELEGRAM_LIMITER",
+      "namespace_id": "2849176",
+      "simple": {
+        "limit": 4,
+        "period": 60
+      }
+    }
+  ]
+}
