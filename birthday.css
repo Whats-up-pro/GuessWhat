@@ -381,6 +381,7 @@ a:focus-visible {
   color: var(--color-cocoa-soft);
   font-size: .72rem;
   font-weight: 600;
+  transform: translateY(-14px);
 }
 
 .cake-button {
